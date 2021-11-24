@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# REST Client file
+api/req.rest

@@ -5,13 +5,13 @@ const {
   togglePrivileges,
 } = require("../controllers/accountController");
 const checkIsRole = require("../middlewares/role");
+const checkIsInPeriod = require("../middlewares/time");
 
 const a3Router = Router();
-a3Router.use(checkIsRole(ROLES.A3));
 
 a3Router
   .route("/accounts")
-  .post(createAccount)
-  .put(togglePrivileges);
+  .post(checkIsRole(ROLES.A3), createAccount)
+  .put(checkIsInPeriod, checkIsRole(ROLES.A3), togglePrivileges);
 
 module.exports = a3Router;

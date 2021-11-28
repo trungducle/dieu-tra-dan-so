@@ -5,13 +5,13 @@ const {
   togglePrivileges,
 } = require("../controllers/accountController");
 const checkIsRole = require("../middlewares/role");
+const checkIsInPeriod = require("../middlewares/time");
 
 const a2Router = Router();
-a2Router.use(checkIsRole(ROLES.A2));
 
 a2Router
   .route("/accounts")
-  .post(createAccount)
-  .put(togglePrivileges);
+  .post(checkIsRole(ROLES.A2), createAccount)
+  .put(checkIsInPeriod, checkIsRole(ROLES.A2), togglePrivileges);
 
 module.exports = a2Router;

@@ -43,7 +43,7 @@ module.exports = {
         "UPDATE tai_khoan SET bi_khoa_quyen = $1\
         WHERE\
           SUBSTRING(ma_dang_nhap, 1, $2) = $3\
-          AND loai_tai_khoan = $4",
+          AND loai_tai_khoan >= $4",
         updateTuple
       );
 
@@ -51,5 +51,5 @@ module.exports = {
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
-  },
+  }
 };

@@ -36,7 +36,7 @@ module.exports = {
           break;
         case ROLES.A3:
           await db.none(
-            "INSERT INTO quan_huyen(ten, id_quan_huyen)\
+            "INSERT INTO phuong_xa(ten, id_quan_huyen)\
             VALUES($1, $2)",
             name, id
           );

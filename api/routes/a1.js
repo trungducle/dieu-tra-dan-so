@@ -6,15 +6,15 @@ const {
 } = require("../controllers/accountController");
 const { createDepartment } = require("../controllers/departmentController");
 const checkIsRole = require("../middlewares/role");
+const checkIsInPeriod = require("../middlewares/time");
 
 const a1Router = Router();
-a1Router.use(checkIsRole(ROLES.A1));
 
 a1Router
   .route("/accounts")
-  .post(createAccount)
-  .put(togglePrivileges);
+  .post(checkIsRole(ROLES.A1), createAccount)
+  .put(checkIsInPeriod, checkIsRole(ROLES.A1), togglePrivileges);
 
-a1Router.post("/departments", createDepartment); //Thêm một tỉnh, thành phố mới
+a1Router.post("/departments", checkIsRole(ROLES.A1), createDepartment); //Thêm một tỉnh, thành phố mới
 
 module.exports = a1Router;

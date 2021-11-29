@@ -1,0 +1,89 @@
+<div class="tool-box">
+    <div class="toolbar">
+        <div class="left-buttons">
+            <i class='bx bx-left-arrow-alt' ></i>
+            <i class='bx bx-right-arrow-alt' ></i>
+        </div>
+        <div class="right-button">
+            <i class='bx bx-plus' ></i>
+            <i class='bx bx-pencil' ></i>
+            <i class='bx bx-trash' ></i>
+        </div>
+    </div>
+</div>
+
+<div class="table-content">
+    <div class="table-title">Tên bảng</div>
+    <div class="table-details">
+        <table>
+            <tr id="header">
+                <th>CCCD</th>
+                <th>Họ và tên</th>
+                <th>Năm sinh</th>
+                <th>Giới tính</th>
+                <th>thôn/bản/tổ</th>
+                <th>Phường/Xã</th>
+                <th>Quận/Huyện</th>
+                <th>Tỉnh</th>
+                <th>Chọn</th>
+            </tr>
+            <tr class="hoverin">
+                <td>1</td>
+                <td>Nguyễn Đức Dũng</td>
+                <td>01/08/2001</td>
+                <td>Nam</td>
+                <td>Tổ 10</td>
+                <td>Bắc Cường</td>
+                <td>TP. Lào Cai</td>
+                <td>Lào Cai</td>
+                <td><input name="check" type="checkbox"></td>
+            </tr>
+            <tr class="hoverin">
+                <td>1</td>
+                <td>Nguyễn Đức Dũng</td>
+                <td>01/08/2001</td>
+                <td>Nam</td>
+                <td>Tổ 10</td>
+                <td>Bắc Cường</td>
+                <td>TP. Lào Cai</td>
+                <td>Lào Cai</td>
+                <td><input name="check" type="checkbox"></td>
+            </tr>
+            <tr class="hoverin">
+                <td>1</td>
+                <td>Nguyễn Đức Dũng</td>
+                <td>01/08/2001</td>
+                <td>Nam</td>
+                <td>Tổ 10</td>
+                <td>Bắc Cường</td>
+                <td>TP. Lào Cai</td>
+                <td>Lào Cai</td>
+                <td><input name="check" type="checkbox"></td>
+            </tr>
+            <tr class="hoverin">
+                <td>1</td>
+                <td>Nguyễn Đức Dũng</td>
+                <td>01/08/2001</td>
+                <td>Nam</td>
+                <td>Tổ 10</td>
+                <td>Bắc Cường</td>
+                <td>TP. Lào Cai</td>
+                <td>Lào Cai</td>
+                <td><input name="check" type="checkbox"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="page-rotate-buttons">
+        <i class='bx bx-left-arrow'></i>
+        <i class='bx bx-right-arrow' ></i>
+    </div>
+</div>
+
+<script>
+    $(".hoverin").click(function() {
+        $.get("profileDetails.html", function (data) {
+            mainContent.empty();
+            mainContent.append(data);
+        });
+    });
+</script>

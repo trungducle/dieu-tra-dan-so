@@ -1,0 +1,36 @@
+<div class="account-navbar">
+    <div class="manage-box left selected">
+        Quản lý tài khoản
+        <i class='bx bx-user' ></i>
+    </div>
+    <div class="manage-box right">
+        Quản lý nhập liệu
+        <i class='bx bxs-data' ></i>
+    </div>
+</div>
+<div  class="account-content">
+    
+</div>
+
+<script>
+    $('.manage-box').click((e) => {
+        const node1 = e.target.closest('.left');
+        const node2 = e.target.closest('.right');
+        const node_selected = $('.selected');
+        if(node1) {
+            node_selected.removeClass('selected');
+            node1.classList.add('selected');
+            $.get("acManage.html", function (data) {
+                $(".account-content").empty();
+                $(".account-content").append(data);
+            });
+        } else if (node2) {
+            node_selected.removeClass('selected');
+            node2.classList.add('selected');
+            $.get("dataManage.html", function (data) {
+                $(".account-content").empty();
+                $(".account-content").append(data);
+            });
+        }
+    })
+</script>

@@ -1,6 +1,6 @@
 module.exports = {
   PORT: 8000,
-  dbCredentials: {
+  DB_CREDENTIALS: {
     host: "ec2-52-208-229-228.eu-west-1.compute.amazonaws.com",
     database: "dbafg583veri90",
     user: "vhikpinqbmfryo",
@@ -16,4 +16,6 @@ module.exports = {
     B1: 4,
     B2: 5,
   },
+  START_DATE: new Date("November 28, 2021 20:00:00 GMT+07:00"),
+  END_DATE: new Date("December 25, 2021 07:00:00 GMT+07:00")
 };

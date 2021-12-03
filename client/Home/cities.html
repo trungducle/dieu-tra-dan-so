@@ -41,3 +41,12 @@
   </div>
 
 </div>
+
+<script>
+  $(".city-box").click(function () {
+    $.get("tableDetails.html", function (data) {
+      mainContent.empty();
+      mainContent.append(data);
+    });
+  });
+</script>

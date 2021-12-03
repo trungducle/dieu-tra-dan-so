@@ -28,47 +28,14 @@
         <th>Chọn</th>
       </tr>
       <tr class="hoverin">
-        <td>1</td>
-        <td>Nguyễn Đức Dũng</td>
-        <td>01/08/2001</td>
-        <td>Nam</td>
-        <td>Tổ 10</td>
-        <td>Bắc Cường</td>
-        <td>TP. Lào Cai</td>
-        <td>Lào Cai</td>
-        <td><input name="check" type="checkbox"></td>
-      </tr>
-      <tr class="hoverin">
-        <td>1</td>
-        <td>Nguyễn Đức Dũng</td>
-        <td>01/08/2001</td>
-        <td>Nam</td>
-        <td>Tổ 10</td>
-        <td>Bắc Cường</td>
-        <td>TP. Lào Cai</td>
-        <td>Lào Cai</td>
-        <td><input name="check" type="checkbox"></td>
-      </tr>
-      <tr class="hoverin">
-        <td>1</td>
-        <td>Nguyễn Đức Dũng</td>
-        <td>01/08/2001</td>
-        <td>Nam</td>
-        <td>Tổ 10</td>
-        <td>Bắc Cường</td>
-        <td>TP. Lào Cai</td>
-        <td>Lào Cai</td>
-        <td><input name="check" type="checkbox"></td>
-      </tr>
-      <tr class="hoverin">
-        <td>1</td>
-        <td>Nguyễn Đức Dũng</td>
-        <td>01/08/2001</td>
-        <td>Nam</td>
-        <td>Tổ 10</td>
-        <td>Bắc Cường</td>
-        <td>TP. Lào Cai</td>
-        <td>Lào Cai</td>
+        <td class="choose">1</td>
+        <td class="choose">Nguyễn Đức Dũng</td>
+        <td class="choose">01/08/2001</td>
+        <td class="choose">Nam</td>
+        <td class="choose">Tổ 10</td>
+        <td class="choose">Bắc Cường</td>
+        <td class="choose">TP. Lào Cai</td>
+        <td class="choose">Lào Cai</td>
         <td><input name="check" type="checkbox"></td>
       </tr>
     </table>
@@ -80,7 +47,7 @@
 </div>
 
 <script>
-  $(".hoverin").click(function () {
+  $(".choose").click(function () {
     $.get("profileDetails.html", function (data) {
       mainContent.empty();
       mainContent.append(data);

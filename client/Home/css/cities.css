@@ -22,8 +22,13 @@
 }
 
 .cities-content .city-box:hover {
+<<<<<<< HEAD
   transform: scale(1.02);
   background-color: #c7c6c6;
+=======
+
+    background-color: #c7c6c6;
+>>>>>>> f274827dab79e82bf7c55af7a0ea52cf2a6c5a03
 }
 
 .cities-content .city-box i {

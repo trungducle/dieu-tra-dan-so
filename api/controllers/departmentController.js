@@ -10,13 +10,13 @@ module.exports = {
       const status = await db.any(
         "SELECT bi_khoa_quyen FROM tai_khoan\
         WHERE username=$1",
-        username
+        [username]
       );
 
       if (status === true) {
         return res
           .status(403)
-          .json({ error: "Bạn không có quyền chỉnh sửa!" });
+          .json({ error: "Unauthorized" });
       }
 
       switch (role) {
@@ -24,36 +24,96 @@ module.exports = {
           await db.none(
             "INSERT INTO tinh_thanh(ten)\
             VALUES($1)",
-            name
+            [name]
           );
           break;
         case ROLES.A2:
           await db.none(
             "INSERT INTO quan_huyen(ten, id_tinh_thanh)\
             VALUES($1, $2)",
-            name, id
+            [name, id]
           );
           break;
         case ROLES.A3:
           await db.none(
             "INSERT INTO phuong_xa(ten, id_quan_huyen)\
             VALUES($1, $2)",
-            name, id
+            [name, id]
           );
           break;
         case ROLES.B1:
           await db.none(
             "INSERT INTO thon_ban_tdp(ten, id_phuong_xa)\
             VALUES($1, $2)",
-            name, id
+            [name, id]
           );
           break;
         default:
           return res
             .status(403)
-            .json({ error: "Bạn không có quyền chỉnh sửa!" });
+            .json({ error: "Unauthorized" });
       }
-      res.status(200).json({ message: "Đơn vị và tài khoản mặc định cho đơn vị được tạo thành công!" });  
+      res.status(200).json({ message: "Success" });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+  getCityList: async (req, res) => {
+    try {
+      const result = await db.any(
+        "SELECT * FROM tinh_thanh"
+      );
+
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }, 
+  getDistrictList: async (req, res) => {
+    const { username, role } = req.user;
+
+    try {
+      const codeLength = role === ROLES.A1 ? 0 : username.length;
+
+      const result = await db.any (
+        "SELECT * FROM quan_huyen\
+        WHERE SUBSTRING(ma, 1, $1) = $2",
+        [codeLength, username]
+      );
+
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+  getWardList: async (req, res) => {
+    const { username, role } = req.user;
+
+    try {
+      const codeLength = role === ROLES.A1 ? 0 : username.length;
+
+      const result = await db.any (
+        "SELECT * FROM xa_phuong\
+        WHERE SUBSTRING(ma, 1, $1) = $2",
+        [codeLength, username]
+      );
+
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+  getVillageList: async (req, res) => {
+    const { username, role } = req.user;
+
+    try {
+      const codeLength = role === ROLES.A1 ? 0 : username.length;
+
+      const result = await db.any (
+        "SELECT * FROM thon_ban_tdp\
+        WHERE SUBSTRING(ma, 1, $1) = $2",
+        [codeLength, username]
+      )
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

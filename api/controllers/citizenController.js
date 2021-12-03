@@ -1,4 +1,4 @@
-const { db, pgp } = require("../config/database");
+const { db } = require("../config/database");
 
 module.exports = {
   getCitizenAmount: async (req, res) => {
@@ -26,7 +26,8 @@ module.exports = {
           JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
           JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
           WHERE tt.ten LIKE $1",
-          [searchPattern]);
+          [searchPattern]
+        );
 
         res.status(200).json({ amount: result });
       } else if (filter === 'district') {
@@ -38,7 +39,8 @@ module.exports = {
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
           WHERE qh.ten LIKE $1",
-          [searchPattern]);
+          [searchPattern]
+        );
 
         res.status(200).json({ amount: result });
       } else if (filter === 'ward') {
@@ -49,7 +51,8 @@ module.exports = {
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           WHERE px.ten LIKE $1",
-          [searchPattern]);
+          [searchPattern]
+        );
 
         res.status(200).json({ amount: result });
       } else if (filter === 'village') {
@@ -59,7 +62,8 @@ module.exports = {
           JOIN ho_dan hd ON cn.id_ho_dan = ho_dan.id\
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           WHERE tb.ten LIKE $1",
-          [searchPattern]);
+          [searchPattern]
+        );
 
         res.status(200).json({ amount: result });
       }
@@ -107,8 +111,8 @@ module.exports = {
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
           WHERE qh.ten LIKE $1\
-          LIMIT 10 OFFSET $2",
-          [searchPattern, offSet]
+          LIMIT $2 OFFSET $3",
+          [searchPattern, ROWS, offSet]
         );
 
         res.status(200).json({ result });
@@ -120,8 +124,8 @@ module.exports = {
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           WHERE px.ten LIKE $1\
-          LIMIT 10 OFFSET $1",
-          [searchPattern, offSet]
+          LIMIT $2 OFFSET $3",
+          [searchPattern, ROWS, offSet]
         );
 
         res.status(200).json({ result });
@@ -132,8 +136,8 @@ module.exports = {
           JOIN ho_dan hd ON cn.id_ho_dan = ho_dan.id\
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           WHERE tb.ten LIKE $1\
-          LIMIT 10 OFFSET $1",
-          [searchPattern, offSet]
+          LIMIT $2 OFFSET $3",
+          [searchPattern, ROWS, offSet]
         );
 
         res.status(200).json({ result });

@@ -3,6 +3,7 @@ const { ROLES } = require("../config/keys");
 const checkIsRole = require("../middlewares/role");
 const checkIsInPeriod = require("../middlewares/time");
 const { db } = require("../config/database");
+const checkHasPrivileges = require("../middlewares/privilege");
 
 const testRouter = Router();
 
@@ -11,6 +12,7 @@ testRouter.get(
   "/",
   checkIsInPeriod,
   checkIsRole(ROLES.A1),
+  checkHasPrivileges,
   async (req, res) => {
     try {
       const result = await db.any(

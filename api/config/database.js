@@ -1,4 +1,4 @@
-const { dbCredentials } = require("./keys");
+const { DB_CREDENTIALS } = require("./keys");
 
 const pgp = require("pg-promise")({
   capSQL: true,
@@ -8,7 +8,7 @@ const pgp = require("pg-promise")({
 });
 
 const db = pgp({
-  ...dbCredentials,
+  ...DB_CREDENTIALS,
   ssl: {
     rejectUnauthorized: false,
   },

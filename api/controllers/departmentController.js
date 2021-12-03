@@ -10,7 +10,7 @@ module.exports = {
       const status = await db.any(
         "SELECT bi_khoa_quyen FROM tai_khoan\
         WHERE username=$1",
-        username
+        [username]
       );
 
       if (status === true) {
@@ -24,28 +24,28 @@ module.exports = {
           await db.none(
             "INSERT INTO tinh_thanh(ten)\
             VALUES($1)",
-            name
+            [name]
           );
           break;
         case ROLES.A2:
           await db.none(
             "INSERT INTO quan_huyen(ten, id_tinh_thanh)\
             VALUES($1, $2)",
-            name, id
+            [name, id]
           );
           break;
         case ROLES.A3:
           await db.none(
             "INSERT INTO phuong_xa(ten, id_quan_huyen)\
             VALUES($1, $2)",
-            name, id
+            [name, id]
           );
           break;
         case ROLES.B1:
           await db.none(
             "INSERT INTO thon_ban_tdp(ten, id_phuong_xa)\
             VALUES($1, $2)",
-            name, id
+            [name, id]
           );
           break;
         default:

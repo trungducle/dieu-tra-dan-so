@@ -1,0 +1,68 @@
+Giao diện web citizenV:
+
+login.html				1
+main.html				1
+home.html				1
+account.html			1
+acManage.html			1
+dataManage.html			1
+tableDetail.html		1
+addAccount.html			0
+addPermit.html			0
+confirm.html			0
+cities.html				1
+addCity.html			0
+profileDetails.html		1
+accountDetails.html		0
+passChange.html			0
+print.html				0
+
+Login.html --> main.html
+- Trang chủ: Mặc định cho tất cả các cấp tài khoản.
+	+ home.html
+
+- Tài khoản:
+	+ Cấp A1: 
+		account.html --> acManage.html(Hiện tất cả các cấp tài khoản) --> tableDetail.html(Hiện bảng các tài khoản có trong từng cấp)
+														  			  --> tableDetail.html(Danh sách A2) --> addAccount.html(Thêm tài khoản A2)
+																										 --> addPermit.html(Thêm quyền cho tài khoản A2)
+		account.html --> dataManage.html(Hiện tiến độ từ cấp tỉnh)
+	+ Cấp A2:
+		account.html --> acManage.html(Hiện tất cả các cấp tài khoản trừ A1) --> tableDetail.html(Hiện bảng các tài khoản có trong từng cấp)
+																			 --> tableDetail.html(Danh sách A3) --> addAccount.html(Thêm tài khoản A3)
+																									     		--> addPermit.html(Thêm quyền cho tài khoản A3)
+		account.html --> dataManage.html(Hiện tiến độ từ cấp quận huyện phụ trách)
+	+ Cấp A3:
+		account.html --> acManage.html(Hiện tất cả các cấp tài khoản trừ A1,A2) --> tableDetail.html(Hiện bảng các tài khoản có trong từng cấp)
+																			 	--> tableDetail.html(Danh sách B1) --> addAccount.html(Thêm tài khoản B1)
+																									     		   --> addPermit.html(Thêm quyền cho tài khoản B1)
+		account.html --> dataManage.html(Hiện tiến độ từ cấp phường xã phụ trách)
+	+ Cấp B1:
+		account.html --> acManage.html(Hiện tất cả các cấp tài khoản trừ A1,A3,A3) --> tableDetail.html(Hiện bảng các tài khoản có trong từng cấp)
+																			       --> tableDetail.html(Danh sách B2) --> addAccount.html(Thêm tài khoản B2)
+																									     			  --> addPermit.html(Thêm quyền cho tài khoản B2)
+		account.html --> dataManage.html(Hiện tiến độ từ cấp Thôn bản phụ trách) --> confirm.html(Xác nhận đã nhấp liệu xong)
+	+ Cấp B2:
+		account.html --> acManage.html(Hiện tất cả các cấp tài khoản trừ A1,A3,A3,B1) --> tableDetail.html(Hiện bảng các tài khoản có trong từng cấp)
+
+- Dữ liệu dân cư:
+	+ Cấp A1:
+		cities.html(Danh sách từ cấp tỉnh) --> addCity.html(Thêm tỉnh)
+		                                   --> tableDetail.html(Danh sách người dân trong thôn bản) --> profileDetails.html(Chi tiết thông tin người dân)
+	+ Cấp A2:
+		cities.html(Danh sách từ cấp quận huyện phụ trách) --> addCity.html(Thêm quận huyện thuộc tỉnh)
+														   --> tableDetail.html(Danh sách người dân trong thôn bản) --> profileDetails.html(Chi tiết thông tin người dân)
+	+ Cấp A3:
+		cities.html(Danh sách từ cấp phường xã phụ trách) --> addCity.html(Thêm phường xã thuộc quận huyện)
+														  --> tableDetail.html(Danh sách người dân trong thôn bản) --> profileDetails.html(Chi tiết thông tin người dân)
+	+ Cấp B1:
+		cities.html(Danh sách từ cấp thôn bản) --> addCity.html(Thêm thôn bản thuộc phường xã)
+											   --> tableDetail.html(Danh sách người dân trong thôn bản) --> profileDetails.html(Chi tiết thông tin người dân)
+																										--> profileDetails.html(Thêm thông tin người dân)
+	+ Cấp B2:
+		cities.html(Danh sách từ cấp thôn bản) --> tableDetail.html(Danh sách người dân trong thôn bản) --> profileDetails.html(Chi tiết thông tin người dân)
+																										--> profileDetails.html(Thêm thông tin người dân)
+
+- Cài đặt: Mặc định cho tất cả các cấp tài khoản.
+	+ accountDetails.html(Thông tin tài khoản) --> passChange.html(Đổi mật khẩu)
+	+ print.html(In mẫu điều tra)											

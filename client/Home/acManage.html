@@ -37,3 +37,12 @@
         <i class='bx bx-trash' ></i>
     </div>
 </div>
+
+<script>
+    $(".info-box").click(function() {
+        $.get("acTableDetails.html", function (data) {
+            $(".account-content").empty();
+            $(".account-content").append(data);
+        });
+    });
+</script>

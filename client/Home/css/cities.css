@@ -22,7 +22,7 @@
 }
 
 .cities-content .city-box:hover {
-    transform: scale(1.02);
+
     background-color: #c7c6c6;
 }
 

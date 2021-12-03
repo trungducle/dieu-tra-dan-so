@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./css/tableDetails.css">
     <link rel="stylesheet" href="./css/profileDetails.css">
     <link rel="stylesheet" href="./css/cities.css">
+    <link rel="stylesheet" href="./css/account.css">
     <!-- Icon css link -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 </head>
@@ -21,7 +22,7 @@
             <span class="logo-name">CitizenV</span>
         </div>
         <ul class="nav-links">
-            <li class="home">
+            <li class="home isSelected">
                 <a href="#">
                     <i class='bx bx-home-alt' ></i>
                     <span class="link-name">Trang chủ</span>
@@ -36,7 +37,7 @@
             <li class="cities">
                 <a href="#">
                     <i class='bx bx-building-house'></i>
-                    <span class="link-name">Tỉnh/Thành phố</span>
+                    <span class="link-name">Dữ liệu dân cư</span>
                 </a>
             </li>
             <li class="option">
@@ -65,7 +66,7 @@
             </div>
             <div class="profile-details">
                 <img src="/assets/img/profile-img.png" alt="">
-                <span class="profile-name">Admin</span>
+                <span class="profile-name">Admin A1</span>
                 <i class='bx bx-chevron-down' ></i>
             </div>
         </nav>
@@ -77,41 +78,5 @@
     </section>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./js/main.js"></script>
-    <script>
-        const mainContent = $(".main-content");
-
-        $(".home").click(function() {
-            $.get("home.html", function (data) {
-                mainContent.empty();
-                mainContent.append(data);
-            });
-        });
-
-        $(".accounts").click(function() {
-            $.get("tableDetails.html", function (data) {
-                mainContent.empty();
-                mainContent.append(data);
-            });
-        });
-
-        $(".cities").click(function() {
-            $.get("cities.html", function (data) {
-                mainContent.empty();
-                mainContent.append(data);
-            });
-        });
-        
-        $(".hoverin").click(function() {
-            $.get("profileDetails.html", function (data) {
-                mainContent.empty();
-                mainContent.append(data);
-            });
-        });
-
-        $(".bx-trash").click(function() {
-            $(".bx-trash").parents()[1].remove()
-        });
-        
-    </script>
 </body>
 </html>

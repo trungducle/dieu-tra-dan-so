@@ -1,13 +1,7 @@
 .profile-content {
-<<<<<<< HEAD
   display: flex;
   justify-content: space-between;
-
-=======
-    display: flex;
-    justify-content: space-between;
-    color: rgb(65, 65, 221);
->>>>>>> f274827dab79e82bf7c55af7a0ea52cf2a6c5a03
+  color: rgb(65, 65, 221);
 }
 
 .profile-content .profile-img {
@@ -99,12 +93,6 @@
 }
 
 .profile-content .profile-details i:hover {
-<<<<<<< HEAD
   transform: scale(1.05);
   background-color: rgb(36, 38, 160);
 }
-=======
-    transform: scale(1.05);
-    background-color: rgb(36, 38, 160);
-}
->>>>>>> f274827dab79e82bf7c55af7a0ea52cf2a6c5a03

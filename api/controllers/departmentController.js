@@ -16,7 +16,7 @@ module.exports = {
       if (status === true) {
         return res
           .status(403)
-          .json({ error: "Bạn không có quyền chỉnh sửa!" });
+          .json({ error: "Unauthorized" });
       }
 
       switch (role) {
@@ -51,9 +51,69 @@ module.exports = {
         default:
           return res
             .status(403)
-            .json({ error: "Bạn không có quyền chỉnh sửa!" });
+            .json({ error: "Unauthorized" });
       }
-      res.status(200).json({ message: "Đơn vị và tài khoản mặc định cho đơn vị được tạo thành công!" });  
+      res.status(200).json({ message: "Success" });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+  getCityList: async (req, res) => {
+    try {
+      const result = await db.any(
+        "SELECT * FROM tinh_thanh"
+      );
+
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }, 
+  getDistrictList: async (req, res) => {
+    const { username, role } = req.user;
+
+    try {
+      const codeLength = role === ROLES.A1 ? 0 : username.length;
+
+      const result = await db.any (
+        "SELECT * FROM quan_huyen\
+        WHERE SUBSTRING(ma, 1, $1) = $2",
+        [codeLength, username]
+      );
+
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+  getWardList: async (req, res) => {
+    const { username, role } = req.user;
+
+    try {
+      const codeLength = role === ROLES.A1 ? 0 : username.length;
+
+      const result = await db.any (
+        "SELECT * FROM xa_phuong\
+        WHERE SUBSTRING(ma, 1, $1) = $2",
+        [codeLength, username]
+      );
+
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+  getVillageList: async (req, res) => {
+    const { username, role } = req.user;
+
+    try {
+      const codeLength = role === ROLES.A1 ? 0 : username.length;
+
+      const result = await db.any (
+        "SELECT * FROM thon_ban_tdp\
+        WHERE SUBSTRING(ma, 1, $1) = $2",
+        [codeLength, username]
+      )
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

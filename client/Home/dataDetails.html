@@ -1,0 +1,36 @@
+<div class="account-navbar">
+    <div class="manage-box left selected">
+        Tổng hợp dữ liệu
+        <i class='bx bxs-box'></i>
+    </div>
+    <div class="manage-box right">
+        Phân tích dữ liệu
+        <i class='bx bxs-pie-chart-alt-2' ></i>
+    </div>
+</div>
+<div class="data-content">
+
+</div>
+
+<script>
+    $('.manage-box').click((e) => {
+        const node1 = e.target.closest('.left');
+        const node2 = e.target.closest('.right');
+        const node_selected = $('.selected');
+        if(node1) {
+            node_selected.removeClass('selected');
+            node1.classList.add('selected');
+            $.get("cities.html", function (data) {
+                $(".data-content").empty();
+                $(".data-content").append(data);
+            });
+        } else if (node2) {
+            node_selected.removeClass('selected');
+            node2.classList.add('selected');
+            $.get("dataAnalytic.html", function (data) {
+                $(".data-content").empty();
+                $(".data-content").append(data);
+            });
+        }
+    })
+</script>

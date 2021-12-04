@@ -89,6 +89,10 @@
     text-decoration: none;
 }
 
+.main-section .info-boxes .box .chart {
+    width: calc(100% / 2 - 10px);
+}
+
 .main-section .page-rotate-buttons {
     display: flex;
     justify-content: right;

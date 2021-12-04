@@ -22,7 +22,7 @@
     height: 40px;
     position: absolute;
     top: -1px;
-    right: 0;
+    right: -1px;
     display: block;
     pointer-events: none;
     background-color: rgb(91, 91, 220);

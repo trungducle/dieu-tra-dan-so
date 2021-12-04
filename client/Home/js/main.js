@@ -38,9 +38,13 @@ $('li').click((e) => {
     else if (node3) {
         node_selected.removeClass('isSelected');
         node3.classList.add('isSelected');
-        $.get("cities.html", function (data) {
+        $.get("dataDetails.html", function (data) {
             mainContent.empty();
             mainContent.append(data);
+        });
+        $.get("cities.html", function (data) {
+            $(".data-content").empty();
+            $(".data-content").append(data);
         });
     }
 });

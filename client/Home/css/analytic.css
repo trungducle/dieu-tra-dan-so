@@ -1,0 +1,52 @@
+.analytic-main {
+    background-color: #fff;
+    box-sizing: 0 5px 10px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    color: rgb(91, 91, 220);
+}
+
+.analytic-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.analytic-content .analytic-box {
+    width: calc(100%/5 - 15px);
+}
+
+.analytic-content .select-box {
+    width: 100%;
+}
+
+.analytic-main .analytic-button {
+    height: 30px;
+    width: 100px;
+    background-color: rgb(91, 91, 220);
+    border-radius: 5px;
+    color: #fff;
+    line-height: 31px;
+    text-align: center;
+    margin: 20px 0 0 45%;
+    transition: all 0.15s ease-in;
+    cursor: pointer;
+}
+
+.analytic-main .analytic-button:hover {
+    transform: scale(1.05);
+    background-color: rgb(36, 38, 160);
+}
+
+.chart-main {
+    background-color: #fff;
+    box-sizing: 0 5px 10px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    color: rgb(91, 91, 220);
+    display: flex;
+    justify-content: center;
+}

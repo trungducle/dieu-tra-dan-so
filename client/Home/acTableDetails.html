@@ -1,0 +1,69 @@
+<div class="tool-box">
+    <div class="toolbar">
+        <div class="left-buttons">
+            <i class='bx bx-left-arrow-alt' ></i>
+            <i class='bx bx-right-arrow-alt' ></i>
+        </div>
+        <div class="right-button">
+            <i class='bx bx-plus' ></i>
+            <i class='bx bxs-alarm-add'></i>
+            <i class='bx bx-trash' ></i>
+        </div>
+    </div>
+</div>
+
+<div class="add-main">
+
+</div>
+
+<div class="table-content">
+    <div class="table-title">Tên bảng</div>
+    <div class="table-details">
+        <table>
+            <tr id="header">
+                <th>Cấp</th>
+                <th>Tên tài khoản</th>
+                <th>Tỉnh/Thành phố</th>
+                <th>Quận/Huyện</th>
+                <th>Phường/Xã</th>
+                <th>thôn/bản/tổ</th>
+                <th>Chọn</th>
+            </tr>
+            <tr class="hoverin">
+                <td class="choose">A1</td>
+                <td class="choose">Admin A2</td>
+                <td class="choose">Lào Cai</td>
+                <td class="choose"></td>
+                <td class="choose"></td>
+                <td class="choose"></td>
+                <td><input name="check" type="checkbox"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="page-rotate-buttons">
+        <i class='bx bx-left-arrow'></i>
+        <i class='bx bx-right-arrow' ></i>
+    </div>
+</div>
+
+<script>
+    $(".choose").click(function() {
+        $.get("acDetails.html", function (data) {
+            mainContent.empty();
+            mainContent.append(data);
+        });
+    });
+    $(".bx.bx-plus").click(function() {
+        $.get("addAccount.html", function (data) {
+            mainContent.empty();
+            mainContent.append(data);
+        });
+    });
+    $(".bxs-alarm-add").click(function() {
+        $(".add-main").toggleClass('onSelect')
+        $.get("addPermit.html", function (data) {
+            $(".add-main").empty();
+            $(".add-main").append(data);
+        });
+    });
+</script>

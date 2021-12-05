@@ -15,6 +15,8 @@ $('li').click((e) => {
     const node1 = e.target.closest('.home');
     const node2 = e.target.closest('.accounts');
     const node3 = e.target.closest('.cities');
+    const node4 = e.target.closest('.option');
+
     const node_selected = $('.isSelected');
     if(node1) {
         node_selected.removeClass('isSelected');
@@ -45,6 +47,18 @@ $('li').click((e) => {
         $.get("cities.html", function (data) {
             $(".data-content").empty();
             $(".data-content").append(data);
+        });
+    }
+    else if (node4) {
+        node_selected.removeClass('isSelected');
+        node4.classList.add('isSelected');
+        $.get("option.html", function (data) {
+            mainContent.empty();
+            mainContent.append(data);
+        });
+        $.get("acDetails.html", function (data) {
+            $(".option-content").empty();
+            $(".option-content").append(data);
         });
     }
 });

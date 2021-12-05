@@ -1,16 +1,19 @@
 <div class="tool-box">
-  <div class="toolbar">
-    <div class="left-buttons">
-      <i class='bx bx-left-arrow-alt'></i>
-      <i class='bx bx-right-arrow-alt'></i>
+    <div class="toolbar">
+        <div class="left-buttons">
+            <i class='bx bx-left-arrow-alt' ></i>
+            <i class='bx bx-right-arrow-alt' ></i>
+        </div>
+        <div class="right-button">
+            <i class='bx bx-plus' ></i>
+        </div>
     </div>
-    <div class="right-button">
-      <i class='bx bx-plus'></i>
-    </div>
-  </div>
 </div>
+<div class="add-main">
+
+</div>
+
 <div class="cities-content">
-<<<<<<< HEAD
     <h1>TỈNH/THÀNH PHỐ:</h1>
     <div class="city-box">
         <p>Mã: 24</p>
@@ -37,45 +40,20 @@
         <p>Dân số: 9999</p>
     </div>
     
-=======
-  <h1>TỈNH/THÀNH PHỐ:</h1>
-  <div class="city-box">
-    <p>Mã: 24</p>
-    <p>Lào Cai</p>
-    <p>Số quận/huyện: 9999</p>
-    <p>Dân số: 9999</p>
-    <i class='bx bx-trash'></i>
-  </div>
-  <div class="city-box">
-    <p>Mã: 24</p>
-    <p>Lào Cai</p>
-    <p>Số quận/huyện: 9999</p>
-    <p>Dân số: 9999</p>
-    <i class='bx bx-trash'></i>
-  </div>
-  <div class="city-box">
-    <p>Mã: 24</p>
-    <p>Lào Cai</p>
-    <p>Số quận/huyện: 9999</p>
-    <p>Dân số: 9999</p>
-    <i class='bx bx-trash'></i>
-  </div>
-  <div class="city-box">
-    <p>Mã: 24</p>
-    <p>Lào Cai</p>
-    <p>Số quận/huyện: 9999</p>
-    <p>Dân số: 9999</p>
-    <i class='bx bx-trash'></i>
-  </div>
-
->>>>>>> 36cbe709393115e7215f9ec32722be24af7a21ab
 </div>
 
 <script>
-  $(".city-box").click(function () {
-    $.get("tableDetails.html", function (data) {
-      mainContent.empty();
-      mainContent.append(data);
+    $(".city-box").click(function() {
+        $.get("tableDetails.html", function (data) {
+            mainContent.empty();
+            mainContent.append(data);
+        });
     });
-  });
+    $(".bx-plus").click(function() {
+        $(".add-main").toggleClass('onSelect')
+        $.get("addCity.html", function (data) {
+            $(".add-main").empty();
+            $(".add-main").append(data);
+        });
+    });
 </script>

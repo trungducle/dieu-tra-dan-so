@@ -1,7 +1,4 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 
 
 * {
@@ -9,7 +6,7 @@
   padding: 0;
   box-sizing: border-box;
   outline: none;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -41,7 +38,7 @@ body {
 }
 
 .sidebar .logo-details i {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 500;
   color: #fff;
   min-width: 60px;
@@ -66,13 +63,13 @@ body {
 }
 
 .sidebar .nav-links li:hover {
-    background-color: rgb(36, 38, 160);
-    border-radius: 15px;
+  background-color: rgb(36, 38, 160);
+  border-radius: 15px;
 }
 
 .sidebar .nav-links li.isSelected {
-    background-color: rgb(36, 38, 160);
-    border-radius: 15px;
+  background-color: rgb(36, 38, 160);
+  border-radius: 15px;
 }
 
 .sidebar .nav-links li a {
@@ -87,13 +84,13 @@ body {
 .sidebar .nav-links li a i {
   min-width: 60px;
   text-align: center;
-  font-size: 22px;
+  font-size: 18px;
   color: #fff;
 }
 
 .sidebar .nav-links li a .link-name {
   color: #fff;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 400;
   white-space: nowrap;
 }

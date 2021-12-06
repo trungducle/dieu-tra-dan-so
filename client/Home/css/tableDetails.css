@@ -33,13 +33,11 @@
   background-color: #cfcccc;
 }
 
-
-
 .main-section .table-details table tr th, td {
   padding: 12px;
   text-align: center;
-  border-bottom: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+  border-bottom: 1px solid rgb(170, 170, 170);
+  border-right: 1px solid rgb(170, 170, 170);
 }
 
 .main-section .table-details table #header {

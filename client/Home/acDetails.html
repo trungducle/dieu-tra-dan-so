@@ -1,0 +1,45 @@
+<div class="profile-content">
+  <div class="profile-details">
+    <div class="profile-button">
+      <i class='bx bx-save'></i>
+      <i class='bx bx-x'></i>
+    </div>
+    <h1>Thông tin tài khoản:</h1>
+    <div class="profile-info">
+      <div class="info-box">
+        <p>Tên tài khoản:</p>
+        <input type="text" name="account-name" value="">
+        <p class="pass">Mật khẩu:</p>
+        <div class="pass-change">
+          <p class="change">Đổi mật khẩu</p>
+          <div class="add-main">
+
+          </div>
+        </div>
+        <p>Cấp:</p>
+        <input type="text" name="account-name" value="">
+      </div>
+      <div class="info-box">
+        <p>Tỉnh/Thành phố:</p>
+        <input type="text" name="account-name" value="">
+        <p>Mã quận/huyện:</p>
+        <input type="text" name="account-name" value="">
+        <p>Mã phường/xã:</p>
+        <input type="text" name="account-name" value="">
+        <p>Mã Thôn/bản:</p>
+        <input type="text" name="account-name" value="">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(".change").click(function () {
+    $(".change").addClass('visible');
+    $(".pass").addClass('visible');
+    $.get("passChange.html", function (data) {
+      $(".add-main").empty();
+      $(".add-main").append(data);
+    });
+  });
+</script>

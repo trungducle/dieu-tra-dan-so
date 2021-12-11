@@ -54,6 +54,12 @@ body {
   margin: 40px 0;
 }
 
+.login-error {
+  color: red;
+  text-align: center;
+  font-weight: bold;
+}
+
 .login-form .login-row {
   margin: 15px 0;
 }

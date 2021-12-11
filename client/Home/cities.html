@@ -44,14 +44,14 @@
 
 <script>
   $(".city-box").click(function () {
-    $.get("tableDetails.html", function (data) {
+    $.get("../Home/tableDetails.html", function (data) {
       mainContent.empty();
       mainContent.append(data);
     });
   });
   $(".bx-plus").click(function () {
     $(".add-main").toggleClass('onSelect')
-    $.get("addCity.html", function (data) {
+    $.get("../Home/addCity.html", function (data) {
       $(".add-main").empty();
       $(".add-main").append(data);
     });

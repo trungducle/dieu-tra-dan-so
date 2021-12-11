@@ -20,14 +20,14 @@
     if (node1) {
       node_selected.removeClass('selected');
       node1.classList.add('selected');
-      $.get("cities.html", function (data) {
+      $.get("../Home/cities.html", function (data) {
         $(".data-content").empty();
         $(".data-content").append(data);
       });
     } else if (node2) {
       node_selected.removeClass('selected');
       node2.classList.add('selected');
-      $.get("dataAnalytic.html", function (data) {
+      $.get("../Home/dataAnalytic.html", function (data) {
         $(".data-content").empty();
         $(".data-content").append(data);
       });

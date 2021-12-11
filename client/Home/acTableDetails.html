@@ -48,20 +48,20 @@
 
 <script>
   $(".choose").click(function () {
-    $.get("acDetails.html", function (data) {
+    $.get("../Home/acDetails.html", function (data) {
       mainContent.empty();
       mainContent.append(data);
     });
   });
   $(".bx.bx-plus").click(function () {
-    $.get("addAccount.html", function (data) {
+    $.get("../Home/addAccount.html", function (data) {
       mainContent.empty();
       mainContent.append(data);
     });
   });
   $(".bxs-alarm-add").click(function () {
     $(".add-main").toggleClass('onSelect')
-    $.get("addPermit.html", function (data) {
+    $.get("../Home/addPermit.html", function (data) {
       $(".add-main").empty();
       $(".add-main").append(data);
     });

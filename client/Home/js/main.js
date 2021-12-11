@@ -8,7 +8,7 @@ sidebarBtn.click(function () {
 const mainContent = $(".main-content");
 
 $(document).ready(function () {
-  mainContent.load('home.html');
+  mainContent.load('../Home/home.html');
 });
 
 $('li').click((e) => {
@@ -21,18 +21,18 @@ $('li').click((e) => {
   if (node1) {
     node_selected.removeClass('isSelected');
     node1.classList.add('isSelected');
-    $.get("home.html", function (data) {
+    $.get("../Home/home.html", function (data) {
       mainContent.empty();
       mainContent.append(data);
     });
   } else if (node2) {
     node_selected.removeClass('isSelected');
     node2.classList.add('isSelected');
-    $.get("account.html", function (data) {
+    $.get("../Home/account.html", function (data) {
       mainContent.empty();
       mainContent.append(data);
     });
-    $.get("acManage.html", function (data) {
+    $.get("../Home/acManage.html", function (data) {
       $(".account-content").empty();
       $(".account-content").append(data);
     });
@@ -40,11 +40,11 @@ $('li').click((e) => {
   else if (node3) {
     node_selected.removeClass('isSelected');
     node3.classList.add('isSelected');
-    $.get("dataDetails.html", function (data) {
+    $.get("../Home/dataDetails.html", function (data) {
       mainContent.empty();
       mainContent.append(data);
     });
-    $.get("cities.html", function (data) {
+    $.get("../Home/cities.html", function (data) {
       $(".data-content").empty();
       $(".data-content").append(data);
     });
@@ -52,11 +52,11 @@ $('li').click((e) => {
   else if (node4) {
     node_selected.removeClass('isSelected');
     node4.classList.add('isSelected');
-    $.get("option.html", function (data) {
+    $.get("../Home/option.html", function (data) {
       mainContent.empty();
       mainContent.append(data);
     });
-    $.get("acDetails.html", function (data) {
+    $.get("../Home/acDetails.html", function (data) {
       $(".option-content").empty();
       $(".option-content").append(data);
     });

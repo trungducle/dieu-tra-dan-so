@@ -47,7 +47,7 @@
 
 <script>
   $(".choose").click(function () {
-    $.get("profileDetails.html", function (data) {
+    $.get("../Home/profileDetails.html", function (data) {
       mainContent.empty();
       mainContent.append(data);
     });

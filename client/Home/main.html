@@ -6,16 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hệ thống điều tra dân số</title>
-  <link rel="stylesheet" href="./css/main.css">
-  <link rel="stylesheet" href="./css/home.css">
-  <link rel="stylesheet" href="./css/tableDetails.css">
-  <link rel="stylesheet" href="./css/profileDetails.css">
-  <link rel="stylesheet" href="./css/cities.css">
-  <link rel="stylesheet" href="./css/account.css">
-  <link rel="stylesheet" href="./css/addAccount.css">
-  <link rel="stylesheet" href="./css/analytic.css">
-  <link rel="stylesheet" href="./css/add.css">
-  <link rel="stylesheet" href="./css/option.css">
+  <link rel="stylesheet" href="../Home/css/main.css">
+  <link rel="stylesheet" href="../Home/css/home.css">
+  <link rel="stylesheet" href="../Home/css/tableDetails.css">
+  <link rel="stylesheet" href="../Home/css/profileDetails.css">
+  <link rel="stylesheet" href="../Home/css/cities.css">
+  <link rel="stylesheet" href="../Home/css/account.css">
+  <link rel="stylesheet" href="../Home/css/addAccount.css">
+  <link rel="stylesheet" href="../Home/css/analytic.css">
+  <link rel="stylesheet" href="../Home/css/add.css">
+  <link rel="stylesheet" href="../Home/css/option.css">
   <!-- Icon css link -->
   <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 </head>
@@ -83,7 +83,14 @@
   </section>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src="./js/main.js"></script>
+  <script src="../Home/js/main.js"></script>
+  <script>
+    const token = localStorage.getItem("a_token");
+
+    if (!token) {
+      window.location.href = "/login";
+    }
+  </script>
 </body>
 
 </html>

@@ -37,7 +37,7 @@
   $(".change").click(function () {
     $(".change").addClass('visible');
     $(".pass").addClass('visible');
-    $.get("passChange.html", function (data) {
+    $.get("../Home/passChange.html", function (data) {
       $(".add-main").empty();
       $(".add-main").append(data);
     });

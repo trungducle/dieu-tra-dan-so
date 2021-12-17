@@ -39,3 +39,7 @@ function drawStuff() {
   // Convert the Classic options to Material options.
   chart.draw(data, google.charts.Bar.convertOptions(options));
 };
+
+$(window).resize(function(){
+  drawStuff();
+});

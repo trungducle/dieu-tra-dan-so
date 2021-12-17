@@ -34,3 +34,7 @@ function drawStuff() {
   var chart = new google.charts.Bar(document.getElementById('bar_top_x_div'));
   chart.draw(data, options);
 };
+
+$(window).resize(function(){
+  drawStuff();
+});

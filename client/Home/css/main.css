@@ -238,3 +238,8 @@ body {
 .main-section .main-content {
   padding-top: 60px;
 }
+
+.chart {
+    width: 100%; 
+    min-height: 550px;
+}

@@ -1,50 +1,50 @@
 <div class="tool-box">
-    <div class="toolbar">
-        <div class="left-buttons">
-            <i class='bx bx-left-arrow-alt' ></i>
-            <i class='bx bx-right-arrow-alt' ></i>
-        </div>
-        <div class="right-button">
-            <i class='bx bx-plus' ></i>
-        </div>
+  <div class="toolbar">
+    <div class="left-buttons">
+      <i class="bx bx-left-arrow-alt"></i>
+      <i class="bx bx-right-arrow-alt"></i>
     </div>
+    <div class="right-button">
+      <i class="bx bx-plus"></i>
+    </div>
+  </div>
 </div>
 <div class="manage-main">
-    <h1>Cấp tài khoản:</h1>
-    <div class="info-box">
-        <p>A1</p>
-        <p>Số tài khoản: 3</p>
-    </div>
-    <div class="info-box">
-        <p>A2</p>
-        <p>Số tài khoản: 63</p>
-    </div>
-    <div class="info-box">
-        <p>A3</p>
-        <p>Số tài khoản: 705</p>
-    </div>
-    <div class="info-box">
-        <p>B1</p>
-        <p>Số tài khoản: 1000</p>
-    </div>
-    <div class="info-box">
-        <p>B2</p>
-        <p>Số tài khoản: 2000</p>
-    </div>
+  <h1>Cấp tài khoản:</h1>
+  <div class="info-box">
+    <p>A1</p>
+    <p>Số tài khoản: 3</p>
+  </div>
+  <div class="info-box">
+    <p>A2</p>
+    <p>Số tài khoản: 63</p>
+  </div>
+  <div class="info-box">
+    <p>A3</p>
+    <p>Số tài khoản: 705</p>
+  </div>
+  <div class="info-box">
+    <p>B1</p>
+    <p>Số tài khoản: 1000</p>
+  </div>
+  <div class="info-box">
+    <p>B2</p>
+    <p>Số tài khoản: 2000</p>
+  </div>
 </div>
 
 <script>
-    $(".info-box").click(function() {
-        $.get("acTableDetails.html", function (data) {
-            $(".account-content").empty();
-            $(".account-content").append(data);
-        });
+  $(".info-box").click(function () {
+    $.get("acTableDetails.html", function (data) {
+      $(".account-content").empty();
+      $(".account-content").append(data);
     });
+  });
 
-    $(".bx").click(function() {
-        $.get("addAccount.html", function (data) {
-            $(".account-content").empty();
-            $(".account-content").append(data);
-        });
+  $(".bx").click(function () {
+    $.get("addAccount.html", function (data) {
+      $(".account-content").empty();
+      $(".account-content").append(data);
     });
+  });
 </script>

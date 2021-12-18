@@ -95,3 +95,38 @@ body {
 .login-form button:hover {
   opacity: 0.9;
 }
+
+@media only screen and (max-width: 1367px) {
+
+    body {
+        background-size: 150% 1500px;
+    }
+
+    .page-info {
+        top: 15%;
+        display: flex;
+    }
+
+    .page-info .respon {
+        margin-left: 10px;
+    }
+
+    .login-form {
+        left: 50%;
+    }
+}
+
+@media only screen and (max-width: 1025px) {
+
+    .page-info {
+        top: 15%;
+        left: 50%;
+        display: block;
+    }
+
+    .login-form {
+        top: 62%;
+        left: 50%;
+    }
+
+}

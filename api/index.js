@@ -1,4 +1,6 @@
 const express = require("express");
+const path = require("path");
+const cors = require("cors");
 const { createServer } = require("http");
 const { PORT } = require("./config/keys");
 
@@ -13,7 +15,20 @@ const testRouter = require("./routes/test");
 const app = express();
 const server = createServer(app);
 
+app.use(cors({ origin: "http://localhost:5500" }));
 app.use(express.json());
+
+const staticPath = path.join(__dirname, "../client");
+app.use(express.static(staticPath));
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/login/login.html"));
+});
+
+app.get("/home", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/Home/main.html"));
+});
+
 app.use("/auth", authRouter);
 app.use("/a1", a1Router);
 app.use("/a2", a2Router);

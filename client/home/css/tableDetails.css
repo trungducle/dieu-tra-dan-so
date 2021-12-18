@@ -1,0 +1,46 @@
+/*css chi tiết trong bảng thành phố*/
+
+/* table content css */
+
+.main-section .table-content {
+  background-color: #fff;
+  box-sizing: 0 5px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-section .table-content .table-title {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.main-section .table-details table {
+  width: 100%;
+  border: 1px solid rgb(91, 91, 220);
+  border-radius: 6px;
+  border-collapse: collapse;
+}
+
+.main-section .table-details table .hoverin {
+  transition: all 0.15s ease-in;
+  cursor: pointer;
+}
+
+.main-section .table-details table .hoverin:hover {
+  background-color: #cfcccc;
+}
+
+.main-section .table-details table tr th, td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid rgb(170, 170, 170);
+  border-right: 1px solid rgb(170, 170, 170);
+}
+
+.main-section .table-details table #header {
+  color: #fff;
+  background-color: rgb(91, 91, 220);
+}

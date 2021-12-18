@@ -10,14 +10,15 @@ module.exports = {
           ho_ten: citizen.fullname,
           ngay_sinh: citizen.dob,
           gioi_tinh: citizen.sex,
-          quoc_tich: citizen.nationality,
           ma_dinh_danh: citizen.identityNumber,
-          dan_toc: citizen.ethnic,
           ton_giao: citizen.religion,
           que_quan: citizen.placeOfOrigin,
           thuong_tru: citizen.placeOfResidence,
           noi_o_hien_nay: citizen.currentPlace,
-          chu_ho: citizen.isHeadOfHousehold
+          chu_ho: citizen.isHeadOfHousehold,
+          id_ho_dan: citizen.householdId,
+          nghe_nghiep: citizen.job,
+          trinh_do_van_hoa: citizen.academicLevel
         };
       })
     );
@@ -26,14 +27,15 @@ module.exports = {
       ["ho_ten",
       "ngay_sinh",
       "gioi_tinh",
-      "quoc_tich",
       "ma_dinh_danh",
-      "dan_toc",
       "ton_giao",
       "que_quan",
       "thuong_tru",
       "noi_o_hien_nay",
-      "chu_ho"],
+      "chu_ho",
+      "id_ho_dan", 
+      "nghe_nghiep", 
+      "trinh_do_van_hoa"],
       { table: "ca_nhan" }
     );
 

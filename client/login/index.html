@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập hệ thống</title>
+    <link rel="icon" href="../res/bytlogo.png" />
+    <link rel="stylesheet" href="./login.css" />
+  </head>
+  <body>
+    <div class="page-info">
+      <img src="../res/bytlogo.png" alt="Bộ Y Tế" />
+      <p class="page-dev">TỔNG CỤC DÂN SỐ - BỘ Y TẾ</p>
+      <h1 class="page-name">HỆ THỐNG ĐIỀU TRA DÂN SỐ CITIZENV</h1>
+    </div>
+    <div class="login-form">
+      <h1>ĐĂNG NHẬP HỆ THỐNG</h1>
+      <p class="login-error"></p>
+      <form action="#">
+        <div id="username" class="login-row">
+          <label for="username">Tài Khoản:</label>
+          <input type="text" name="username" placeholder="Username" required />
+        </div>
+        <div id="password" class="login-row">
+          <label for="password">Mật khẩu:</label>
+          <input type="password" name="password" placeholder="Password" required />
+        </div>
+        <div id="submit-btn" class="login-row">
+          <button type="submit">Đăng nhập</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

@@ -7,8 +7,9 @@ module.exports = {
     const { username, password } = req.body;
     try {
       const result = await db.any(
-        "SELECT * FROM tai_khoan\
-        WHERE ma_dang_nhap = $1",
+        "SELECT t.*, l.ten FROM tai_khoan t\
+        JOIN loai_tai_khoan l ON l.id = t.loai_tai_khoan\
+        WHERE t.ma_dang_nhap = $1",
         [username]
       );
 
@@ -28,9 +29,12 @@ module.exports = {
       const accessToken = getAccessToken({
         id: result[0].id,
         username: result[0].ten_dang_nhap,
-        role: result[0].loai_tai_khoan,
+        roleId: result[0].loai_tai_khoan,
+        roleName: result[0].ten,
+        isPrivLocked: result[0].bi_khoa_quyen
       });
-      res.status(200).json({ accessToken });
+      // res.status(200).json({ accessToken });
+      res.status(200).json(result[0]);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

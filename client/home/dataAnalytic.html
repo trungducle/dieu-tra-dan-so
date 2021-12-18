@@ -1,0 +1,84 @@
+<div class="analytic-main">
+  <div class="analytic-content">
+    <div class="analytic-box">
+      <p>Chọn Tỉnh/Thành Phố:</p>
+      <div class="select-box">
+        <select>
+          <option value="">Chọn cấp</option>
+          <option value="">A2</option>
+          <option value="">A3</option>
+          <option value="">B1</option>
+          <option value="">B2</option>
+        </select>
+        <span class="custom-arrow"></span>
+      </div>
+    </div>
+    <div class="analytic-box">
+      <p>Chọn Quận/Huyện:</p>
+      <div class="select-box">
+        <select>
+          <option value="">Chọn cấp</option>
+          <option value="">A2</option>
+          <option value="">A3</option>
+          <option value="">B1</option>
+          <option value="">B2</option>
+        </select>
+        <span class="custom-arrow"></span>
+      </div>
+    </div>
+    <div class="analytic-box">
+      <p>Chọn Phường/Xã:</p>
+      <div class="select-box">
+        <select>
+          <option value="">Chọn cấp</option>
+          <option value="">A2</option>
+          <option value="">A3</option>
+          <option value="">B1</option>
+          <option value="">B2</option>
+        </select>
+        <span class="custom-arrow"></span>
+      </div>
+    </div>
+    <div class="analytic-box">
+      <p>Chọn Thôn/Bản/Tổ:</p>
+      <div class="select-box">
+        <select>
+          <option value="">Chọn cấp</option>
+          <option value="">A2</option>
+          <option value="">A3</option>
+          <option value="">B1</option>
+          <option value="">B2</option>
+        </select>
+        <span class="custom-arrow"></span>
+      </div>
+    </div>
+    <div class="analytic-box">
+      <p>Chọn loại dữ liệu:</p>
+      <div class="select-box">
+        <select>
+          <option value="">Chọn cấp</option>
+          <option value="">A2</option>
+          <option value="">A3</option>
+          <option value="">B1</option>
+          <option value="">B2</option>
+        </select>
+        <span class="custom-arrow"></span>
+      </div>
+    </div>
+  </div>
+  <div class="analytic-button">
+    Phân tích
+  </div>
+</div>
+<div class="chart-main">
+
+</div>
+
+<script>
+  $(".analytic-button").click(function () {
+    $.get("columnChart.html", function (data) {
+      $(".chart-main").empty();
+      $(".chart-main").append(data);
+    });
+  });
+</script>

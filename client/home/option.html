@@ -1,0 +1,37 @@
+<div class="account-navbar">
+  <div class="manage-box left selected">
+    Thông tin tài khoản
+    <i class='bx bx-user'></i>
+  </div>
+  <div class="manage-box right">
+    In phiếu điều tra
+    <i class='bx bx-receipt'></i>
+  </div>
+</div>
+<div class="option-content">
+
+</div>
+
+<script>
+  $('.manage-box').click((e) => {
+    const node1 = e.target.closest('.left');
+    const node2 = e.target.closest('.right');
+    const node_selected = $('.selected');
+    if (node1) {
+      node_selected.removeClass('selected');
+      node1.classList.add('selected');
+      $.get("acDetails.html", function (data) {
+        $(".option-content").empty();
+        $(".option-content").append(data);
+      });
+    } else if (node2) {
+      node_selected.removeClass('selected');
+      node2.classList.add('selected');
+      $.get("print.html", function (data) {
+        $(".option-content").empty();
+        $(".option-content").append(data);
+      });
+    }
+
+  })
+</script>

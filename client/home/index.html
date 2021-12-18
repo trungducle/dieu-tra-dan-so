@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ thống điều tra dân số</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/tableDetails.css">
+  <link rel="stylesheet" href="css/profileDetails.css">
+  <link rel="stylesheet" href="css/cities.css">
+  <link rel="stylesheet" href="css/account.css">
+  <link rel="stylesheet" href="css/addAccount.css">
+  <link rel="stylesheet" href="css/analytic.css">
+  <link rel="stylesheet" href="css/add.css">
+  <link rel="stylesheet" href="css/option.css">
+  <!-- Icon css link -->
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+  <!-- Side bar -->
+  <div class="sidebar">
+    <div class="logo-details">
+      <i class='bx bxs-paper-plane'></i>
+      <span class="logo-name">CitizenV</span>
+    </div>
+    <ul class="nav-links">
+      <li class="home isSelected">
+        <a href="#">
+          <i class='bx bx-home-alt'></i>
+          <span class="link-name">Trang chủ</span>
+        </a>
+      </li>
+      <li class="accounts">
+        <a href="#">
+          <i class='bx bxs-user-account'></i>
+          <span class="link-name">Tài khoản</span>
+        </a>
+      </li>
+      <li class="cities">
+        <a href="#">
+          <i class='bx bx-building-house'></i>
+          <span class="link-name">Dữ liệu dân cư</span>
+        </a>
+      </li>
+      <li class="option">
+        <a href="#">
+          <i class='bx bx-cog'></i>
+          <span class="link-name">Cài đặt</span>
+        </a>
+      </li>
+      <li class="logout">
+        <a href="#">
+          <i class='bx bx-log-out'></i>
+          <span class="link-name">Đăng xuất</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- main section -->
+  <section class="main-section">
+    <nav class="navbar">
+      <div class="sidebar-button">
+        <i class='bx bx-menu sidebarBtn'></i>
+      </div>
+      <div class="search-box">
+        <input type="text" placeholder="Search...">
+        <i class='bx bx-search'></i>
+      </div>
+      <div class="profile-details">
+        <img src="../res/profile-img.png" alt="">
+        <span class="profile-name">Admin A1</span>
+        <i class='bx bx-chevron-down'></i>
+      </div>
+    </nav>
+    <!-- main content -->
+    <div class="main-content">
+      <!-- giao diện chính hiện ở đây-->
+    </div>
+  </section>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const token = localStorage.getItem("a_token");
+
+    if (!token) {
+      window.location.href = "/login";
+    }
+  </script>
+</body>
+
+</html>

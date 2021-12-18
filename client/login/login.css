@@ -112,6 +112,7 @@ body {
     }
 
     .login-form {
+        top: 57%;
         left: 50%;
     }
 }

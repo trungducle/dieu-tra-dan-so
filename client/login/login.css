@@ -98,36 +98,36 @@ body {
 
 @media only screen and (max-width: 1367px) {
 
-    body {
-        background-size: 150% 1500px;
-    }
+  body {
+    background-size: 150% 1500px;
+  }
 
-    .page-info {
-        top: 15%;
-        display: flex;
-    }
+  .page-info {
+    top: 15%;
+    display: flex;
+  }
 
-    .page-info .respon {
-        margin-left: 10px;
-    }
+  .page-info .respon {
+    margin-left: 10px;
+  }
 
-    .login-form {
-        top: 57%;
-        left: 50%;
-    }
+  .login-form {
+    top: 57%;
+    left: 50%;
+  }
 }
 
 @media only screen and (max-width: 1025px) {
 
-    .page-info {
-        top: 15%;
-        left: 50%;
-        display: block;
-    }
+  .page-info {
+    top: 15%;
+    left: 50%;
+    display: block;
+  }
 
-    .login-form {
-        top: 62%;
-        left: 50%;
-    }
+  .login-form {
+    top: 62%;
+    left: 50%;
+  }
 
 }

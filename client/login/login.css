@@ -120,14 +120,21 @@ body {
 @media only screen and (max-width: 1025px) {
 
     .page-info {
-        top: 15%;
+        width: 750px;
+        top: 20%;
         left: 50%;
         display: block;
+        margin-bottom: 50px;
     }
 
     .login-form {
-        top: 62%;
+        height: 250px;
+        top: 65%;
         left: 50%;
+    }
+
+    .login-form h1 {
+      margin: 0;
     }
 
 }

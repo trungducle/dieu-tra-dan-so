@@ -9,7 +9,7 @@ module.exports = {
     const saltRounds = 10;
     const insertValues = await Promise.all(
       accounts.map(async (acc) => {
-        const hashedPassword = await hash(password, saltRounds);
+        const hashedPassword = await hash(acc.password, saltRounds);
         return {
           ma_dang_nhap: acc.username,
           mat_khau: hashedPassword,
@@ -22,6 +22,7 @@ module.exports = {
       ["ma_dang_nhap", "mat_khau", "loai_tai_khoan"],
       { table: "tai_khoan" }
     );
+
 
     try {
       await db.none(pgp.helpers.insert(insertValues, columnSet));

@@ -11,6 +11,8 @@ $(document).ready(function () {
   mainContent.load('home.html');
 });
 
+console.log($("li"));
+
 $('li').click((e) => {
   const node1 = e.target.closest('.home');
   const node2 = e.target.closest('.accounts');

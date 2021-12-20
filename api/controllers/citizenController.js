@@ -1,5 +1,12 @@
 const { db } = require("../config/database");
 
+const UNITS = {
+  VILLAGE: "village", // thôn, bản, làng
+  WARD: "ward", // phường, xã
+  DISTRICT: "district", // quận, huyện
+  CITY: "city", // tỉnh, thành
+};
+
 module.exports = {
   getCitizenAmount: async (req, res) => {
     // eg. localhost:8000/citizen/amount (Tim dan so cua ca nuoc)
@@ -12,10 +19,10 @@ module.exports = {
     try {
       if (!filter) {
         const result = await db.any(
-          "SELECT count(*) FROM ca_nhan"
+          "SELECT count(*) dan_so FROM ca_nhan"
         );
 
-        res.status(200).json({ amount: result });
+        res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'city') {
         const result = await db.any(
           "SELECT count(*)\
@@ -29,7 +36,7 @@ module.exports = {
           [searchPattern]
         );
 
-        res.status(200).json({ amount: result });
+        res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'district') {
         const result = await db.any(
           "SELECT count(*)\
@@ -42,7 +49,7 @@ module.exports = {
           [searchPattern]
         );
 
-        res.status(200).json({ amount: result });
+        res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'ward') {
         const result = await db.any(
           "SELECT count(*)\
@@ -54,7 +61,7 @@ module.exports = {
           [searchPattern]
         );
 
-        res.status(200).json({ amount: result });
+        res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'village') {
         const result = await db.any(
           "SELECT count(*)\
@@ -64,8 +71,8 @@ module.exports = {
           WHERE tb.ten LIKE $1",
           [searchPattern]
         );
-
-        res.status(200).json({ amount: result });
+        
+        res.status(200).json({ amount: result[0].dan_so });
       }
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -75,19 +82,17 @@ module.exports = {
     const { filter, page, value } = req.query;
     // eg. localhost:8000/citizen/list
     // eg. localhost:8000/citizen/list?filter=city&page=1
-    
+
     const ROWS = 10; // Moi trang hien thi 10 nguoi
-    const offSet = ROWS * (page - 1);
+    const offset = ROWS * (page - 1);
     const searchPattern = value.length === 1 ? `${value}%` : value;
 
     try {
       if (!filter) {
-        const result = await db.any(
-          "SELECT * FROM ca_nhan"
-        );
-  
+        const result = await db.any("SELECT * FROM ca_nhan");
+
         res.status(200).json({ result });
-      } else if (filter === 'city') {
+      } else if (filter === "city") {
         const result = await db.any(
           "SELECT *\
           FROM ca_nhan cn\
@@ -98,11 +103,11 @@ module.exports = {
           JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
           WHERE tt.ten LIKE $1\
           LIMIT $2 OFFSET $3",
-          [searchPattern, ROWS, offSet]
+          [searchPattern, ROWS, offset]
         );
 
         res.status(200).json({ result });
-      } else if (filter === 'district') {
+      } else if (filter === "district") {
         const result = await db.any(
           "SELECT *\
           FROM ca_nhan cn\
@@ -112,11 +117,11 @@ module.exports = {
           JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
           WHERE qh.ten LIKE $1\
           LIMIT $2 OFFSET $3",
-          [searchPattern, ROWS, offSet]
+          [searchPattern, ROWS, offset]
         );
 
         res.status(200).json({ result });
-      } else if (filter === 'ward') {
+      } else if (filter === "ward") {
         const result = await db.any(
           "SELECT *\
           FROM ca_nhan cn\
@@ -125,11 +130,11 @@ module.exports = {
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           WHERE px.ten LIKE $1\
           LIMIT $2 OFFSET $3",
-          [searchPattern, ROWS, offSet]
+          [searchPattern, ROWS, offset]
         );
 
         res.status(200).json({ result });
-      } else if (filter === 'village') {
+      } else if (filter === "village") {
         const result = await db.any(
           "SELECT *\
           FROM ca_nhan cn\
@@ -137,7 +142,7 @@ module.exports = {
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           WHERE tb.ten LIKE $1\
           LIMIT $2 OFFSET $3",
-          [searchPattern, ROWS, offSet]
+          [searchPattern, ROWS, offset]
         );
 
         res.status(200).json({ result });
@@ -148,5 +153,5 @@ module.exports = {
   },
   getCitizenData: async (req, res) => {
     // to do (doi thong tin day du ve cac cot bang ca nhan)
-  }
+  },
 };

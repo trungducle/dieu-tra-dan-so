@@ -1,30 +1,25 @@
-$(document).ready(function () {
-  $("#submit-btn button").click(function (e) {
+import { login } from "../apiCalls.js";
+
+$(document).ready(() => {
+  $("#submit-btn button").click(async (e) => {
     e.preventDefault();
 
     const username = $("#username input").val();
     const password = $("#password input").val();
 
-    (async () => {
-      const rawResponse = await fetch("http://localhost:8000/auth/login", {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: username, password: password }),
-      });
-      const response = await rawResponse.json();
-
+    try {
+      const response = await login({ username, password });
       if (response.error) {
         $(".login-error").text(response.error);
-        setTimeout(function () {
-          $(".login-error").remove();
+        setTimeout(() => {
+          $(".login-error").text("");
         }, 3000);
       } else {
         localStorage.setItem("a_token", response.accessToken);
         window.location.href = "/home";
       }
-    })();
+    } catch (err) {
+      console.log(err);
+    }
   });
 });

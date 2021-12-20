@@ -1,42 +1,143 @@
-<div class="profile-content">
-  <div class="profile-img">
-    <img src="../res/profile-img.png" alt="">
-    <input type="file" id="file">
+<form class="profile-content">
+  <!-- <div class="profile-img">
+    <img src="../res/profile-img.png" alt="" />
+    <input type="file" id="file" />
     <label for="file">
-      <i class='bx bx-image-add'></i>
+      <i class="bx bx-image-add"></i>
       Chọn Ảnh
     </label>
-  </div>
+  </div> -->
   <div class="profile-details">
     <div class="profile-button">
-      <i class='bx bx-save'></i>
-      <i class='bx bx-trash'></i>
+      <button type="submit"><i class="bx bx-save"></i></button>
+      <button type="button"><i class="bx bx-trash"></i></button>
     </div>
+
     <div class="profile-info">
       <div class="info-box">
-        <p>Họ và tên:</p>
-        <input type="text" name="infomation" value="Nguyễn Đức Dũng">
-        <p>Giới tính:</p>
-        <input type="text" name="infomation" value="Nam">
-        <p>Ngày sinh:</p>
-        <input type="date" name="infomation">
-        <p>Quê quán:</p>
-        <input type="text" name="infomation" value="Lào Cai">
-        <p>Quốc Tịch:</p>
-        <input type="text" name="infomation" value="Việt Nam">
+        <div class="detail-info">
+          <label for="fullname">Họ và tên (*): </label>
+          <input
+            type="text"
+            name="fullname"
+            id="fullname"
+            value="Nguyễn Đức Dũng"
+            required
+          />
+        </div>
+
+        <div class="detail-info">
+          <label for="dob">Ngày sinh (*): </label>
+          <input type="date" name="dob" id="dob" required />
+        </div>
+
+        <div class="detail-info">
+          <label for="sex">Giới tính (*): </label>
+          <select name="sex" id="sex" required>
+            <option value="Chọn giới tính" disabled selected>
+              Chọn giới tính
+            </option>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+          </select>
+        </div>
+
+        <div class="detail-info">
+          <label for="identity">Số CCCD (*): </label>
+          <input
+            type="text"
+            name="identity"
+            id="identity"
+            value="0123456789"
+            required
+          />
+        </div>
+
+        <div class="detail-info">
+          <label for="origin">Quê quán (*): </label>
+          <input
+            type="text"
+            name="origin"
+            id="origin"
+            value="Lào Cai"
+            required
+          />
+        </div>
+
+        <div class="detail-info">
+          <label for="residence">Địa chỉ thường trú (*): </label>
+          <input type="text" name="residence" id="residence" required />
+        </div>
+
+        <div class="detail-info">
+          <label for="current-place">Nơi ở hiện nay (*): </label>
+          <input type="text" name="current-place" id="current-place" required />
+        </div>
       </div>
       <div class="info-box">
-        <p>Dân tộc:</p>
-        <input type="text" name="infomation" value="Kinh">
-        <p>Tôn giáo:</p>
-        <input type="text" name="infomation" value="Không">
-        <p>Số CCCD:</p>
-        <input type="text" name="infomation" value="0123456789">
-        <p>Ngày cấp:</p>
-        <input type="date" name="infomation">
-        <p>Nơi cấp:</p>
-        <input type="text" name="infomation" value="CA Tỉnh Lào Cai">
+        <div class="detail-info">
+          <label for="ethnicity">Dân tộc (*): </label>
+          <input
+            type="text"
+            name="ethnicity"
+            id="ethnicity"
+            value="Kinh"
+            required
+          />
+        </div>
+
+        <div class="detail-info">
+          <label for="religion">Tôn giáo:</label>
+          <input type="text" name="religion" id="religion" />
+        </div>
+
+        <div class="detail-info">
+          <label for="academic">Trình độ văn hóa (*): </label>
+          <input type="text" name="academic" id="academic" required />
+        </div>
+
+        <div class="detail-info">
+          <label for="household">Hộ số (*): </label>
+          <input type="text" name="household" id="household" required />
+        </div>
+
+        <div class="detail-info checkbox">
+          <label for="is-head">Là chủ hộ: </label>
+          <input type="checkbox" name="is-head" id="is-head" />
+        </div>
       </div>
     </div>
   </div>
-</div>
+</form>
+
+<script>
+  const profileForm = $(".profile-content");
+  profileForm.submit(async (e) => {
+    e.preventDefault();
+    const values = {};
+    $.each(profileForm.serializeArray(), (_, field) => {
+      values[field.name] = field.value;
+    });
+    try {
+      const result = await submitForm(values);
+      console.log(result);
+      alert("Thành công!");
+    } catch (err) {
+      alert(`Lỗi: ${err.message}`);
+    }
+  });
+
+  async function submitForm(values) {
+    const rawResult = await fetch("http://localhost:8000/census", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("a_token")}`,
+      },
+      body: JSON.stringify(values),
+    });
+
+    return rawResult.json();
+  }
+</script>

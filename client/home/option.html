@@ -16,16 +16,16 @@
   $('.manage-box').click((e) => {
     const node1 = e.target.closest('.left');
     const node2 = e.target.closest('.right');
-    const node_selected = $('.selected');
+    const nodeSelected = $('.selected');
     if (node1) {
-      node_selected.removeClass('selected');
+      nodeSelected.removeClass('selected');
       node1.classList.add('selected');
       $.get("acDetails.html", function (data) {
         $(".option-content").empty();
         $(".option-content").append(data);
       });
     } else if (node2) {
-      node_selected.removeClass('selected');
+      nodeSelected.removeClass('selected');
       node2.classList.add('selected');
       $.get("print.html", function (data) {
         $(".option-content").empty();

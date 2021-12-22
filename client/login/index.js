@@ -1,6 +1,12 @@
 import { login } from "../apiCalls.js";
 
 $(document).ready(() => {
+  const token = localStorage.getItem("a_token");
+  if (token) {
+    window.location.href = "/home";
+    return;
+  }
+
   $("#submit-btn button").click(async (e) => {
     e.preventDefault();
 

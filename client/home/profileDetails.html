@@ -1,12 +1,4 @@
 <form class="profile-content">
-  <!-- <div class="profile-img">
-    <img src="../res/profile-img.png" alt="" />
-    <input type="file" id="file" />
-    <label for="file">
-      <i class="bx bx-image-add"></i>
-      Chọn Ảnh
-    </label>
-  </div> -->
   <div class="profile-details">
     <div class="profile-button">
       <button type="submit"><i class="bx bx-save"></i></button>
@@ -111,7 +103,7 @@
 </form>
 
 <script>
-  const profileForm = $(".profile-content");
+  var profileForm = $(".profile-content");
   profileForm.submit(async (e) => {
     e.preventDefault();
     const values = {};

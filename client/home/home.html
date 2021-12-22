@@ -50,6 +50,8 @@
 <script>
   $(document).ready(async () => {
     const token = localStorage.getItem("a_token");
+    const user = JSON.parse(window.atob(token.split('.')[1].replace('-', '+').replace('_', '/')));
+
     var boxtopic1 = $('.overview-boxes .box:nth-child(1) .number');
     var boxtopic2 = $('.overview-boxes .box:nth-child(2) .number');
     var boxtopic3 = $('.overview-boxes .box:nth-child(3) .number');
@@ -68,7 +70,7 @@
 
     var localAmount = await getLocalCitizenAmount(token);
     var totalAmount = await getTotalCitizenAmount(token);
-    var inferiorInfo = await getDirectInferior(token);
+    var inferiorInfo = await getInferiorInfo(token, user.username);
     var inferiorAmount = await getInferiorAmount(token);
     
     animateNumber(boxtopic1.text(), inferiorAmount.amount, boxtopic1);
@@ -111,8 +113,8 @@
     return rawResponse.json();
   }
 
-  async function getDirectInferior(token) {
-    const rawResponse = await fetch("http://localhost:8000/departments", {
+  async function getInferiorInfo(token, username) {
+    const rawResponse = await fetch(`http://localhost:8000/departments?id=${username}`, {
       method: "GET",
       headers: {
         "Accept": "application/json",

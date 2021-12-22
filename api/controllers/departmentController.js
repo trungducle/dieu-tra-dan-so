@@ -53,15 +53,15 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
-  getDirectInferiorList: async (req, res) => {
-    // eg. localhost:8000/departments
-    const { username, roleId } = req.user;
+  getInferiorList: async (req, res) => {
+    // eg. localhost:8000/departments?id=24
+    const { id } = req.query;
+    const codeLength = id == 'tongcucdanso' ? 0 : id.length;
     try {
       let info = null;
       let amount = null;
-      const codeLength = roleId === ROLES.A1 ? 0 : username.length;
-      switch (roleId) {
-        case ROLES.A1:
+      switch (codeLength) {
+        case 0:
           info = await db.any(
             "SELECT ten, ma, dan_so FROM (\
               SELECT tt.ten, tt.ma, count(*) dan_so\
@@ -90,7 +90,7 @@ module.exports = {
             await db.one("SELECT count(*) so_don_vi FROM tinh_thanh")
           ).so_don_vi;
           break;
-        case ROLES.A2:
+        case 2:
           info = await db.any(
             "SELECT qh.ten, qh.ma, count(*) dan_so\
               FROM quan_huyen qh\
@@ -112,17 +112,17 @@ module.exports = {
                   WHERE SUBSTRING(qh.ma, 1, $1) = $2\
                   GROUP BY qh.ma)\
               AND SUBSTRING(ma, 1, $1) = $2",
-            [codeLength, username]
+            [codeLength, id]
           );
           amount = (
             await db.one(
               "SELECT count(*) so_don_vi FROM quan_huyen\
               WHERE SUBSTRING(ma, 1, $1) = $2",
-              [codeLength, username]
+              [codeLength, id]
             )
           ).so_don_vi;
           break;
-        case ROLES.A3:
+        case 4:
           info = await db.any(
             "SELECT px.ten, px.ma, count(*) dan_so\
               FROM phuong_xa px\
@@ -143,17 +143,17 @@ module.exports = {
                   GROUP BY px.ma\
                 )\
               AND SUBSTRING(ma, 1, $1) = $2",
-          [codeLength, username]
+          [codeLength, id]
           );
           amount = (
             await db.one(
               "SELECT count(*) so_don_vi FROM phuong_xa\
               WHERE SUBSTRING(ma, 1, $1) = $2",
-              [codeLength, username]
+              [codeLength, id]
             )
           ).so_don_vi;
           break;
-        case ROLES.B1:
+        case 6:
           info = await db.any(
             "SELECT tb.ten, tb.ma, count(*) dan_so\
               FROM thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
@@ -162,7 +162,7 @@ module.exports = {
               WHERE SUBSTRING(tb.ma, 1, $1) = $2\
               GROUP BY tb.ma, tb.ten\
             UNION\
-            SELECT ten, ma FROM thon_ban_tdp\
+            SELECT ten, ma, 0 FROM thon_ban_tdp\
               WHERE ma NOT IN (\
                 SELECT tb.ma\
                   FROM thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
@@ -172,17 +172,17 @@ module.exports = {
                   GROUP BY tb.ma\
                 )\
               AND SUBSTRING(ma, 1, $1) = $2",
-            [codeLength, username]
+            [codeLength, id]
           );
           amount = (
             await db.one(
               "SELECT count(*) so_don_vi FROM thon_ban_tdp\
               WHERE SUBSTRING(ma, 1, $1) = $2",
-              [codeLength, username]
+              [codeLength, id]
             )
           ).so_don_vi;
           break;
-        case ROLES.B2:
+        case 8:
           info = [];
           amount = 0;
           break;

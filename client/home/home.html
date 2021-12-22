@@ -3,36 +3,36 @@
 <div class="overview-boxes">
   <div class="box">
     <div class="left-side">
-      <div class="box-topic">Số Tỉnh/Thành phố</div>
-      <div class="number">63</div>
+      <div class="box-topic">Số đơn vị quản lý</div>
+      <div class="number">0</div>
     </div>
     <i class='bx bxs-bank sticker'></i>
   </div>
   <div class="box">
     <div class="left-side">
-      <div class="box-topic">Số Quận/Huyện</div>
-      <div class="number">705</div>
+      <div class="box-topic">Số đơn vị quản lý trực tiếp</div>
+      <div class="number">0</div>
     </div>
     <i class='bx bxs-school sticker'></i>
   </div>
   <div class="box">
     <div class="left-side">
-      <div class="box-topic">Dân số</div>
-      <div class="number">97.340.000</div>
+      <div class="box-topic">Dân số quản lý</div>
+      <div class="number">5</div>
     </div>
     <i class='bx bxs-user sticker'></i>
   </div>
   <div class="box">
     <div class="left-side">
-      <div class="box-topic">Số Tài khoản</div>
-      <div class="number">771</div>
+      <div class="box-topic">Dân số toàn quốc</div>
+      <div class="number">5</div>
     </div>
-    <i class='bx bxs-user-circle sticker'></i>
+    <i class='bx bxs-group sticker'></i>
   </div>
 </div>
 <div class="info-boxes">
   <div class="info-list box">
-    <div class="title">Tỉnh/Thành phố</div>
+    <div class="title">Danh sách đơn vị quản lý trực tiếp</div>
     <div class="info-details">
       <ul class="details">
         <li class="topic">Mã</li>
@@ -61,7 +61,7 @@
         <li><a href="#">Lào Cai</a></li>
       </ul>
       <ul class="details">
-        <li class="topic">Số Quận/Huyện</li>
+        <li class="topic">Số đơn vị quản lý</li>
         <li><a href="#">09</a></li>
         <li><a href="#">09</a></li>
         <li><a href="#">09</a></li>
@@ -74,17 +74,17 @@
         <li><a href="#">09</a></li>
       </ul>
       <ul class="details">
-        <li class="topic">Số Phường/Xã</li>
-        <li><a href="#">08</a></li>
-        <li><a href="#">08</a></li>
-        <li><a href="#">08</a></li>
-        <li><a href="#">08</a></li>
-        <li><a href="#">08</a></li>
-        <li><a href="#">08</a></li>
-        <li><a href="#">08</a></li>
-        <li><a href="#">08</a></li>
-        <li><a href="#">08</a></li>
-        <li><a href="#">08</a></li>
+        <li class="topic">Dân số</li>
+        <li><a href="#">500</a></li>
+        <li><a href="#">500</a></li>
+        <li><a href="#">500</a></li>
+        <li><a href="#">500</a></li>
+        <li><a href="#">500</a></li>
+        <li><a href="#">500</a></li>
+        <li><a href="#">500</a></li>
+        <li><a href="#">500</a></li>
+        <li><a href="#">500</a></li>
+        <li><a href="#">500</a></li>
       </ul>
     </div>
     <div class="page-rotate-buttons">
@@ -100,3 +100,36 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(async () => {
+    var localAmount = await getLocalCitizenAmount(localStorage.getItem("a_token"));
+    var totalAmount = await getTotalCitizenAmount(localStorage.getItem("a_token"));
+    $(".overview-boxes .box:nth-child(3) .number").text(localAmount.amount);
+    $(".overview-boxes .box:nth-child(4) .number").text(totalAmount.amount);
+  });
+
+  async function getLocalCitizenAmount(token) {
+    const rawResponse = await fetch("http://localhost:8000/citizen/amount/local", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    return rawResponse.json();
+  }
+
+  async function getTotalCitizenAmount(token) {
+    const rawResponse = await fetch("http://localhost:8000/citizen/amount", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    return rawResponse.json();
+  }
+</script>

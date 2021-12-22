@@ -8,6 +8,7 @@ const authRouter = require("./routes/auth");
 const accountRouter = require("./routes/accounts");
 const departmentRouter = require("./routes/departments");
 const censusRouter = require("./routes/census");
+const citizenRouter = require("./routes/citizen");
 // const a1Router = require("./routes/a1");
 // const a2Router = require("./routes/a2");
 // const a3Router = require("./routes/a3");
@@ -42,6 +43,7 @@ app.use("/auth", authRouter);
 app.use("/accounts", accountRouter);
 app.use("/departments", departmentRouter);
 app.use("/census", censusRouter);
+app.use("/citizen", citizenRouter);
 
 server.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

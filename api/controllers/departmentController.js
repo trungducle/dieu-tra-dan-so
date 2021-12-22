@@ -4,7 +4,7 @@ const { ROLES } = require("../config/keys");
 module.exports = {
   createDepartment: async (req, res) => {
     const { name } = req.body;
-    const { username, roleId } = req.user;
+    const { username, roleId, unitId } = req.user;
 
     try {
       const status = await db.one(
@@ -28,21 +28,21 @@ module.exports = {
           await db.none(
             "INSERT INTO quan_huyen(ten, id_tinh_thanh)\
             VALUES($1, $2)",
-            [name, username]
+            [name, unitId]
           );
           break;
         case ROLES.A3:
           await db.none(
             "INSERT INTO phuong_xa(ten, id_quan_huyen)\
             VALUES($1, $2)",
-            [name, username]
+            [name, unitId]
           );
           break;
         case ROLES.B1:
           await db.none(
             "INSERT INTO thon_ban_tdp(ten, id_phuong_xa)\
             VALUES($1, $2)",
-            [name, username]
+            [name, unitId]
           );
           break;
         default:

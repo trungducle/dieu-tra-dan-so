@@ -40,7 +40,7 @@
 </div>
 
 <script>
-  const mainContent = $(".main-content");
+  var mainContent = $(".main-content");
   $(".city-box").click(function () {
     $.get("tableDetails.html", function (data) {
       mainContent.empty();

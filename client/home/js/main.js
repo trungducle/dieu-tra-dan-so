@@ -1,3 +1,10 @@
+import { getToken, getUserInfo } from "../../utils.js";
+
+const token = getToken();
+
+const userInfo = getUserInfo(token);
+$(".profile-name").text("Admin " + userInfo.roleName);
+
 let sidebar = $(".sidebar");
 let sidebarBtn = $(".sidebarBtn");
 
@@ -5,13 +12,11 @@ sidebarBtn.click(function () {
   sidebar.toggleClass("active");
 });
 
-const mainContent = $(".main-content");
+var mainContent = $(".main-content");
 
 $(document).ready(function () {
   mainContent.load('home.html');
 });
-
-console.log($("li"));
 
 $('li').click((e) => {
   const node1 = e.target.closest('.home');
@@ -27,6 +32,8 @@ $('li').click((e) => {
       mainContent.empty();
       mainContent.append(data);
     });
+    $(".overview-boxes .box:nth-child(3) .number").text(localAmount.amount);
+    $(".overview-boxes .box:nth-child(4) .number").text(totalAmount.amount);
   } else if (node2) {
     node_selected.removeClass('isSelected');
     node2.classList.add('isSelected');

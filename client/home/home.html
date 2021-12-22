@@ -18,14 +18,14 @@
   <div class="box">
     <div class="left-side">
       <div class="box-topic">Dân số quản lý</div>
-      <div class="number">5</div>
+      <div class="number">0</div>
     </div>
     <i class='bx bxs-user sticker'></i>
   </div>
   <div class="box">
     <div class="left-side">
       <div class="box-topic">Dân số toàn quốc</div>
-      <div class="number">5</div>
+      <div class="number">0</div>
     </div>
     <i class='bx bxs-group sticker'></i>
   </div>
@@ -36,77 +36,55 @@
     <div class="info-details">
       <ul class="details">
         <li class="topic">Mã</li>
-        <li><a href="#">24</a></li>
-        <li><a href="#">24</a></li>
-        <li><a href="#">24</a></li>
-        <li><a href="#">24</a></li>
-        <li><a href="#">24</a></li>
-        <li><a href="#">24</a></li>
-        <li><a href="#">24</a></li>
-        <li><a href="#">24</a></li>
-        <li><a href="#">24</a></li>
-        <li><a href="#">24</a></li>
       </ul>
       <ul class="details">
         <li class="topic">Tên</li>
-        <li><a href="#">Lào Cai</a></li>
-        <li><a href="#">Lào Cai</a></li>
-        <li><a href="#">Lào Cai</a></li>
-        <li><a href="#">Lào Cai</a></li>
-        <li><a href="#">Lào Cai</a></li>
-        <li><a href="#">Lào Cai</a></li>
-        <li><a href="#">Lào Cai</a></li>
-        <li><a href="#">Lào Cai</a></li>
-        <li><a href="#">Lào Cai</a></li>
-        <li><a href="#">Lào Cai</a></li>
-      </ul>
-      <ul class="details">
-        <li class="topic">Số đơn vị quản lý</li>
-        <li><a href="#">09</a></li>
-        <li><a href="#">09</a></li>
-        <li><a href="#">09</a></li>
-        <li><a href="#">09</a></li>
-        <li><a href="#">09</a></li>
-        <li><a href="#">09</a></li>
-        <li><a href="#">09</a></li>
-        <li><a href="#">09</a></li>
-        <li><a href="#">09</a></li>
-        <li><a href="#">09</a></li>
       </ul>
       <ul class="details">
         <li class="topic">Dân số</li>
-        <li><a href="#">500</a></li>
-        <li><a href="#">500</a></li>
-        <li><a href="#">500</a></li>
-        <li><a href="#">500</a></li>
-        <li><a href="#">500</a></li>
-        <li><a href="#">500</a></li>
-        <li><a href="#">500</a></li>
-        <li><a href="#">500</a></li>
-        <li><a href="#">500</a></li>
-        <li><a href="#">500</a></li>
       </ul>
-    </div>
-    <div class="page-rotate-buttons">
-      <i class='bx bx-left-arrow'></i>
-      <i class='bx bx-right-arrow'></i>
-    </div>
-  </div>
-  <div class="info-list box">
-    <div class="title">10 Tỉnh/Thành phố có dân số lớn nhất</div>
-    <div class="chart-details">
-      <div id="bar_top_x_div" class="Chart"></div>
-      <script src="./js/barChart.js"></script>
     </div>
   </div>
 </div>
 
 <script>
   $(document).ready(async () => {
-    var localAmount = await getLocalCitizenAmount(localStorage.getItem("a_token"));
-    var totalAmount = await getTotalCitizenAmount(localStorage.getItem("a_token"));
-    $(".overview-boxes .box:nth-child(3) .number").text(localAmount.amount);
-    $(".overview-boxes .box:nth-child(4) .number").text(totalAmount.amount);
+    const token = localStorage.getItem("a_token");
+    var boxtopic1 = $('.overview-boxes .box:nth-child(1) .number');
+    var boxtopic2 = $('.overview-boxes .box:nth-child(2) .number');
+    var boxtopic3 = $('.overview-boxes .box:nth-child(3) .number');
+    var boxtopic4 = $('.overview-boxes .box:nth-child(4) .number');
+    var listcolumn1 = $('.info-boxes .info-details .details:nth-child(1)');
+    var listcolumn2 = $('.info-boxes .info-details .details:nth-child(2)');
+    var listcolumn3 = $('.info-boxes .info-details .details:nth-child(3)');
+
+    function animateNumber(number, target, elem) {
+      var interval = setInterval(function () {
+        elem.text(number);
+        if (number >= target) clearInterval(interval);
+        number++;
+      }, 30);
+    }
+
+    var localAmount = await getLocalCitizenAmount(token);
+    var totalAmount = await getTotalCitizenAmount(token);
+    var inferiorInfo = await getDirectInferior(token);
+    var inferiorAmount = await getInferiorAmount(token);
+    
+    animateNumber(boxtopic1.text(), inferiorAmount.amount, boxtopic1);
+    animateNumber(boxtopic2.text(), inferiorInfo.amount, boxtopic2);
+    animateNumber(boxtopic3.text(), localAmount.amount, boxtopic3);
+    animateNumber(boxtopic4.text(), totalAmount.amount, boxtopic4);
+
+    if (inferiorInfo.amount === 0) {
+      $('.info-list.box').append('<div class="info-text">Bạn không có đơn vị quản lý trực tiếp nào.</div>');
+    } else {
+      for (var i = 0; i < inferiorInfo.amount; i++) {
+        listcolumn1.append(`<li><a>${inferiorInfo.info[i].ma}</a></li>`);
+        listcolumn2.append(`<li><a>${inferiorInfo.info[i].ten}</a></li>`);
+        listcolumn3.append(`<li><a>${inferiorInfo.info[i].dan_so}</a></li>`);
+      }
+    }
   });
 
   async function getLocalCitizenAmount(token) {
@@ -123,6 +101,30 @@
 
   async function getTotalCitizenAmount(token) {
     const rawResponse = await fetch("http://localhost:8000/citizen/amount", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    return rawResponse.json();
+  }
+
+  async function getDirectInferior(token) {
+    const rawResponse = await fetch("http://localhost:8000/departments", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    return rawResponse.json();
+  }
+
+  async function getInferiorAmount(token) {
+    const rawResponse = await fetch("http://localhost:8000/departments/amount", {
       method: "GET",
       headers: {
         "Accept": "application/json",

@@ -17,5 +17,5 @@ module.exports = {
     B2: 5,
   },
   START_DATE: new Date("November 28, 2021 20:00:00 GMT+07:00"),
-  END_DATE: new Date("December 25, 2021 07:00:00 GMT+07:00")
+  END_DATE: new Date("December 31, 2021 07:00:00 GMT+07:00")
 };

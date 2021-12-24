@@ -3,7 +3,7 @@
     <p>Tên Đơn vị:</p>
     <input type="text" id="department-name" name="department-name" value="">
   </div>
-  <div class="button-add">
+  <div class="button-add" id="city-add">
     Thêm
   </div>
 </div>
@@ -13,7 +13,7 @@
   let token = localStorage.getItem("a_token");
   let user = JSON.parse(window.atob(token.split('.')[1].replace('-', '+').replace('_', '/')));
 
-  $(".button-add").click(async (e) => {
+  $("#city-add").click(async (e) => {
     const name = $("#department-name").val();
     if (!name) {
       $(".result-info").css("color", "red");

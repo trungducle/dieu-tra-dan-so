@@ -7,7 +7,7 @@ module.exports = {
     const { username, password } = req.body;
     try {
       const result = await db.any(
-        "SELECT t.id, t.mat_khau, t.loai_tai_khoan, t.bi_khoa_quyen, l.ten\
+        "SELECT t.id, t.mat_khau, t.loai_tai_khoan, l.ten\
         FROM tai_khoan t\
         JOIN loai_tai_khoan l ON l.id = t.loai_tai_khoan\
         WHERE t.ma_dang_nhap = $1",
@@ -27,36 +27,32 @@ module.exports = {
           .json({ error: "Tên đăng nhập hoặc mật khẩu không đúng!" });
       }
 
-      let upperUnitId = null;
+      let unitId = null;
       if (!isNaN(username)) {
         const usernameLength = username.length;
-
         switch (usernameLength) {
           case 4:
-            upperUnitId = (
-              await db.one(
-                "SELECT id_tinh_thanh FROM quan_huyen WHERE ma = $1;",
-                [username]
-              )
-            ).id_tinh_thanh;
+            unitId = (
+              await db.one("SELECT id FROM quan_huyen WHERE ma = $1;", [
+                username,
+              ])
+            ).id;
             break;
 
           case 6:
-            upperUnitId = (
-              await db.one(
-                "SELECT id_quan_huyen FROM phuong_xa WHERE ma = $1;",
-                [username]
-              )
-            ).id_quan_huyen;
+            unitId = (
+              await db.one("SELECT id FROM phuong_xa WHERE ma = $1;", [
+                username,
+              ])
+            ).id;
             break;
 
           case 8:
-            upperUnitId = (
-              await db.one(
-                "SELECT id_phuong_xa FROM thon_ban_tdp WHERE ma = $1;",
-                [username]
-              )
-            ).id_phuong_xa;
+            unitId = (
+              await db.one("SELECT id FROM thon_ban_tdp WHERE ma = $1;", [
+                username,
+              ])
+            ).id;
             break;
 
           default:
@@ -65,13 +61,13 @@ module.exports = {
       }
 
       const accessToken = getAccessToken({
-        upperUnitId,
+        unitId,
         username,
-        id: result[0].id,
+        accountId: result[0].id,
         roleId: result[0].loai_tai_khoan,
         roleName: result[0].ten,
-        isPrivLocked: result[0].bi_khoa_quyen
       });
+
       res.status(200).json({ accessToken });
     } catch (err) {
       res.status(500).json({ error: err.message });

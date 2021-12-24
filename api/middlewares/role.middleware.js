@@ -10,7 +10,7 @@ module.exports = {
 
     try {
       const user = verifyAccessToken(token);
-      if (user.role >= role) {
+      if (user.roleId >= role) {
         return res.status(403).json({ error: "Unauthorized" });
       }
       req.user = user;
@@ -28,7 +28,7 @@ module.exports = {
 
     try {
       const user = verifyAccessToken(token);
-      if (user.role <= role) {
+      if (user.roleId <= role) {
         return res.status(403).json({ error: "Unauthorized" });
       }
       req.user = user;

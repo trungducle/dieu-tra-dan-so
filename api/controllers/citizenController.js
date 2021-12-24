@@ -9,12 +9,36 @@ const UNITS = {
 
 module.exports = {
   getCitizenAmount: async (req, res) => {
+    const { roleId, username } = req.user;
+
+    try {
+      if (roleId === 1) {
+        const result = await db.any(
+          "SELECT count(*) dan_so FROM ca_nhan"
+        );
+        res.status(200).json({ amount: result[0].dan_so });
+      } else {
+        const searchPattern = `${username}%`;
+        const result = await db.any(
+          "SELECT count(*) dan_so\
+          FROM ca_nhan cn\
+          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+          JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
+          WHERE tb.ma LIKE $1",
+          [searchPattern]);
+        res.status(200).json({ amount: result[0].dan_so });
+      }
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+  queryCitizenAmount: async (req, res) => {
     // eg. localhost:8000/citizen/amount (Tim dan so cua ca nuoc)
     // eg. localhost:8000/citizen/amount?filter=city&value=Ha Noi (Tim dan so cua thanh pho Ha Noi)
     // eg. localhost:8000/citizen/amount?filter=district&value=A (Tim dan so cua cac quan, huyen bat bau bang A)
     const { filter, value } = req.query;
     // Neu do dai la 1 thi tim kiem theo ky tu dau, neu khong tim kiem theo ten day du
-    const searchPattern = value.length === 1 ? `${value}%` : value;
+    const searchPattern = value ? value.length === 1 ? `${value}%` : value : '';
 
     try {
       if (!filter) {
@@ -25,9 +49,9 @@ module.exports = {
         res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'city') {
         const result = await db.any(
-          "SELECT count(*)\
+          "SELECT count(*) dan_so\
           FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = ho_dan.id\
+          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
@@ -39,9 +63,9 @@ module.exports = {
         res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'district') {
         const result = await db.any(
-          "SELECT count(*)\
+          "SELECT count(*) dan_so\
           FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = ho_dan.id\
+          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
@@ -52,9 +76,9 @@ module.exports = {
         res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'ward') {
         const result = await db.any(
-          "SELECT count(*)\
+          "SELECT count(*) dan_so\
           FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = ho_dan.id\
+          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           WHERE px.ten LIKE $1",
@@ -64,9 +88,9 @@ module.exports = {
         res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'village') {
         const result = await db.any(
-          "SELECT count(*)\
+          "SELECT count(*) dan_so\
           FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = ho_dan.id\
+          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           WHERE tb.ten LIKE $1",
           [searchPattern]
@@ -96,7 +120,7 @@ module.exports = {
         const result = await db.any(
           "SELECT *\
           FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = ho_dan.id\
+          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
@@ -111,7 +135,7 @@ module.exports = {
         const result = await db.any(
           "SELECT *\
           FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = ho_dan.id\
+          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
@@ -125,7 +149,7 @@ module.exports = {
         const result = await db.any(
           "SELECT *\
           FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = ho_dan.id\
+          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
           WHERE px.ten LIKE $1\
@@ -138,7 +162,7 @@ module.exports = {
         const result = await db.any(
           "SELECT *\
           FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = ho_dan.id\
+          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
           JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
           WHERE tb.ten LIKE $1\
           LIMIT $2 OFFSET $3",

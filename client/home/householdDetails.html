@@ -1,0 +1,109 @@
+<div class="member-list-top">
+  <div class="member-list-header">
+    <h1>HỘ SỐ <span class="household-code"></span></h1>
+  </div>
+  <button class="add-individual-button" title="Thêm cá nhân">
+    <span class="bx bx-plus"></span>
+  </button>
+</div>
+<div class="member-list-body"></div>
+
+<script type="module">
+  import { getHouseholdDetails, deleteInfo } from "../apiCalls.js";
+  import { getUserInfo } from "../utils.js";
+
+  $(async () => {
+    var household = $(".household");
+    var memberListBody = $(".member-list-body");
+    var householdCode = $(".household-code");
+    var villageId = household.data("villageIdSelected");
+    householdCode.text(household.data("householdOnDisplay").householdCode);
+
+    var currentHouseholdCode = parseInt(householdCode.text());
+    try {
+      if (currentHouseholdCode <= household.data("householdsCount")) {
+        // lấy dữ liệu đối với hộ dân được chọn
+        renderStatusText("Đang tải...");
+        var currentHouseholdId = household.data("householdOnDisplay").id;
+        var result = await getHouseholdDetails(
+          villageId,
+          currentHouseholdId
+        );
+        renderMemberListFromData(result);
+
+        $("#update-info-button").click((e) => {
+          const individualOnDisplay = result.find(
+            (r) =>
+              r.id === parseInt(e.target.closest(".member-box").dataset.key)
+          );
+          household.data("isUpdatingInfo", true);
+          household.data("individualOnDisplay", individualOnDisplay);
+          household.load("profileDetails.html");
+        });
+
+        $("#delete-info-button").click(async (e) => {
+          const confirmDelete = confirm(
+            "Bạn có chắc chắn muốn xóa thông tin này không?"
+          );
+          if (confirmDelete) {
+            const individualOnDisplay = result.find(
+              (r) =>
+                r.id === parseInt(e.target.closest(".member-box").dataset.key)
+            );
+            const message = await deleteInfo(villageId, individualOnDisplay.id);
+            alert(message.message);
+
+            renderStatusText("Đang tải...");
+            result = await getHouseholdDetails(villageId, currentHouseholdId);
+            renderMemberListFromData(result);
+          }
+        });
+      } else {
+        renderStatusText("Chưa có dữ liệu nào");
+      }
+
+      $(".add-individual-button").click((e) => {
+        household.load("profileDetails.html");
+        household.data("isUpdatingInfo", false);
+      });
+    } catch (err) {
+      alert("Đã có lỗi xảy ra!");
+    }
+  });
+
+  function renderMemberListFromData(result) {
+    if (result.length === 0 || !result) {
+      $(".member-list-body .status").text("Chưa có dữ liệu nào");
+    } else {
+      var memberList = [];
+      for (const r of result) {
+        memberList.push(
+          $(`
+              <li class="member-box" data-key=${r.id}>
+                <p>Họ tên: ${r.ho_ten}</p>
+                <div class="member-box-buttons">
+                  <button type="button" id="update-info-button">
+                    <span class='bx bxs-edit-alt'></span>  
+                  </button>
+                  <button type="button" id="delete-info-button">
+                    <span class="bx bx-trash"></span>
+                  </button>
+                </div>
+              </li>
+            `)
+        );
+      }
+
+      $(".member-list-body").empty();
+      $(".member-list-body").append([...memberList]);
+    }
+  }
+
+  function renderStatusText(statusText) {
+    var memberListBody = $(".member-list-body");
+    memberListBody.empty();
+    memberListBody.append($(`<p class="status"></p>`));
+    var status = $(".member-list-body .status");
+    status.text(statusText);
+  }
+</script>

@@ -1,37 +1,9 @@
 .profile-content {
-  display: flex;
-  justify-content: space-between;
   color: rgb(65, 65, 221);
 }
 
-.profile-content .profile-img {
-  flex: 1;
-  background-color: #fff;
-  box-sizing: 0 5px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  padding: 20px;
-  margin: 15px 0 15px 15px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-
-.profile-content .profile-img img {
-  width: 100%;
-  margin-bottom: 15px;
-  border: 1px solid #dadada;
-  border-radius: 5px;
-}
-
-.profile-content .profile-img input {
-  display: none;
-}
-
-.profile-content .profile-img label {
-  margin: 20%;
-  padding: 10px;
-  background-color: rgb(65, 65, 221);
-  border-radius: 6px;
-  color: #fff;
-  cursor: pointer;
+.profile-content #form-header {
+  text-align: center;
 }
 
 .profile-content .profile-details {
@@ -59,15 +31,16 @@
   flex-direction: column;
 }
 
-.profile-content .profile-info .info-box .detail-info.checkbox {
+.profile-content .profile-info .info-box .detail-info.radio {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .profile-content .profile-info .info-box .detail-info label {
   color: rgb(65, 65, 221);
   font-weight: 600;
-  margin: 15px 0;
+  margin: 15px 15px 15px 0;
 }
 
 .profile-content .profile-info .info-box .detail-info input[type="text"], input[type="date"], select {
@@ -80,37 +53,15 @@
   border-radius: 5px;
 }
 
-.profile-content .profile-details .profile-button {
+.profile-content .profile-info .info-box .detail-info input[type="radio"] {
+  margin-left: 20px;
+}
+
+.profile-content .profile-button {
   display: flex;
   justify-content: right;
 }
 
-.profile-content .profile-details .profile-button button {
-  margin-right: 3px;
-  border: none;
-  border-radius: 5px;
-  background-color: rgb(91, 91, 220);
-  width: 40px;
-  height: 40px;
-}
-
-.profile-content .profile-info .info-box input::-webkit-input-placeholder {
+.profile-content .profile-info .info-box input::placeholder {
   color: black;
-}
-
-.profile-content .profile-details i {
-  height: 40px;
-  width: 40px;
-  border-radius: 5px;
-  color: #fff;
-  font-size: 22px;
-  line-height: 40px;
-  text-align: center;
-  transition: all 0.15s ease-in;
-  cursor: pointer;
-}
-
-.profile-content .profile-details .profile-button button:hover {
-  transform: scale(1.05);
-  background-color: rgb(36, 38, 160);
 }

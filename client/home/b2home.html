@@ -1,0 +1,135 @@
+<p id="end-time">Thời gian kết thúc: 1h ngày 27/12/2021</p>
+<div class="household">
+  <div class="household-list-top">
+    <div class="household-list-header">
+      <h1>DANH SÁCH HỘ DÂN<span id="village-address"></span></h1>
+    </div>
+    <button class="add-household-button" title="Thêm hộ dân">
+      <span class="bx bx-plus"></span>
+    </button>
+  </div>
+  <div class="household-list-body">
+    <p class="status">Đang tải...</p>
+  </div>
+</div>
+<script type="module">
+  import { getHouseholdList, getVillageList } from "../apiCalls.js";
+  import { getUserInfo } from "../utils.js";
+
+  $(async () => {
+    var household = $(".household");
+    var status = $(".household-list-body .status");
+
+    try {
+      const { unitId, roleId, username } = getUserInfo();
+      if (roleId === 4) {
+        const list = await getVillageList();
+        household.data("villageList", list);
+        var villageList = [];
+        for (const l of list) {
+          villageList.push(
+            $(`
+              <option value=${l.id}>
+                ${l.ten} - ${l.ma}
+              </option>
+            `)
+          );
+        }
+
+        var villageAddress = $("#village-address");
+        villageAddress.append(
+          " TẠI ",
+          $(`<select name="villages" id="villages"></select>`)
+        );
+        var villageSelector = $("select[name=villages]");
+        villageSelector.append(
+          `<option value="" disabled selected>Chọn thôn, bản, tổ dân phố</option>`,
+          [...villageList]
+        );
+        villageSelector.change(async (e) => {
+          household.data("villageIdSelected", e.target.value);
+          const result = await getHouseholdList(e.target.value);
+          renderHouseholdListFromData(result);
+          updateHouseholdCount();
+        })
+      } else {
+        household.data("villageIdSelected", unitId);
+        const result = await getHouseholdList(unitId);
+        renderHouseholdListFromData(result);
+        updateHouseholdCount();
+      }
+      $(".household-box").click((e) => {
+        var selectedHousehold = household
+          .data("householdList")
+          .find((hh) => hh.householdCode === e.target.innerText.split(": ")[1]);
+        household.data("householdOnDisplay", selectedHousehold);
+        household.load("householdDetails.html");
+      });
+
+      $(".add-household-button").click(async () => {
+        updateHouseholdOnDisplay({
+          id: null,
+          householdCode: (getHouseholdCount() + 1).toString().padStart(3, "0"),
+        });
+        addToHouseholdList(result);
+        household.load("householdDetails.html");
+      });
+    } catch (err) {
+      status.text("Đã có lỗi xảy ra. Vui lòng thử lại.");
+    }
+  });
+
+  function renderStatusText(statusText) {
+    var householdListBody = $(".household-list-body");
+    householdListBody.empty();
+    householdListBody.append($(`<p class="status"></p>`));
+    var status = $(".household-list-body .status");
+    status.text(statusText);
+  }
+
+  function getHouseholdCount() {
+    return $(".household").data("householdList").length;
+  }
+
+  function updateHouseholdCount() {
+    $(".household").data(
+      "householdsCount",
+      $(".household").data("householdList").length
+    );
+  }
+
+  function addToHouseholdList(result) {
+    $(".household").data("householdList", [
+      ...$(".household").data("householdList"),
+      result,
+    ]);
+  }
+
+  function updateHouseholdOnDisplay(result) {
+    $(".household").data("householdOnDisplay", result);
+  }
+
+  function renderHouseholdListFromData(result) {
+    var household = $(".household");
+    var status = $(".household-list-body .status");
+    if (result.length === 0 || !result) {
+      status.text("Chưa có dữ liệu nào");
+    } else {
+      household.data("householdList", result);
+      status.replaceWith("<ul></ul>");
+      var householdListBody = $(".household-list-body ul");
+      var householdBoxes = [];
+      for (const r of result) {
+        householdBoxes.push(
+          $(`
+              <li class="household-box">
+                <p>Hộ số: ${r.householdCode}</p>
+              </li>
+            `)
+        );
+      }
+      householdListBody.empty();
+      householdListBody.append([...householdBoxes]);
+    }
+  }
+</script>

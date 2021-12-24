@@ -1,6 +1,7 @@
 <div class="account-navbar">
   <div class="manage-box left selected">
-    Tổng hợp dữ liệu
+    <!-- Tổng hợp dữ liệu -->
+    Nhập liệu
     <i class='bx bxs-box'></i>
   </div>
   <div class="manage-box right">
@@ -12,11 +13,12 @@
 
 </div>
 
-<script>
+<script type="module">
+  $(".data-content").load("b2home.html");
   $('.manage-box').click((e) => {
-    const node1 = e.target.closest('.left');
-    const node2 = e.target.closest('.right');
-    const node_selected = $('.selected');
+    var node1 = e.target.closest('.left');
+    var node2 = e.target.closest('.right');
+    var node_selected = $('.selected');
     if (node1) {
       node_selected.removeClass('selected');
       node1.classList.add('selected');

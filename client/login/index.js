@@ -1,6 +1,6 @@
 import { login } from "../apiCalls.js";
 
-$(document).ready(() => {
+$(() => {
   const token = localStorage.getItem("a_token");
   if (token) {
     window.location.href = "/home";

@@ -1,135 +1,167 @@
 <form class="profile-content">
-  <div class="profile-details">
-    <div class="profile-button">
-      <button type="submit"><i class="bx bx-save"></i></button>
-      <button type="button"><i class="bx bx-trash"></i></button>
-    </div>
+  <h1 id="form-header">CHỈNH SỬA THÔNG TIN CÁ NHÂN</h1>
+  <div class="profile-button">
+    <button type="submit" title="Lưu thông tin">
+      <span class="bx bx-save"></span>
+    </button>
+    <button type="button" title="Đặt lại thông tin">
+      <span class="bx bx-trash"></span>
+    </button>
+  </div>
 
-    <div class="profile-info">
-      <div class="info-box">
-        <div class="detail-info">
-          <label for="fullname">Họ và tên (*): </label>
-          <input
-            type="text"
-            name="fullname"
-            id="fullname"
-            value="Nguyễn Đức Dũng"
-            required
-          />
-        </div>
-
-        <div class="detail-info">
-          <label for="dob">Ngày sinh (*): </label>
-          <input type="date" name="dob" id="dob" required />
-        </div>
-
-        <div class="detail-info">
-          <label for="sex">Giới tính (*): </label>
-          <select name="sex" id="sex" required>
-            <option value="Chọn giới tính" disabled selected>
-              Chọn giới tính
-            </option>
-            <option value="Nam">Nam</option>
-            <option value="Nữ">Nữ</option>
-          </select>
-        </div>
-
-        <div class="detail-info">
-          <label for="identity">Số CCCD (*): </label>
-          <input
-            type="text"
-            name="identity"
-            id="identity"
-            value="0123456789"
-            required
-          />
-        </div>
-
-        <div class="detail-info">
-          <label for="origin">Quê quán (*): </label>
-          <input
-            type="text"
-            name="origin"
-            id="origin"
-            value="Lào Cai"
-            required
-          />
-        </div>
-
-        <div class="detail-info">
-          <label for="residence">Địa chỉ thường trú (*): </label>
-          <input type="text" name="residence" id="residence" required />
-        </div>
-
-        <div class="detail-info">
-          <label for="current-place">Nơi ở hiện nay (*): </label>
-          <input type="text" name="current-place" id="current-place" required />
-        </div>
+  <div class="profile-info">
+    <div class="info-box">
+      <div class="detail-info">
+        <label for="fullname">Họ và tên (*): </label>
+        <input type="text" name="fullname" id="fullname" required />
       </div>
-      <div class="info-box">
-        <div class="detail-info">
-          <label for="ethnicity">Dân tộc (*): </label>
-          <input
-            type="text"
-            name="ethnicity"
-            id="ethnicity"
-            value="Kinh"
-            required
-          />
-        </div>
 
-        <div class="detail-info">
-          <label for="religion">Tôn giáo:</label>
-          <input type="text" name="religion" id="religion" />
-        </div>
+      <div class="detail-info">
+        <label for="dob">Ngày sinh (*): </label>
+        <input type="date" name="dob" id="dob" required />
+      </div>
 
-        <div class="detail-info">
-          <label for="academic">Trình độ văn hóa (*): </label>
-          <input type="text" name="academic" id="academic" required />
-        </div>
+      <div class="detail-info">
+        <label for="sex">Giới tính (*): </label>
+        <select name="sex" id="sex" required>
+          <option value="" disabled selected>Chọn giới tính</option>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+        </select>
+      </div>
 
-        <div class="detail-info">
-          <label for="household">Hộ số (*): </label>
-          <input type="text" name="household" id="household" required />
-        </div>
+      <div class="detail-info">
+        <label for="identity">Số ĐDCN/CCCD (*): </label>
+        <input type="text" name="identity" id="identity" required />
+      </div>
 
-        <div class="detail-info checkbox">
-          <label for="is-head">Là chủ hộ: </label>
-          <input type="checkbox" name="is-head" id="is-head" />
-        </div>
+      <div class="detail-info">
+        <label for="origin">Quê quán (*): </label>
+        <input type="text" name="origin" id="origin" required />
+      </div>
+
+      <div class="detail-info">
+        <label for="residence">Địa chỉ thường trú (*): </label>
+        <input type="text" name="residence" id="residence" required />
+      </div>
+
+      <div class="detail-info">
+        <label for="current-place">Nơi ở hiện nay (*): </label>
+        <input type="text" name="current-place" id="current-place" required />
+      </div>
+    </div>
+    <div class="info-box">
+      <div class="detail-info">
+        <label for="ethnicity">Dân tộc (*): </label>
+        <select name="ethnicity" id="ethnicity" required>
+          <option value="" disabled selected>Chọn dân tộc</option>
+          <option value="Kinh">Kinh</option>
+          <option value="Mường">Mường</option>
+          <option value="Thái">Thái</option>
+          <option value="Tày">Tày</option>
+          <option value="Mông">Mông</option>
+        </select>
+      </div>
+
+      <div class="detail-info">
+        <label for="religion">Tôn giáo (*):</label>
+        <select name="religion" id="religion" required>
+          <option value="" disabled selected>Chọn tôn giáo</option>
+          <option value="Không">Không</option>
+          <option value="Phật giáo">Phật giáo</option>
+          <option value="Công giáo">Công giáo</option>
+          <option value="Hồi giáo">Hồi giáo</option>
+          <option value="Tin Lành">Tin Lành</option>
+          <option value="Cao Đài">Cao Đài</option>
+        </select>
+      </div>
+
+      <div class="detail-info">
+        <label for="academic">Trình độ văn hóa (*): </label>
+        <select name="academic" id="academic" required>
+          <option value="" disabled selected>Chọn trình độ văn hóa</option>
+          <option value="Mù chữ">Mù chữ</option>
+          <option value="Tiểu học">Tiểu học</option>
+          <option value="THCS">THCS</option>
+          <option value="THPT 10/10">THPT 10/10</option>
+          <option value="THPT 12/12">THPT 12/12</option>
+        </select>
+      </div>
+
+      <div class="detail-info">
+        <label for="job">Nghề nghiệp: </label>
+        <input type="text" name="job" id="job" />
+      </div>
+
+      <div class="detail-info radio">
+        <label for="is-head">Là chủ hộ: </label>
+        <input type="radio" name="is-head" id="is-head" value="Có" />Có
+        <input
+          type="radio"
+          name="is-head"
+          id="is-not-head"
+          value="Không"
+        />Không
       </div>
     </div>
   </div>
 </form>
 
-<script>
+<script type="module">
+  import { submitForm } from "../apiCalls.js";
+  import { getUserInfo } from "../utils.js";
+
   var profileForm = $(".profile-content");
+  var household = $(".household");
+  var isUpdatingInfo = household.data("isUpdatingInfo");
+  var individualOnDisplay = household.data("individualOnDisplay");
+  if (isUpdatingInfo) {
+    $("input[name=fullname]").val(individualOnDisplay["ho_ten"]);
+    $("input[name=dob]").val(individualOnDisplay["ngay_sinh"].split("T")[0]);
+    $("select[name=sex]").val(individualOnDisplay["gioi_tinh"]);
+    $("input[name=identity]").val(individualOnDisplay["ma_dinh_danh"]);
+    $("input[name=origin]").val(individualOnDisplay["que_quan"]);
+    $("input[name=residence]").val(individualOnDisplay["thuong_tru"]);
+    $("input[name=current-place]").val(individualOnDisplay["noi_o_hien_nay"]);
+    $("select[name=ethnicity]").val(individualOnDisplay["dan_toc"]);
+    $("select[name=religion]").val(individualOnDisplay["ton_giao"]);
+    $("select[name=academic]").val(individualOnDisplay["trinh_do_van_hoa"]);
+    $("input[name=job]").val(individualOnDisplay["nghe_nghiep"]);
+    individualOnDisplay["chu_ho"]
+      ? $("input#is-head").prop("checked", true)
+      : $("input#is-not-head").prop("checked", true);
+  }
+
   profileForm.submit(async (e) => {
     e.preventDefault();
+
+    var villageId = household.data("villageIdSelected");
+    console.log(villageId);
+    var villageList = household.data("villageList");
+  
+    const { roleId, username } = getUserInfo();
     const values = {};
+    values.household = household.data("householdOnDisplay").householdCode;
+    values.id = isUpdatingInfo ? individualOnDisplay.id : null;
+    values.villageCode =
+      roleId === 5
+        ? username.substring(username.length - 2)
+        : villageList.find((village) => village.id === villageId).id;
+    
     $.each(profileForm.serializeArray(), (_, field) => {
       values[field.name] = field.value;
     });
     try {
-      const result = await submitForm(values);
-      console.log(result);
-      alert("Thành công!");
+      const result = await submitForm(villageId, values);
+      alert(result.message);
+      household.load("householdDetails.html");
     } catch (err) {
       alert(`Lỗi: ${err.message}`);
     }
   });
 
-  async function submitForm(values) {
-    const rawResult = await fetch("http://localhost:8000/census", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("a_token")}`,
-      },
-      body: JSON.stringify(values),
-    });
-
-    return rawResult.json();
-  }
+  $(".profile-button button[type=button]").click(() => {
+    profileForm.find("input").val("");
+    profileForm.find("select").val("");
+  });
 </script>

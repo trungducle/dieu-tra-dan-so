@@ -1,4 +1,9 @@
 /* Css cho phần trang chủ */
+.main-section .main-content #notify-priv-locked {
+  margin-top: 10px;
+  font-size: 26px;
+  text-align: center;
+}
 
 .main-section .main-content .overview-boxes {
   display: flex;
@@ -13,14 +18,19 @@
   padding: 15px 14px;
   background: #fff;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   border-radius: 12px;
 }
 
+.main-section .main-content .overview-boxes .box .left-side {
+  margin-left: 50px;
+}
+
 .main-section .main-content .overview-boxes .box .sticker {
+  margin-right: 50px;
   font-size: 32px;
-  font-weight: 500;
+  /* font-weight: 500; */
   height: 50px;
   width: 50px;
   background-color: rgb(91, 91, 220);
@@ -33,12 +43,12 @@
 
 .main-section .main-content .overview-boxes .box-topic {
   font-size: 20px;
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 
 .main-section .main-content .overview-boxes .number {
   font-size: 30px;
-  font-weight: 500;
+  /* font-weight: 500; */
   margin-top: -5px;
   display: inline-block;
 }
@@ -51,7 +61,7 @@
 }
 
 .main-section .info-boxes .info-list {
-  width: calc(100% / 2 - 10px)
+  width: calc(100% / 2 - 10px);
 }
 
 .main-section .info-boxes .info-details {
@@ -70,13 +80,13 @@
 
 .main-section .info-boxes .box .title {
   font-size: 25px;
-  font-weight: 500;
+  /* font-weight: 500; */
   margin-bottom: 10px;
 }
 
 .main-section .info-boxes .box .topic {
   font-size: 20px;
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 
 .main-section .info-boxes .box li {
@@ -87,7 +97,7 @@
 .main-section .info-boxes .box li a {
   color: #333;
   font-size: 18px;
-  font-weight: 400;
+  /* font-weight: 400; */
   text-decoration: none;
 }
 
@@ -120,16 +130,14 @@
   background-color: rgb(36, 38, 160);
 }
 
-
 @media only screen and (max-width: 1366px) {
-    .main-section .main-content .overview-boxes .box {
-        width: calc(100%/2 - 15px);
-        margin-bottom: 15px;
+  .main-section .main-content .overview-boxes .box {
+    width: calc(100% / 2 - 15px);
+    margin-bottom: 15px;
+  }
 
-    }
-
-    .main-section .info-boxes .info-list {
-        width: calc(100% - 10px);
-        margin-bottom: 15px;
-    }
+  .main-section .info-boxes .info-list {
+    width: calc(100% - 10px);
+    margin-bottom: 15px;
+  }
 }

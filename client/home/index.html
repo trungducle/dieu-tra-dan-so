@@ -15,60 +15,66 @@
     <link rel="stylesheet" href="css/analytic.css" />
     <link rel="stylesheet" href="css/add.css" />
     <link rel="stylesheet" href="css/option.css" />
+    <!-- test -->
+    <link rel="stylesheet" href="css/b2home.css">
     <!-- Icon css link -->
     <link
       href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+      defer
+    ></script>
   </head>
 
   <body>
     <!-- Side bar -->
-    <nav class="sidebar">
+    <div id="sidebar">
       <div class="logo-details">
         <i class="bx bxs-paper-plane"></i>
         <span class="logo-name">CitizenV</span>
       </div>
-      <div class="nav-links">
-        <!-- <li class="home isSelected"> -->
-          <!-- <a href="/" data-link class="isSelected" id="home"> -->
-          <a href="#" data-link class="isSelected" id="home">
-            <i class="bx bx-home-alt"></i>
-            <span class="link-name">Trang chủ</span>
-          </a>
-        <!-- </li> -->
-        <!-- <li class="accounts"> -->
-          <!-- <a href="/accounts" data-link id="accounts"> -->
-          <a href="#" data-link id="accounts">
-            <i class="bx bxs-user-account"></i>
-            <span class="link-name">Tài khoản</span>
-          </a>
-        <!-- </li> -->
-        <!-- <li class="cities"> -->
-          <!-- <a href="/residential" data-link id="cities"> -->
-          <a href="#" data-link id="cities">
-            <i class="bx bx-building-house"></i>
-            <span class="link-name">Dữ liệu dân cư</span>
-          </a>
-        <!-- </li> -->
-        <!-- <li class="option"> -->
-          <!-- <a href="/settings" data-link id="option"> -->
-          <a href="#" data-link id="option">
-            <i class="bx bx-cog"></i>
-            <span class="link-name">Cài đặt</span>
-          </a>
-        <!-- </li> -->
-        <!-- <li class="logout"> -->
-          <a href="#">
-            <i class="bx bx-log-out"></i>
-            <span class="link-name">Đăng xuất</span>
-          </a>
-        <!-- </li> -->
-      </div>
-    </nav>
+      <nav id="navbar">
+        <ul>
+          <!-- <li class="nav-link selected" id="home">
+            <a href="#">
+              <i class="bx bx-home-alt"></i>
+              <span class="link-name">Trang chủ</span>
+            </a>
+          </li>
+          <li class="nav-link" id="accounts">
+            <a href="#">
+              <i class="bx bxs-user-account"></i>
+              <span class="link-name">Tài khoản</span>
+            </a>
+          </li>
+          <li class="nav-link" id="cities">
+            <a href="#">
+              <i class="bx bx-building-house"></i>
+              <span class="link-name">Dữ liệu dân cư</span>
+            </a>
+          </li>
+          <li class="nav-link" id="option">
+            <a href="#">
+              <i class="bx bx-cog"></i>
+              <span class="link-name">Cài đặt</span>
+            </a>
+          </li>
+          <li class="nav-link" id="logout">
+            <a href="#">
+              <i class="bx bx-log-out"></i>
+              <span class="link-name">Đăng xuất</span>
+            </a>
+          </li> -->
+        </ul>
+      </nav>
+    </div>
     <!-- main section -->
-    <section class="main-section">
-      <nav class="navbar">
+    <div class="main-section">
+      <div class="topbar">
         <div class="sidebar-button">
           <i class="bx bx-menu sidebarBtn"></i>
         </div>
@@ -81,24 +87,14 @@
           <span class="profile-name"></span>
           <i class="bx bx-chevron-down"></i>
         </div>
-      </nav>
+      </div>
       <!-- main content -->
       <div class="main-content">
         <!-- giao diện chính hiện ở đây-->
       </div>
-    </section>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script
-      type="text/javascript"
-      src="https://www.gstatic.com/charts/loader.js"
-    ></script>
+    </div>
+    
+    <script type="module" src="js/sidebar.js"></script>
     <script type="module" src="js/main.js"></script>
-    <script>
-      const token = localStorage.getItem("a_token");
-
-      if (!token) {
-        window.location.href = "/login";
-      }
-    </script>
   </body>
 </html>

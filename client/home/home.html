@@ -44,6 +44,7 @@
         <li class="topic">Dân số</li>
       </ul>
     </div>
+    <div class="loader"></div>
   </div>
 </div>
 
@@ -79,8 +80,9 @@
     animateNumber(boxtopic4.text(), totalAmount.amount, boxtopic4);
 
     if (inferiorInfo.amount === 0) {
-      $('.info-list.box').append('<div class="info-text">Bạn không có đơn vị quản lý trực tiếp nào.</div>');
+      $('.info-list.box').append('<div class="noti">Bạn không có đơn vị quản lý trực tiếp nào.</div>');
     } else {
+      $('.info-list.box .loader').css('display', 'none');
       for (var i = 0; i < inferiorInfo.amount; i++) {
         listcolumn1.append(`<li><a>${inferiorInfo.info[i].ma}</a></li>`);
         listcolumn2.append(`<li><a>${inferiorInfo.info[i].ten}</a></li>`);

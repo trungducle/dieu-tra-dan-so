@@ -32,8 +32,6 @@ $('li').click((e) => {
       mainContent.empty();
       mainContent.append(data);
     });
-    $(".overview-boxes .box:nth-child(3) .number").text(localAmount.amount);
-    $(".overview-boxes .box:nth-child(4) .number").text(totalAmount.amount);
   } else if (node2) {
     node_selected.removeClass('isSelected');
     node2.classList.add('isSelected');
@@ -41,7 +39,7 @@ $('li').click((e) => {
       mainContent.empty();
       mainContent.append(data);
     });
-    $.get("acManage.html", function (data) {
+    $.get("acTableDetails.html", function (data) {
       $(".account-content").empty();
       $(".account-content").append(data);
     });

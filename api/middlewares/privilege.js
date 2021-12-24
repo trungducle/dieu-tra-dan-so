@@ -6,7 +6,7 @@ module.exports = {
     try {
       const result = await db.one(
         "SELECT bi_khoa_quyen FROM tai_khoan WHERE id = $1",
-        [req.user.id]
+        [req.user.accountId]
       );
       const isLocked = result.bi_khoa_quyen;
       if (isLocked) {

@@ -4,19 +4,9 @@ const { ROLES } = require("../config/keys");
 module.exports = {
   createDepartment: async (req, res) => {
     const { name } = req.body;
-    const { username, roleId, unitId } = req.user;
+    const { roleId, unitId } = req.user;
 
     try {
-      const status = await db.one(
-        "SELECT bi_khoa_quyen FROM tai_khoan\
-        WHERE username = $1",
-        [username]
-      );
-
-      if (status.bi_khoa_quyen) {
-        return res.status(403).json({ error: "Unauthorized" });
-      }
-
       switch (roleId) {
         case ROLES.A1:
           await db.none(
@@ -46,9 +36,9 @@ module.exports = {
           );
           break;
         default:
-          return res.status(403).json({ error: "Unauthorized" });
+          return res.status(403).json({ error: "Xảy ra lỗi, hãy thao tác lại!" });
       }
-      res.status(200).json({ message: "Success" });
+      res.status(200).json({ message: "Thêm địa phương mới thành công!" });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

@@ -5,7 +5,6 @@ const {
   getInferiorAmount,
   getInferiorList
 } = require("../controllers/departmentController");
-const checkIsInPeriod = require("../middlewares/time");
 const { checkIsHigherRoleThan } = require("../middlewares/role.middleware");
 const { authenticateToken } = require("../middlewares/privilege");
 
@@ -13,7 +12,6 @@ const departmentRouter = Router();
 
 departmentRouter.post(
   "/",
-  checkIsInPeriod,
   checkIsHigherRoleThan(ROLES.B2),
   createDepartment
 ); // Thêm một đơn vị hành chính cấp dưới mới

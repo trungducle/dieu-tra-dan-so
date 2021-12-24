@@ -19,6 +19,9 @@
       node_selected.removeClass("selected");
       node1.classList.add("selected");
       $.get("acManage.html", function (data) {
+      // node_selected.removeClass('selected');
+      // node1.classList.add('selected');
+      // $.get("acTableDetails.html", function (data) {
         $(".account-content").empty();
         $(".account-content").append(data);
       });

@@ -42,14 +42,16 @@ module.exports = {
         chu_ho: citizen["is-head"] === "Có" ? true : false,
       };
 
-      const householdQueryResult = await db.one(
+      let householdId = null;
+      const householdQueryResult = await db.any(
         "SELECT id FROM ho_dan WHERE ma = $1;",
         [householdCode]
       );
 
-      let householdId = null;
-      if (householdQueryResult.id) {
-        householdId = householdQueryResult.id;
+      console.log(householdQueryResult);
+
+      if (householdQueryResult.length > 0) {
+        householdId = householdQueryResult[0].id;
       } else {
         householdId = (
           await db.one(
@@ -98,7 +100,7 @@ module.exports = {
           id_ho_dan: householdId,
         };
         await db.none(pgp.helpers.insert(insertValue, columnSet));
-        res.status(200).json({ message: "Khai báo thông tin thành công!" });
+        res.status(200).json({ message: "Khai báo thông tin thành công!", householdId });
       }
     } catch (err) {
       res.status(500).json({ error: err.message });

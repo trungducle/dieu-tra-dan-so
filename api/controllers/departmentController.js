@@ -4,19 +4,9 @@ const { ROLES } = require("../config/keys");
 module.exports = {
   createDepartment: async (req, res) => {
     const { name } = req.body;
-    const { username, roleId, unitId } = req.user;
+    const { roleId, unitId } = req.user;
 
     try {
-      const status = await db.one(
-        "SELECT bi_khoa_quyen FROM tai_khoan\
-        WHERE username = $1",
-        [username]
-      );
-
-      if (status.bi_khoa_quyen) {
-        return res.status(403).json({ error: "Unauthorized" });
-      }
-
       switch (roleId) {
         case ROLES.A1:
           await db.none("INSERT INTO tinh_thanh(ten) VALUES($1)", [name]);
@@ -43,18 +33,148 @@ module.exports = {
           );
           break;
         default:
-          return res.status(403).json({ error: "Unauthorized" });
+          return res.status(403).json({ error: "Xảy ra lỗi, hãy thao tác lại!" });
       }
-      res.status(200).json({ message: "Success" });
+      res.status(200).json({ message: "Thêm địa phương mới thành công!" });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
   },
-  getCityList: async (req, res) => {
-    // danh sách tỉnh, thành
+  getInferiorList: async (req, res) => {
+    // eg. localhost:8000/departments?id=24
+    const { id } = req.query;
+    const codeLength = id == 'tongcucdanso' ? 0 : id.length;
     try {
-      const result = await db.any("SELECT * FROM tinh_thanh");
-      res.status(200).json(result);
+      let info = null;
+      let amount = null;
+      switch (codeLength) {
+        case 0:
+          info = await db.any(
+            "SELECT ten, ma, dan_so FROM (\
+              SELECT tt.ten, tt.ma, count(*) dan_so\
+                FROM tinh_thanh tt\
+                JOIN quan_huyen qh ON qh.id_tinh_thanh = tt.id\
+                JOIN phuong_xa px ON px.id_quan_huyen = qh.id \
+                JOIN thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
+                JOIN ho_dan hd ON hd.id_thon_ban_tdp = tb.id\
+                JOIN ca_nhan cn ON cn.id_ho_dan = hd.id\
+                GROUP BY tt.ma, tt.ten\
+              UNION\
+              SELECT ten, ma, 0\
+                FROM tinh_thanh\
+                WHERE ma NOT IN (\
+                  SELECT tt.ma\
+                    FROM tinh_thanh tt\
+                    JOIN quan_huyen qh ON qh.id_tinh_thanh = tt.id\
+                    JOIN phuong_xa px ON px.id_quan_huyen = qh.id\
+                    JOIN thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
+                    JOIN ho_dan hd ON hd.id_thon_ban_tdp = tb.id\
+                    JOIN ca_nhan cn ON cn.id_ho_dan = hd.id\
+                    GROUP BY tt.ma)\
+            ) res ORDER BY ma"
+          );
+          amount = (
+            await db.one("SELECT count(*) so_don_vi FROM tinh_thanh")
+          ).so_don_vi;
+          break;
+        case 2:
+          info = await db.any(
+            "SELECT qh.ten, qh.ma, count(*) dan_so\
+              FROM quan_huyen qh\
+              JOIN phuong_xa px ON px.id_quan_huyen = qh.id \
+              JOIN thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
+              JOIN ho_dan hd ON hd.id_thon_ban_tdp = tb.id\
+              JOIN ca_nhan cn ON cn.id_ho_dan = hd.id\
+              WHERE SUBSTRING(qh.ma, 1, $1) = $2\
+              GROUP BY qh.ma, qh.ten\
+            UNION\
+            SELECT ten, ma, 0\
+              FROM quan_huyen WHERE ma NOT IN (\
+                SELECT qh.ma\
+                  FROM quan_huyen qh\
+                  JOIN phuong_xa px ON px.id_quan_huyen = qh.id \
+                  JOIN thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
+                  JOIN ho_dan hd ON hd.id_thon_ban_tdp = tb.id\
+                  JOIN ca_nhan cn ON cn.id_ho_dan = hd.id\
+                  WHERE SUBSTRING(qh.ma, 1, $1) = $2\
+                  GROUP BY qh.ma)\
+              AND SUBSTRING(ma, 1, $1) = $2",
+            [codeLength, id]
+          );
+          amount = (
+            await db.one(
+              "SELECT count(*) so_don_vi FROM quan_huyen\
+              WHERE SUBSTRING(ma, 1, $1) = $2",
+              [codeLength, id]
+            )
+          ).so_don_vi;
+          break;
+        case 4:
+          info = await db.any(
+            "SELECT px.ten, px.ma, count(*) dan_so\
+              FROM phuong_xa px\
+              JOIN thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
+              JOIN ho_dan hd ON hd.id_thon_ban_tdp = tb.id\
+              JOIN ca_nhan cn ON cn.id_ho_dan = hd.id\
+              WHERE SUBSTRING(px.ma, 1, $1) = $2\
+              GROUP BY px.ma, px.ten\
+            UNION\
+            SELECT ten, ma, 0\
+              FROM phuong_xa WHERE ma NOT IN (\
+                SELECT px.ma\
+                  FROM phuong_xa px\
+                  JOIN thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
+                  JOIN ho_dan hd ON hd.id_thon_ban_tdp = tb.id\
+                  JOIN ca_nhan cn ON cn.id_ho_dan = hd.id\
+                  WHERE SUBSTRING(px.ma, 1, $1) = $2\
+                  GROUP BY px.ma\
+                )\
+              AND SUBSTRING(ma, 1, $1) = $2",
+          [codeLength, id]
+          );
+          amount = (
+            await db.one(
+              "SELECT count(*) so_don_vi FROM phuong_xa\
+              WHERE SUBSTRING(ma, 1, $1) = $2",
+              [codeLength, id]
+            )
+          ).so_don_vi;
+          break;
+        case 6:
+          info = await db.any(
+            "SELECT tb.ten, tb.ma, count(*) dan_so\
+              FROM thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
+              JOIN ho_dan hd ON hd.id_thon_ban_tdp = tb.id\
+              JOIN ca_nhan cn ON cn.id_ho_dan = hd.id\
+              WHERE SUBSTRING(tb.ma, 1, $1) = $2\
+              GROUP BY tb.ma, tb.ten\
+            UNION\
+            SELECT ten, ma, 0 FROM thon_ban_tdp\
+              WHERE ma NOT IN (\
+                SELECT tb.ma\
+                  FROM thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
+                  JOIN ho_dan hd ON hd.id_thon_ban_tdp = tb.id\
+                  JOIN ca_nhan cn ON cn.id_ho_dan = hd.id\
+                  WHERE SUBSTRING(tb.ma, 1, $1) = $2\
+                  GROUP BY tb.ma\
+                )\
+              AND SUBSTRING(ma, 1, $1) = $2",
+            [codeLength, id]
+          );
+          amount = (
+            await db.one(
+              "SELECT count(*) so_don_vi FROM thon_ban_tdp\
+              WHERE SUBSTRING(ma, 1, $1) = $2",
+              [codeLength, id]
+            )
+          ).so_don_vi;
+          break;
+        case 8:
+          info = [];
+          amount = 0;
+          break;
+      }
+      res.status(200).json({ info, amount });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -110,4 +230,23 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
+  getInferiorAmount: async (req, res) => {
+    const { username, roleId } = req.user;
+    const codeLength = roleId === ROLES.A1 ? 0 : username.length;
+    const searchPattern = roleId === ROLES.A1 ? '' : username;
+
+    try {
+      const amount = (
+        await db.one(
+          "SELECT count(*) - 1 so_don_vi FROM tai_khoan\
+          WHERE SUBSTRING(ma_dang_nhap, 1, $1) = $2",
+          [codeLength, searchPattern]
+        )
+      ).so_don_vi;
+
+      res.status(200).json({ amount });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
 };

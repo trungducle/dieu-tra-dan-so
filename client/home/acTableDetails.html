@@ -15,7 +15,7 @@
 <div class="add-main"></div>
 
 <div class="table-content">
-  <div class="table-title">Tên bảng</div>
+  <div class="table-title">Danh sách tài khoản quản lý</div>
   <div class="table-details">
     <table>
       <tr id="header">
@@ -24,7 +24,7 @@
         <th>Tỉnh/Thành phố</th>
         <th>Quận/Huyện</th>
         <th>Phường/Xã</th>
-        <th>thôn/bản/tổ</th>
+        <th>Thôn/Bản/Tổ dân phố</th>
         <th>Chọn</th>
       </tr>
       <tr class="hoverin">
@@ -45,6 +45,8 @@
 </div>
 
 <script>
+  var mainContent = $(".main-content");
+
   $(".choose").click(function () {
     $.get("acDetails.html", function (data) {
       mainContent.empty();
@@ -52,9 +54,10 @@
     });
   });
   $(".bx.bx-plus").click(function () {
-    $.get("addAccount.html", function (data) {
-      mainContent.empty();
-      mainContent.append(data);
+    $(".add-main").toggleClass('onSelect');
+    $.get("addCity.html", function (data) {
+      $(".add-main").empty();
+      $(".add-main").append(data);
     });
   });
   $(".bxs-alarm-add").click(function () {

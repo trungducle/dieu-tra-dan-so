@@ -6,12 +6,19 @@ const {
 } = require("../controllers/accountController");
 const { checkIsHigherRoleThan } = require("../middlewares/role.middleware");
 const checkIsInPeriod = require("../middlewares/time");
+const { checkHasPrivileges, authenticateToken } = require("../middlewares/privilege");
 
 const accountRouter = Router();
 
 accountRouter
   .route("/")
   .post(checkIsHigherRoleThan(ROLES.B2), createAccount)
-  .put(checkIsInPeriod, checkIsHigherRoleThan(ROLES.B2), togglePrivileges);
+  .put(
+    authenticateToken,
+    checkHasPrivileges,
+    checkIsInPeriod,
+    checkIsHigherRoleThan(ROLES.B2),
+    togglePrivileges
+  );
 
 module.exports = accountRouter;

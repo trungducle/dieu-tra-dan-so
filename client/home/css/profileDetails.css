@@ -37,13 +37,19 @@
   align-items: center;
 }
 
-.profile-content .profile-info .info-box .detail-info label {
+.profile-content .profile-info .info-box .detail-info {
   color: rgb(65, 65, 221);
   font-weight: 600;
   margin: 15px 15px 15px 0;
 }
 
-.profile-content .profile-info .info-box .detail-info input[type="text"], input[type="date"], select {
+.profile-content .profile-info .info-box label {
+  color: rgb(65, 65, 221);
+  font-weight: 600;
+  margin: 5px 0;
+}
+
+.profile-content .profile-info .info-box input[type="text"], input[type="date"], select {
   background-color: #f5f5f5;
   font-size: 16px;
   width: 95%;
@@ -51,6 +57,11 @@
   border: 1px solid #dadada;
   outline: none;
   border-radius: 5px;
+  margin: 10px 0;
+}
+
+.profile-content .profile-info .info-box input[type="checkbox"] {
+  margin: 9px;
 }
 
 .profile-content .profile-info .info-box .detail-info input[type="radio"] {

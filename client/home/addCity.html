@@ -1,9 +1,61 @@
 <div class="add-content">
   <div class="add-box text-box">
-    <p>Tên Tỉnh/Thành phố:</p>
-    <input type="text" name="account-name" value="">
+    <p>Tên Đơn vị:</p>
+    <input type="text" id="department-name" name="department-name" value="">
   </div>
-  <div class="button-add">
+  <div class="button-add" id="city-add">
     Thêm
   </div>
 </div>
+<div class="result-info"></div>
+
+<script>
+  let token = localStorage.getItem("a_token");
+  let user = JSON.parse(window.atob(token.split('.')[1].replace('-', '+').replace('_', '/')));
+
+  $("#city-add").click(async (e) => {
+    const name = $("#department-name").val();
+    if (!name) {
+      $(".result-info").css("color", "red");
+      $(".result-info").text("Bạn không được để trống trường này!");
+      setTimeout(() => {
+        $(".result-info").text("");
+      }, 3000);
+    } else {
+      try {
+        const response = await addNewDeparment(token, { name });
+
+        if (response.error) {
+          $(".result-info").css("color", "red");
+          $(".result-info").text(response.error);
+          setTimeout(() => {
+            $(".result-info").text("");
+          }, 3000);
+        } else {
+          $(".result-info").css("color", "green");
+          $(".result-info").text(response.message);
+          setTimeout(() => {
+            $(".result-info").text("");
+          }, 3000);
+          $("#department-name").val("");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  });
+
+  async function addNewDeparment(token, newDepartment) {
+    const rawResponse = await fetch("http://localhost:8000/departments", {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(newDepartment)
+    });
+
+    return rawResponse.json();
+  }
+</script>

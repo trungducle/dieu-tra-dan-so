@@ -1,13 +1,72 @@
 <div class="add-content">
   <div class="add-box">
     <p>Giờ kết thúc:</p>
-    <input type="time">
+    <input type="time" id="time-field">
   </div>
   <div class="add-box">
     <p>Ngày kết thúc:</p>
-    <input type="date">
+    <input type="date" id="date-field">
   </div>
-  <div class="button-add">
+  <div class="button-add" id="permission-toggle">
     Cấp quyền
   </div>
 </div>
+<div class="result-info"></div>
+
+<script>
+  let token = localStorage.getItem("a_token");
+  let user = JSON.parse(window.atob(token.split('.')[1].replace('-', '+').replace('_', '/')));
+
+  $("#permission-toggle").click(async (e) => {
+    const time = $("#time-field").val();
+    const date = $("#date-field").val();
+
+    if (!time || !date) {
+      $(".result-info").css("color", "red");
+      $(".result-info").text("Bạn không được để trống trường này!");
+      setTimeout(() => {
+        $(".result-info").text("");
+      }, 3000);
+    } else {
+      try {
+        const datetime = date + " " + time;
+        const privileges = {
+          lock: true,
+          enddate: datetime
+        }
+        const response = await togglePrivileges(token, privileges);
+
+        if (response.error) {
+          $(".result-info").css("color", "red");
+          $(".result-info").text(response.error);
+          setTimeout(() => {
+            $(".result-info").text("");
+          }, 3000);
+        } else {
+          $(".result-info").css("color", "green");
+          $(".result-info").text(response.message);
+          setTimeout(() => {
+            $(".result-info").text("");
+          }, 3000);
+          $("#department-name").val("");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  });
+
+  async function togglePrivileges(token, privileges) {
+    const rawResponse = await fetch("http://localhost:8000/departments", {
+      method: "PUT",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(privileges)
+    });
+
+    return rawResponse.json();
+  }
+</script>

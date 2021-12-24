@@ -31,6 +31,15 @@ module.exports = {
       if (!isNaN(username)) {
         const usernameLength = username.length;
         switch (usernameLength) {
+          case 2:
+            unitId = (
+              await db.one(
+                "SELECT id FROM tinh_thanh WHERE ma = $1;",
+                [username]
+              )
+            ).id;
+            break;
+
           case 4:
             unitId = (
               await db.one("SELECT id FROM quan_huyen WHERE ma = $1;", [

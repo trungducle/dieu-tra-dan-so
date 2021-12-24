@@ -31,7 +31,7 @@ module.exports = {
     }
   },
   togglePrivileges: async (req, res) => {
-    const { lock } = req.body;
+    const { lock, enddate } = req.body;
     const { username, roleId } = req.user;
     try {
       const updateTuple =
@@ -43,9 +43,30 @@ module.exports = {
         "UPDATE tai_khoan SET bi_khoa_quyen = $1\
         WHERE\
           SUBSTRING(ma_dang_nhap, 1, $2) = $3\
-          AND loai_tai_khoan >= $4",
+          AND loai_tai_khoan = $4",
         updateTuple
       );
+
+      if (enddate) {
+        if (Date.now() >= Date.parse(enddate)) {
+          return res.status(401).json({ error: "Thời gian kết thúc phải sau thời điểm hiện tại" });
+        } else {
+          let updateTuple =
+            roleId === ROLES.A1
+              ? [enddate, 0, "", roleId + 1]
+              : [enddate, username.length, username, roleId + 1];
+          await db.none(
+            "UPDATE dieu_tra_dan_so\
+            SET ngay_bat_dau = now(),\
+              ngay_ket_thuc = $1,\
+              hoan_thanh = false\
+            WHERE\
+              SUBSTRING(tai_khoan, 1, $2) = $3\
+              AND loai_tai_khoan = $4",
+            updateTuple
+          );
+        }
+      }
 
       res.status(200).json({ message: "Thay đổi quyền tài khoản thành công!" });
     } catch (err) {

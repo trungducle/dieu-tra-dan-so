@@ -3,16 +3,18 @@ const { ROLES } = require("../config/keys");
 const {
   createDepartment,
   getVillageList,
+  getInferiorAmount,
+  getInferiorList,
 } = require("../controllers/departmentController");
 const checkIsInPeriod = require("../middlewares/time");
 const { checkIsHigherRoleThan } = require("../middlewares/role.middleware");
 const { checkHasPrivileges } = require("../middlewares/privilege");
+const { authenticateToken } = require("../middlewares/privilege");
 
 const departmentRouter = Router();
 
 departmentRouter.post(
   "/",
-  checkIsInPeriod,
   checkIsHigherRoleThan(ROLES.B2),
   checkHasPrivileges,
   createDepartment
@@ -25,5 +27,7 @@ departmentRouter.get(
   checkHasPrivileges,
   getVillageList
 );
+departmentRouter.get("/", authenticateToken, getInferiorList);
+departmentRouter.get("/amount", authenticateToken, getInferiorAmount);
 
 module.exports = departmentRouter;

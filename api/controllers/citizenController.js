@@ -21,10 +21,10 @@ module.exports = {
         const searchPattern = `${username}%`;
         const result = await db.any(
           "SELECT count(*) dan_so\
-          FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
-          JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-          WHERE tb.ma LIKE $1",
+            FROM ca_nhan cn\
+            JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+            JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
+            WHERE tb.ma LIKE $1",
           [searchPattern]);
         res.status(200).json({ amount: result[0].dan_so });
       }
@@ -50,13 +50,13 @@ module.exports = {
       } else if (filter === 'city') {
         const result = await db.any(
           "SELECT count(*) dan_so\
-          FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
-          JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-          JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
-          JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
-          JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
-          WHERE tt.ten LIKE $1",
+            FROM ca_nhan cn\
+            JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+            JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
+            JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
+            JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
+            JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
+            WHERE tt.ten LIKE $1",
           [searchPattern]
         );
 
@@ -64,12 +64,12 @@ module.exports = {
       } else if (filter === 'district') {
         const result = await db.any(
           "SELECT count(*) dan_so\
-          FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
-          JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-          JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
-          JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
-          WHERE qh.ten LIKE $1",
+            FROM ca_nhan cn\
+            JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+            JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
+            JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
+            JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
+            WHERE qh.ten LIKE $1",
           [searchPattern]
         );
 
@@ -77,11 +77,11 @@ module.exports = {
       } else if (filter === 'ward') {
         const result = await db.any(
           "SELECT count(*) dan_so\
-          FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
-          JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-          JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
-          WHERE px.ten LIKE $1",
+            FROM ca_nhan cn\
+            JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+            JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
+            JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
+            WHERE px.ten LIKE $1",
           [searchPattern]
         );
 
@@ -89,10 +89,10 @@ module.exports = {
       } else if (filter === 'village') {
         const result = await db.any(
           "SELECT count(*) dan_so\
-          FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
-          JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-          WHERE tb.ten LIKE $1",
+            FROM ca_nhan cn\
+            JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+            JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
+            WHERE tb.ten LIKE $1",
           [searchPattern]
         );
         
@@ -119,14 +119,14 @@ module.exports = {
       } else if (filter === "city") {
         const result = await db.any(
           "SELECT *\
-          FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
-          JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-          JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
-          JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
-          JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
-          WHERE tt.ten LIKE $1\
-          LIMIT $2 OFFSET $3",
+            FROM ca_nhan cn\
+            JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+            JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
+            JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
+            JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
+            JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
+            WHERE tt.ten LIKE $1\
+            LIMIT $2 OFFSET $3",
           [searchPattern, ROWS, offset]
         );
 
@@ -134,13 +134,13 @@ module.exports = {
       } else if (filter === "district") {
         const result = await db.any(
           "SELECT *\
-          FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
-          JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-          JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
-          JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
-          WHERE qh.ten LIKE $1\
-          LIMIT $2 OFFSET $3",
+            FROM ca_nhan cn\
+            JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+            JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
+            JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
+            JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
+            WHERE qh.ten LIKE $1\
+            LIMIT $2 OFFSET $3",
           [searchPattern, ROWS, offset]
         );
 
@@ -148,12 +148,12 @@ module.exports = {
       } else if (filter === "ward") {
         const result = await db.any(
           "SELECT *\
-          FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
-          JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-          JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
-          WHERE px.ten LIKE $1\
-          LIMIT $2 OFFSET $3",
+            FROM ca_nhan cn\
+            JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+            JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
+            JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
+            WHERE px.ten LIKE $1\
+            LIMIT $2 OFFSET $3",
           [searchPattern, ROWS, offset]
         );
 
@@ -161,11 +161,11 @@ module.exports = {
       } else if (filter === "village") {
         const result = await db.any(
           "SELECT *\
-          FROM ca_nhan cn\
-          JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
-          JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-          WHERE tb.ten LIKE $1\
-          LIMIT $2 OFFSET $3",
+            FROM ca_nhan cn\
+            JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+            JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
+            WHERE tb.ten LIKE $1\
+            LIMIT $2 OFFSET $3",
           [searchPattern, ROWS, offset]
         );
 

@@ -19,6 +19,7 @@
   $(async () => {
     var household = $(".household");
     var status = $(".household-list-body .status");
+    var result = null;
 
     try {
       const { unitId, roleId, username } = getUserInfo();
@@ -48,13 +49,13 @@
         );
         villageSelector.change(async (e) => {
           household.data("villageIdSelected", e.target.value);
-          const result = await getHouseholdList(e.target.value);
+          result = await getHouseholdList(e.target.value);
           renderHouseholdListFromData(result);
           updateHouseholdCount();
         })
       } else {
         household.data("villageIdSelected", unitId);
-        const result = await getHouseholdList(unitId);
+        result = await getHouseholdList(unitId);
         renderHouseholdListFromData(result);
         updateHouseholdCount();
       }

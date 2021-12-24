@@ -156,6 +156,64 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
-  superviseProgress: async (req, res) => {},
-  completeCensus: async (req, res) => {},
+  superviseProgress: async (req, res) => {
+    const { username, roleId } = user.req;
+    const queryString = roleId === 1 ? '' : username;
+    const codeLength = roleId === 1 ? 0 : username.length;
+
+    try {
+      const progress = db.one(
+        "SELECT count(*) tien_do\
+        FROM dieu_tra_dan_so\
+        WHERE hoan_thanh = true\
+          AND SUBSTRING(tai_khoan, 1, $1) = $2\
+          AND loai_tai_khoan = $3",
+        [codeLength, queryString, roleId + 1]
+      ).tien_do;
+
+      const progressDetails = null;
+      switch (roleId) {
+        case 1:
+          progressDetails = db.any(
+            "SELECT tt.ma, tt.ten, dt.hoan_thanh\
+              FROM dieu_tra_dan_so dt\
+              JOIN tinh_thanh tt ON dt.tai_khoan = tt.ma"
+          );
+          break;
+        case 2:
+          progressDetails = db.any(
+            "SELECT qh.ma, qh.ten, dt.hoan_thanh\
+              FROM dieu_tra_dan_so dt\
+              JOIN quan_huyen qh ON dt.tai_khoan = qh.ma\
+              WHERE SUBSTRING(tai_khoan, 1, $1) = $2",
+            [codeLength, queryString]
+          );
+          break;
+        case 3:
+          progressDetails = db.any(
+            "SELECT px.ma, px.ten, dt.hoan_thanh\
+              FROM dieu_tra_dan_so dt\
+              JOIN phuong_xa px ON dt.tai_khoan = px.ma\
+              WHERE SUBSTRING(tai_khoan, 1, $1) = $2",
+            [codeLength, queryString]
+          );
+          break;
+        case 4:
+          progressDetails = db.any(
+            "SELECT tb.ma, tb.ten, dt.hoan_thanh\
+              FROM dieu_tra_dan_so dt\
+              JOIN thon_ban_tdp tb ON dt.tai_khoan = tb.ma\
+              WHERE SUBSTRING(tai_khoan, 1, $1) = $2",
+            [codeLength, queryString]
+          );
+          break;
+        default:
+          progressDetails = [];
+      }
+
+      res.status(200).json({ progress, progressDetails });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
 };

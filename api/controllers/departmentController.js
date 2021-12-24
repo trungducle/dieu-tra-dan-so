@@ -169,7 +169,7 @@ module.exports = {
             )
           ).so_don_vi;
           break;
-        case 8:
+        default:
           info = [];
           amount = 0;
           break;

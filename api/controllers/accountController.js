@@ -49,6 +49,7 @@ module.exports = {
       );
 
       if (enddate) {
+        // Nếu có enddate thì sẽ yêu cầu mở khai báo đăng nhập
         if (Date.now() >= Date.parse(enddate)) {
           return res.status(401).json({ error: "Thời gian kết thúc phải sau thời điểm hiện tại" });
         } else {
@@ -66,10 +67,23 @@ module.exports = {
               AND loai_tai_khoan = $4",
             updateTuple
           );
+          return res.status(200).json({ message: "Mở khai báo thành công!" });
         }
-      }
+      } else {
+        // Nếu không có enddate thì sẽ là xác nhận hoàn thành khai báo
+        let updateTuple =
+          roleId === ROLES.A1 ? [0, "", roleId + 1] : [username.length, username, roleId + 1];
 
-      res.status(200).json({ message: "Thay đổi quyền tài khoản thành công!" });
+        await db.none(
+          "UPDATE dieu_tra_dan_so\
+            SET hoan_thanh = true\
+            WHERE SUBSTRING(tai_khoan, 1, $1) = $2\
+            AND loai_tai_khoan = $3",
+          updateTuple
+        );
+
+        return res.status(200).json({ message: "Đã xác nhận hoàn thành khai báo!" });
+      }
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

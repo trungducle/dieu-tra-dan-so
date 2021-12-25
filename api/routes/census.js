@@ -10,12 +10,13 @@ const {
 const checkIsInPeriod = require("../middlewares/time");
 const { checkIsLowerRoleThan } = require("../middlewares/role.middleware");
 const { validateCensusData } = require("../middlewares/validateInput");
-const { checkHasPrivileges } = require("../middlewares/privilege");
+const { checkHasPrivileges, authenticateToken } = require("../middlewares/privilege");
 
 const censusRouter = Router();
 
 censusRouter.post(
   "/:villageId",
+  authenticateToken,
   checkIsInPeriod,
   checkIsLowerRoleThan(ROLES.A3),
   checkHasPrivileges,
@@ -25,8 +26,9 @@ censusRouter.post(
 
 censusRouter
   .route("/:villageId/households")
-  .get(checkIsInPeriod, checkIsLowerRoleThan(ROLES.A3), getHouseholdList)
+  .get(authenticateToken, checkIsInPeriod, checkIsLowerRoleThan(ROLES.A3), getHouseholdList)
   .post(
+    authenticateToken,
     checkIsInPeriod,
     checkIsLowerRoleThan(ROLES.A3),
     checkHasPrivileges,
@@ -35,6 +37,7 @@ censusRouter
 
 censusRouter.get(
   "/:villageId/households/:householdId",
+  authenticateToken,
   checkIsInPeriod,
   checkIsLowerRoleThan(ROLES.A3),
   getHouseholdDetails
@@ -42,6 +45,7 @@ censusRouter.get(
 
 censusRouter.delete(
   "/:villageId/households/info/:infoId",
+  authenticateToken,
   checkIsInPeriod,
   checkIsLowerRoleThan(ROLES.A3),
   checkHasPrivileges,

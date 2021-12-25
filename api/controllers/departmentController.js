@@ -143,7 +143,7 @@ module.exports = {
         case 6:
           info = await db.any(
             "SELECT tb.ten, tb.ma, count(*) dan_so\
-              FROM thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
+              FROM thon_ban_tdp tb\
               JOIN ho_dan hd ON hd.id_thon_ban_tdp = tb.id\
               JOIN ca_nhan cn ON cn.id_ho_dan = hd.id\
               WHERE SUBSTRING(tb.ma, 1, $1) = $2\
@@ -152,7 +152,7 @@ module.exports = {
             SELECT ten, ma, 0 FROM thon_ban_tdp\
               WHERE ma NOT IN (\
                 SELECT tb.ma\
-                  FROM thon_ban_tdp tb ON tb.id_phuong_xa = px.id\
+                  FROM thon_ban_tdp tb\
                   JOIN ho_dan hd ON hd.id_thon_ban_tdp = tb.id\
                   JOIN ca_nhan cn ON cn.id_ho_dan = hd.id\
                   WHERE SUBSTRING(tb.ma, 1, $1) = $2\

@@ -34,14 +34,12 @@ module.exports = {
   },
   queryCitizenAmount: async (req, res) => {
     // eg. localhost:8000/citizen/amount (Tim dan so cua ca nuoc)
-    // eg. localhost:8000/citizen/amount?filter=city&value=Ha Noi (Tim dan so cua thanh pho Ha Noi)
-    // eg. localhost:8000/citizen/amount?filter=district&value=A (Tim dan so cua cac quan, huyen bat bau bang A)
-    const { filter, value } = req.query;
-    // Neu do dai la 1 thi tim kiem theo ky tu dau, neu khong tim kiem theo ten day du
-    const searchPattern = value ? value.length === 1 ? `${value}%` : value : '';
+    const { filter, values } = req.body;
+    // values sẽ là một array chứa tên các địa phương, ví dụ ['Cầu Giấy', 'Đan Phượng', 'Nam Từ Liêm']
 
     try {
       if (!filter) {
+        // Không có filter thì sẽ lấy dân số theo cả nước
         const result = await db.any(
           "SELECT count(*) dan_so FROM ca_nhan"
         );
@@ -56,8 +54,8 @@ module.exports = {
             JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
             JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
             JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
-            WHERE tt.ten LIKE $1",
-          [searchPattern]
+            WHERE tt.ten = ANY($1)",
+          [values]
         );
 
         res.status(200).json({ amount: result[0].dan_so });
@@ -69,8 +67,8 @@ module.exports = {
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
             JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
             JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
-            WHERE qh.ten LIKE $1",
-          [searchPattern]
+            WHERE qh.ten = ANY($1)",
+          [values]
         );
 
         res.status(200).json({ amount: result[0].dan_so });
@@ -81,8 +79,8 @@ module.exports = {
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
             JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
-            WHERE px.ten LIKE $1",
-          [searchPattern]
+            WHERE px.ten = ANY($1)",
+          [values]
         );
 
         res.status(200).json({ amount: result[0].dan_so });
@@ -92,8 +90,8 @@ module.exports = {
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-            WHERE tb.ten LIKE $1",
-          [searchPattern]
+            WHERE tb.ten = ANY($1)",
+          [values]
         );
         
         res.status(200).json({ amount: result[0].dan_so });
@@ -103,13 +101,13 @@ module.exports = {
     }
   },
   getCitizenList: async (req, res) => {
-    const { filter, page, value } = req.query;
+    const { filter, page } = req.query;
+    const { values } = req.body;
     // eg. localhost:8000/citizen/list
     // eg. localhost:8000/citizen/list?filter=city&page=1
 
     const ROWS = 10; // Moi trang hien thi 10 nguoi
     const offset = ROWS * (page - 1);
-    const searchPattern = value.length === 1 ? `${value}%` : value;
 
     try {
       if (!filter) {
@@ -118,55 +116,78 @@ module.exports = {
         res.status(200).json({ result });
       } else if (filter === "city") {
         const result = await db.any(
-          "SELECT *\
+          "SELECT\
+            cn.*,\
+            tb.ma ma_tb, tb.ten ten_tb,\
+            px.ma ma_px, px.ten ten_px,\
+            qh.ma ma_qh, qh.ten ten_qh,\
+            tt.ma ma_tt, tt.ten ten_tt\
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
             JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
             JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
             JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
-            WHERE tt.ten LIKE $1\
+            WHERE tt.ten = ANY($1)\
             LIMIT $2 OFFSET $3",
-          [searchPattern, ROWS, offset]
+          [values, ROWS, offset]
         );
 
         res.status(200).json({ result });
       } else if (filter === "district") {
         const result = await db.any(
-          "SELECT *\
+          "SELECT cn.*,\
+            tb.ma ma_tb, tb.ten ten_tb,\
+            px.ma ma_px, px.ten ten_px,\
+            qh.ma ma_qh, qh.ten ten_qh,\
+            tt.ma ma_tt, tt.ten ten_tt\
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
             JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
             JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
-            WHERE qh.ten LIKE $1\
+            JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
+            WHERE qh.ten = ANY($1)\
             LIMIT $2 OFFSET $3",
-          [searchPattern, ROWS, offset]
+          [values, ROWS, offset]
         );
 
         res.status(200).json({ result });
       } else if (filter === "ward") {
         const result = await db.any(
-          "SELECT *\
+          "SELECT cn.*,\
+            tb.ma ma_tb, tb.ten ten_tb,\
+            px.ma ma_px, px.ten ten_px,\
+            qh.ma ma_qh, qh.ten ten_qh,\
+            tt.ma ma_tt, tt.ten ten_tt\
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
             JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
-            WHERE px.ten LIKE $1\
+            JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
+            JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
+            WHERE px.ten = ANY($1)\
             LIMIT $2 OFFSET $3",
-          [searchPattern, ROWS, offset]
+          [values, ROWS, offset]
         );
 
         res.status(200).json({ result });
       } else if (filter === "village") {
         const result = await db.any(
-          "SELECT *\
+          "SELECT cn.*,\
+            tb.ma ma_tb, tb.ten ten_tb,\
+            px.ma ma_px, px.ten ten_px,\
+            qh.ma ma_qh, qh.ten ten_qh,\
+            tt.ma ma_tt, tt.ten ten_tt\
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
-            WHERE tb.ten LIKE $1\
+            JOIN phuong_xa px ON tb.id_phuong_xa = px.id\
+            JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
+            JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
+            WHERE tb.ten = ANY($1)\
             LIMIT $2 OFFSET $3",
-          [searchPattern, ROWS, offset]
+          [values, ROWS, offset]
         );
 
         res.status(200).json({ result });
@@ -174,8 +195,5 @@ module.exports = {
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
-  },
-  getCitizenData: async (req, res) => {
-    // to do (doi thong tin day du ve cac cot bang ca nhan)
-  },
+  }
 };

@@ -58,7 +58,7 @@ module.exports = {
         res.status(200).json({ result });
       } else if (filter === "village") {
         const result = await db.any(
-          "SELECT EXTRACT(YEAR FROM AGE(ngay_sinh)) age, COUNT(*) so_luong\
+          "SELECT EXTRACT(YEAR FROM AGE(ngay_sinh)) tuoi, COUNT(*) so_luong\
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
@@ -66,7 +66,7 @@ module.exports = {
             JOIN quan_huyen qh ON px.id_quan_huyen = qh.id\
             JOIN tinh_thanh tt ON qh.id_tinh_thanh = tt.id\
             WHERE tb.ten = ANY($1)\
-            GROUP BY age",
+            GROUP BY tuoi",
           [values]
         );
 

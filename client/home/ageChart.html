@@ -16,6 +16,8 @@
 
       const res = await analysePopulation(credentials);
 
+      console.log(res.result);
+
       drawStuff(res.result);
     });
 
@@ -27,7 +29,7 @@
     var dataArray = [];
 
     $.each(result, function (i, obj) {
-      dataArray.push([obj.tuoi == 0 ? '< 1' : `${obj.tuoi}`, parseInt(obj.so_luong)]);
+      dataArray.push([obj.tuoi === 0 ? '< 1' : `${obj.tuoi}`, parseInt(obj.so_luong)]);
     });
 
     data.addRows(dataArray);

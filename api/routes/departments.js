@@ -8,8 +8,7 @@ const {
 } = require("../controllers/departmentController");
 const checkIsInPeriod = require("../middlewares/time");
 const { checkIsHigherRoleThan } = require("../middlewares/role.middleware");
-const { checkHasPrivileges } = require("../middlewares/privilege");
-const { authenticateToken } = require("../middlewares/privilege");
+const { checkHasPrivileges, authenticateToken } = require("../middlewares/privilege");
 
 const departmentRouter = Router();
 

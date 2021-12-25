@@ -1,6 +1,6 @@
 module.exports = {
   validateCensusData: (req, res, next) => {
-    // TODO
+    const input = req.body;
     next();
   }
 }

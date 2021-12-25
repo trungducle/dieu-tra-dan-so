@@ -19,12 +19,12 @@
     var villageId = household.data("villageIdSelected");
     householdCode.text(household.data("householdOnDisplay").householdCode);
 
-    var currentHouseholdCode = parseInt(householdCode.text());
+    var currentHouseholdId = household.data("householdOnDisplay").id;
     try {
-      if (currentHouseholdCode <= household.data("householdsCount")) {
+      if (currentHouseholdId) {
         // lấy dữ liệu đối với hộ dân được chọn
         renderStatusText("Đang tải...");
-        var currentHouseholdId = household.data("householdOnDisplay").id;
+        // var currentHouseholdId = household.data("householdOnDisplay").id;
         var result = await getHouseholdDetails(
           villageId,
           currentHouseholdId
@@ -67,7 +67,7 @@
         household.data("isUpdatingInfo", false);
       });
     } catch (err) {
-      alert("Đã có lỗi xảy ra!");
+      renderStatusText("Đã có lỗi xảy ra. Vui lòng thử lại.");
     }
   });
 
@@ -79,18 +79,18 @@
       for (const r of result) {
         memberList.push(
           $(`
-              <li class="member-box" data-key=${r.id}>
-                <p>Họ tên: ${r.ho_ten}</p>
-                <div class="member-box-buttons">
-                  <button type="button" id="update-info-button">
-                    <span class='bx bxs-edit-alt'></span>  
-                  </button>
-                  <button type="button" id="delete-info-button">
-                    <span class="bx bx-trash"></span>
-                  </button>
-                </div>
-              </li>
-            `)
+            <li class="member-box" data-key=${r.id}>
+              <p>Họ tên: ${r.ho_ten}</p>
+              <div class="member-box-buttons">
+                <button type="button" id="update-info-button">
+                  <span class='bx bxs-edit-alt'></span>  
+                </button>
+                <button type="button" id="delete-info-button">
+                  <span class="bx bx-trash"></span>
+                </button>
+              </div>
+            </li>
+          `)
         );
       }
 

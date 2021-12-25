@@ -1,13 +1,13 @@
 <div class="tool-box">
   <div class="toolbar">
     <div class="left-buttons">
-      <i class='bx bx-left-arrow-alt'></i>
-      <i class='bx bx-right-arrow-alt'></i>
+      <i class="bx bx-left-arrow-alt"></i>
+      <i class="bx bx-right-arrow-alt"></i>
     </div>
     <div class="right-button">
-      <i class='bx bx-plus'></i>
-      <i class='bx bxs-alarm-add'></i>
-      <i class='bx bx-trash'></i>
+      <i class="bx bx-plus"></i>
+      <i class="bx bxs-alarm-add"></i>
+      <i class="bx bx-trash"></i>
     </div>
   </div>
 </div>
@@ -34,13 +34,13 @@
         <td class="choose"></td>
         <td class="choose"></td>
         <td class="choose"></td>
-        <td><input name="check" type="checkbox"></td>
+        <td><input name="check" type="checkbox" /></td>
       </tr>
     </table>
   </div>
   <div class="page-rotate-buttons">
-    <i class='bx bx-left-arrow'></i>
-    <i class='bx bx-right-arrow'></i>
+    <i class="bx bx-left-arrow"></i>
+    <i class="bx bx-right-arrow"></i>
   </div>
 </div>
 
@@ -53,15 +53,17 @@
       mainContent.append(data);
     });
   });
+
   $(".bx.bx-plus").click(function () {
-    $(".add-main").toggleClass('onSelect');
+    $(".add-main").toggleClass("onSelect");
     $.get("addCity.html", function (data) {
       $(".add-main").empty();
       $(".add-main").append(data);
     });
   });
+  
   $(".bxs-alarm-add").click(function () {
-    $(".add-main").toggleClass('onSelect')
+    $(".add-main").toggleClass("onSelect");
     $.get("addPermit.html", function (data) {
       $(".add-main").empty();
       $(".add-main").append(data);

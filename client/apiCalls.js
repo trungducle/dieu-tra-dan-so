@@ -65,3 +65,43 @@ export async function getVillageList() {
     return err;
   }
 }
+
+export async function getLocalCitizenAmount() {
+  try {
+    return await customFetch.get("/citizen/amount/local");
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function getTotalCitizenAmount() {
+  try {
+    return await customFetch.get("/citizen/amount");
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function getInferiorInfo(username) {
+  try {
+    return await customFetch.get(`/departments?id=${username}`);
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function getInferiorAmount() {
+  try {
+    return await customFetch.get("/departments/amount");
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function confirmComplete() {
+  try {
+    return await customFetch.post("/census/progress");
+  } catch (err) {
+    return err;
+  }
+}

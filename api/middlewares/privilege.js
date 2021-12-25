@@ -9,11 +9,9 @@ module.exports = {
         [req.user.accountId]
       );
       const isLocked = result.bi_khoa_quyen;
-      if (isLocked) {
-        return res.status(403).json({ error: "Bạn không được cấp quyền!" });
-      }
-
-      next();
+      return isLocked
+        ? res.status(403).json({ error: "Bạn không được cấp quyền!" })
+        : next();
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -25,12 +23,8 @@ module.exports = {
       return res.status(401).json({ error: "Invalid token" });
     }
 
-    try {
-      const user = verifyAccessToken(token);
-      req.user = user;
-      next();
-    } catch (err) {
-      res.status(403).json({ error: err.message });
-    }
+    const user = verifyAccessToken(token);
+    req.user = user;
+    next();
   },
 };

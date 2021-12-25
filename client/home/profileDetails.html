@@ -136,18 +136,19 @@
     e.preventDefault();
 
     var villageId = household.data("villageIdSelected");
-    console.log(villageId);
     var villageList = household.data("villageList");
     var householdOnDisplay = household.data("householdOnDisplay");
+    console.log(householdOnDisplay);
 
     const { roleId, username } = getUserInfo();
     const values = {};
     values.household = householdOnDisplay.householdCode;
     values.id = isUpdatingInfo ? individualOnDisplay.id : null;
+
     values.villageCode =
       roleId === 5
         ? username.substring(username.length - 2)
-        : villageList.find((village) => village.id === villageId).id;
+        : villageList.find((village) => village.id.toString() === villageId).ma;
 
     $.each(profileForm.serializeArray(), (_, field) => {
       values[field.name] = field.value;
@@ -155,10 +156,10 @@
     try {
       const result = await submitForm(villageId, values);
       alert(result.message);
-      // household.data("householdOnDisplay", {
-      //   ...householdOnDisplay,
-      //   id: result.householdId,
-      // });
+      !householdOnDisplay.id && household.data("householdOnDisplay", {
+        ...householdOnDisplay,
+        id: result.householdId,
+      });
       // household.data("householdsCount", household.data("householdList").length);
       household.load("householdDetails.html");
     } catch (err) {

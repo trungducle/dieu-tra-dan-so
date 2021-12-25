@@ -2,37 +2,28 @@
   <div class="manage-box left selected">
     <!-- Tổng hợp dữ liệu -->
     Nhập liệu
-    <i class='bx bxs-box'></i>
+    <i class="bx bxs-box"></i>
   </div>
   <div class="manage-box right">
     Phân tích dữ liệu
-    <i class='bx bxs-pie-chart-alt-2'></i>
+    <i class="bx bxs-pie-chart-alt-2"></i>
   </div>
 </div>
-<div class="data-content">
-
-</div>
+<div class="data-content"></div>
 
 <script type="module">
-  $(".data-content").load("b2home.html");
-  $('.manage-box').click((e) => {
-    var node1 = e.target.closest('.left');
-    var node2 = e.target.closest('.right');
-    var node_selected = $('.selected');
-    if (node1) {
-      node_selected.removeClass('selected');
-      node1.classList.add('selected');
-      $.get("cities.html", function (data) {
-        $(".data-content").empty();
-        $(".data-content").append(data);
-      });
-    } else if (node2) {
-      node_selected.removeClass('selected');
-      node2.classList.add('selected');
-      $.get("dataAnalytic.html", function (data) {
-        $(".data-content").empty();
-        $(".data-content").append(data);
-      });
-    }
-  })
+  var dataContent = $(".data-content");
+  dataContent.load("b2home.html");
+
+  $(".manage-box.left").click((e) => {
+    $(".selected").removeClass("selected");
+    e.target.closest(".left").classList.add("selected");
+    dataContent.load("b2home.html");
+  });
+
+  $(".manage-box.right").click((e) => {
+    $(".selected").removeClass("selected");
+    e.target.closest(".right").classList.add("selected");
+    dataContent.load("dataAnalytic.html");
+  });
 </script>

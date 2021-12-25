@@ -22,7 +22,8 @@ module.exports = {
     const citizen = req.body;
     const { username } = req.user;
     const { villageId } = req.params;
-    const wardCode = username.length === 8 ? username.substring(0, 6) : username;
+    const wardCode =
+      username.length === 8 ? username.substring(0, 6) : username;
     const villageCode = citizen["villageCode"];
     const householdCode = `${wardCode}${villageCode}${citizen["household"]}`;
 
@@ -43,23 +44,21 @@ module.exports = {
       };
 
       let householdId = null;
+      let newHousehold = null;
       const householdQueryResult = await db.any(
         "SELECT id FROM ho_dan WHERE ma = $1;",
         [householdCode]
       );
 
-      console.log(householdQueryResult);
-
       if (householdQueryResult.length > 0) {
         householdId = householdQueryResult[0].id;
       } else {
-        householdId = (
-          await db.one(
-            "INSERT INTO ho_dan (ma, id_thon_ban_tdp)\
-            VALUES ($1, $2) RETURNING id;",
-            [householdCode, villageId]
-          )
-        ).id;
+        newHousehold = await db.one(
+          "INSERT INTO ho_dan (ma, id_thon_ban_tdp)\
+          VALUES ($1, $2) RETURNING id, SUBSTRING(ma, 9) ma_ho_dan;",
+          [householdCode, villageId]
+        );
+        householdId = newHousehold.id;
       }
 
       const columnSet = new pgp.helpers.ColumnSet(
@@ -100,7 +99,10 @@ module.exports = {
           id_ho_dan: householdId,
         };
         await db.none(pgp.helpers.insert(insertValue, columnSet));
-        res.status(200).json({ message: "Khai báo thông tin thành công!", householdId });
+        res.status(200).json({
+          message: "Khai báo thông tin thành công!",
+          newHousehold,
+        });
       }
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -122,15 +124,12 @@ module.exports = {
   },
   getHouseholdList: async (req, res) => {
     // danh sách hộ dân
-    // const { username } = req.user;
     const { villageId } = req.params;
     try {
-      // const codeLength = username.length;
       const result = await db.any(
         "SELECT id, SUBSTRING(ma, 9) ma_ho_dan FROM ho_dan\
         WHERE id_thon_ban_tdp = $1;",
         [villageId]
-        // [codeLength, username]
       );
 
       res.status(200).json(
@@ -158,7 +157,7 @@ module.exports = {
   },
   superviseProgress: async (req, res) => {
     const { username, roleId } = user.req;
-    const queryString = roleId === 1 ? '' : username;
+    const queryString = roleId === 1 ? "" : username;
     const codeLength = roleId === 1 ? 0 : username.length;
 
     try {
@@ -209,11 +208,24 @@ module.exports = {
           break;
         default:
           progressDetails = [];
+          break;
       }
 
       res.status(200).json({ progress, progressDetails });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
-  }
+  },
+  confirmComplete: async (req, res) => {
+    try {
+      await db.none(
+        "UPDATE dieu_tra_dan_so SET hoan_thanh = TRUE\
+        WHERE tai_khoan = $1",
+        [req.user.username]
+      );
+      res.status(200).json({ message: "Cập nhật tiến độ thành công!" });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
 };

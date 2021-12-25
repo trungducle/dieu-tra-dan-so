@@ -6,32 +6,49 @@ const {
   getHouseholdDetails,
   getHouseholdList,
   deleteInfo,
+  confirmComplete,
 } = require("../controllers/censusController");
 const checkIsInPeriod = require("../middlewares/time");
 const { checkIsLowerRoleThan } = require("../middlewares/role.middleware");
 const { validateCensusData } = require("../middlewares/validateInput");
-const { checkHasPrivileges, authenticateToken } = require("../middlewares/privilege");
+const {
+  checkHasPrivileges,
+  authenticateToken,
+} = require("../middlewares/privilege");
 
 const censusRouter = Router();
 
 censusRouter.post(
+  "/progress",
+  authenticateToken,
+  checkHasPrivileges,
+  checkIsInPeriod,
+  confirmComplete
+);
+
+censusRouter.post(
   "/:villageId",
   authenticateToken,
+  checkHasPrivileges,
   checkIsInPeriod,
   checkIsLowerRoleThan(ROLES.A3),
-  checkHasPrivileges,
   validateCensusData,
   uploadData
 );
 
 censusRouter
   .route("/:villageId/households")
-  .get(authenticateToken, checkIsInPeriod, checkIsLowerRoleThan(ROLES.A3), getHouseholdList)
-  .post(
+  .get(
     authenticateToken,
     checkIsInPeriod,
     checkIsLowerRoleThan(ROLES.A3),
+    getHouseholdList
+  )
+  .post(
+    authenticateToken,
     checkHasPrivileges,
+    checkIsInPeriod,
+    checkIsLowerRoleThan(ROLES.A3),
     createNewHousehold
   );
 
@@ -46,23 +63,10 @@ censusRouter.get(
 censusRouter.delete(
   "/:villageId/households/info/:infoId",
   authenticateToken,
+  checkHasPrivileges,
   checkIsInPeriod,
   checkIsLowerRoleThan(ROLES.A3),
-  checkHasPrivileges,
   deleteInfo
 );
-// const { checkIsLowerRoleThan, checkIsHigherRoleThan } = require("../middlewares/role.middleware");
-// const { checkHasPrivileges, authenticateToken } = require("../middlewares/privilege");
-
-// const censusRouter = Router();
-
-// censusRouter.post("/",
-//   authenticateToken,
-//   checkHasPrivileges,
-//   checkIsInPeriod,
-//   checkIsLowerRoleThan(ROLES.A3),
-//   uploadData
-// );
-// // censusRouter.post("/", checkIsInPeriod, checkIsHigherRoleThan(ROLES.B2), uploadData);
 
 module.exports = censusRouter;

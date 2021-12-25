@@ -13,21 +13,26 @@ const { authenticateToken } = require("../middlewares/privilege");
 
 const departmentRouter = Router();
 
-departmentRouter.post(
-  "/",
-  checkIsHigherRoleThan(ROLES.B2),
-  checkHasPrivileges,
-  createDepartment
-); // Thêm một đơn vị hành chính cấp dưới mới
+departmentRouter
+  .route("/")
+  .get(authenticateToken, getInferiorList)
+  .post(
+    authenticateToken,
+    checkHasPrivileges,
+    checkIsInPeriod,
+    checkIsHigherRoleThan(ROLES.B2),
+    createDepartment
+  ); // Thêm một đơn vị hành chính cấp dưới mới
 
 departmentRouter.get(
   "/villages",
+  authenticateToken,
+  checkHasPrivileges,
   checkIsInPeriod,
   checkIsHigherRoleThan(ROLES.B2),
-  checkHasPrivileges,
   getVillageList
 );
-departmentRouter.get("/", authenticateToken, getInferiorList);
+
 departmentRouter.get("/amount", authenticateToken, getInferiorAmount);
 
 module.exports = departmentRouter;

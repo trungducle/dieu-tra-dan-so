@@ -1,5 +1,4 @@
 <!-- trang chủ -->
-
 <div class="overview-boxes">
   <div class="box">
     <div class="left-side">
@@ -48,41 +47,42 @@
   </div>
 </div>
 
-<script>
-  $(document).ready(async () => {
-    const token = localStorage.getItem("a_token");
-    const user = JSON.parse(window.atob(token.split('.')[1].replace('-', '+').replace('_', '/')));
+<script type="module">
+  import { getToken, getUserInfo } from "../utils.js";
+  import {
+    getLocalCitizenAmount,
+    getTotalCitizenAmount,
+    getInferiorInfo,
+    getInferiorAmount,
+  } from "../apiCalls.js";
 
-    var boxtopic1 = $('.overview-boxes .box:nth-child(1) .number');
-    var boxtopic2 = $('.overview-boxes .box:nth-child(2) .number');
-    var boxtopic3 = $('.overview-boxes .box:nth-child(3) .number');
-    var boxtopic4 = $('.overview-boxes .box:nth-child(4) .number');
-    var listcolumn1 = $('.info-boxes .info-details .details:nth-child(1)');
-    var listcolumn2 = $('.info-boxes .info-details .details:nth-child(2)');
-    var listcolumn3 = $('.info-boxes .info-details .details:nth-child(3)');
+  $(async () => {
+    const { username } = getUserInfo();
 
-    function animateNumber(number, target, elem) {
-      var interval = setInterval(function () {
-        elem.text(number);
-        if (number >= target) clearInterval(interval);
-        number++;
-      }, 30);
-    }
+    var boxtopic1 = $(".overview-boxes .box:nth-child(1) .number");
+    var boxtopic2 = $(".overview-boxes .box:nth-child(2) .number");
+    var boxtopic3 = $(".overview-boxes .box:nth-child(3) .number");
+    var boxtopic4 = $(".overview-boxes .box:nth-child(4) .number");
+    var listcolumn1 = $(".info-boxes .info-details .details:nth-child(1)");
+    var listcolumn2 = $(".info-boxes .info-details .details:nth-child(2)");
+    var listcolumn3 = $(".info-boxes .info-details .details:nth-child(3)");
 
-    var localAmount = await getLocalCitizenAmount(token);
-    var totalAmount = await getTotalCitizenAmount(token);
-    var inferiorInfo = await getInferiorInfo(token, user.username);
-    var inferiorAmount = await getInferiorAmount(token);
-    
+    var localAmount = await getLocalCitizenAmount();
+    var totalAmount = await getTotalCitizenAmount();
+    var inferiorInfo = await getInferiorInfo(username);
+    var inferiorAmount = await getInferiorAmount();
+
     animateNumber(boxtopic1.text(), inferiorAmount.amount, boxtopic1);
     animateNumber(boxtopic2.text(), inferiorInfo.amount, boxtopic2);
     animateNumber(boxtopic3.text(), localAmount.amount, boxtopic3);
     animateNumber(boxtopic4.text(), totalAmount.amount, boxtopic4);
 
     if (inferiorInfo.amount === 0) {
-      $('.info-list.box').append('<div class="noti">Bạn không có đơn vị quản lý trực tiếp nào.</div>');
+      $(".info-list.box").append(
+        '<div class="noti">Bạn không có đơn vị quản lý trực tiếp nào.</div>'
+      );
     } else {
-      $('.info-list.box .loader').css('display', 'none');
+      $(".info-list.box .loader").css("display", "none");
       for (var i = 0; i < inferiorInfo.amount; i++) {
         listcolumn1.append(`<li><a>${inferiorInfo.info[i].ma}</a></li>`);
         listcolumn2.append(`<li><a>${inferiorInfo.info[i].ten}</a></li>`);
@@ -91,54 +91,11 @@
     }
   });
 
-  async function getLocalCitizenAmount(token) {
-    const rawResponse = await fetch(
-      "http://localhost:8000/citizen/amount/local",
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    return rawResponse.json();
-  }
-
-  async function getTotalCitizenAmount(token) {
-    const rawResponse = await fetch("http://localhost:8000/citizen/amount", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return rawResponse.json();
-  }
-
-  async function getInferiorInfo(token, username) {
-    const rawResponse = await fetch(`http://localhost:8000/departments?id=${username}`, {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Authorization": `Bearer ${token}`
-      }
-    });
-
-    return rawResponse.json();
-  }
-
-  async function getInferiorAmount(token) {
-    const rawResponse = await fetch("http://localhost:8000/departments/amount", {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Authorization": `Bearer ${token}`
-      }
-    });
-
-    return rawResponse.json();
+  function animateNumber(number, target, elem) {
+    var interval = setInterval(function () {
+      elem.text(number);
+      if (number >= target) clearInterval(interval);
+      number++;
+    }, 30);
   }
 </script>

@@ -1,0 +1,38 @@
+<div class="account-navbar">
+  <div class="manage-box selected" id="data-entry-tab">
+    <!-- Tổng hợp dữ liệu -->
+    Nhập liệu
+    <i class="bx bxs-box"></i>
+  </div>
+  <div class="manage-box" id="progress-tab">
+    Theo dõi tiến trình
+    <i class='bx bx-trending-up'></i>
+  </div>
+  <div class="manage-box" id="printing-tab">
+    In phiếu điều tra
+    <i class='bx bx-receipt'></i>
+  </div>
+</div>
+<div id="data-entry-content"></div>
+<script type="module">
+  var dataEntryContent = $("#data-entry-content");
+  dataEntryContent.load("b2home.html");
+
+  $("#data-entry-tab").click((e) => {
+    $(".manage-box.selected").removeClass("selected");
+    e.target.closest(".manage-box").classList.add("selected");
+    dataEntryContent.load("b2home.html");
+  });
+
+  $("#progress-tab").click((e) => {
+    $(".manage-box.selected").removeClass("selected");
+    e.target.closest(".manage-box").classList.add("selected");
+    dataEntryContent.load("progress.html");
+  });
+
+  $("#printing-tab").click((e) => {
+    $(".manage-box.selected").removeClass("selected");
+    e.target.closest(".manage-box").classList.add("selected");
+    dataEntryContent.load("print.html");
+  });
+</script>

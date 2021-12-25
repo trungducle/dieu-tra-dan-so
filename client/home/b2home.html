@@ -1,16 +1,23 @@
-<p id="end-time">Thời gian kết thúc: 1h ngày 27/12/2021</p>
+<div class="tool-box">
+  <div class="toolbar">
+    <div class="time-box end">
+      <p id="end-time">Thời gian kết thúc: 1h ngày 27/12/2021</p>
+    </div>
+    <div class="confirm-box">
+      Hoàn Thành
+    </div>
+  </div>
+</div>
 <div class="household">
   <div class="household-list-top">
     <div class="household-list-header">
-      <h1>DANH SÁCH HỘ DÂN<span id="village-address"></span></h1>
+      <h1>DANH SÁCH HỘ DÂN <span id="village-address"></span></h1>
     </div>
     <button class="add-household-button" title="Thêm hộ dân">
       <span class="bx bx-plus"></span>
     </button>
   </div>
-  <div class="household-list-body">
-    <p class="status">Đang tải...</p>
-  </div>
+  <div class="household-list-body"></div>
 </div>
 <script type="module">
   import { getHouseholdList, getVillageList } from "../apiCalls.js";
@@ -18,13 +25,28 @@
 
   $(async () => {
     var household = $(".household");
-    var status = $(".household-list-body .status");
-    var result = null;
 
+    $(".confirm-box").click(async (e) => {
+
+    });
     try {
       const { unitId, roleId, username } = getUserInfo();
       if (roleId === 4) {
+        var villageAddress = $("#village-address");
+        villageAddress.append(
+          `<select name="villages" id="villages"></select>`
+        );
+        var villageSelector = $("select[name=villages]");
+        villageSelector.append(
+          `<option value="" disabled selected>Chọn thôn, bản, tổ dân phố</option>`
+        );
+
         const list = await getVillageList();
+        if (list && list.error) {
+          renderStatusText(list.error);
+          return;
+        }
+    
         household.data("villageList", list);
         var villageList = [];
         for (const l of list) {
@@ -37,48 +59,45 @@
           );
         }
 
-        var villageAddress = $("#village-address");
-        villageAddress.append(
-          " TẠI ",
-          $(`<select name="villages" id="villages"></select>`)
-        );
-        var villageSelector = $("select[name=villages]");
-        villageSelector.append(
-          `<option value="" disabled selected>Chọn thôn, bản, tổ dân phố</option>`,
-          [...villageList]
-        );
+        villageSelector.append([...villageList]);
         villageSelector.change(async (e) => {
-          household.data("villageIdSelected", e.target.value);
-          result = await getHouseholdList(e.target.value);
-          renderHouseholdListFromData(result);
-          updateHouseholdCount();
-        })
-      } else {
-        household.data("villageIdSelected", unitId);
-        result = await getHouseholdList(unitId);
-        renderHouseholdListFromData(result);
-        updateHouseholdCount();
-      }
-      $(".household-box").click((e) => {
-        var selectedHousehold = household
-          .data("householdList")
-          .find((hh) => hh.householdCode === e.target.innerText.split(": ")[1]);
-        household.data("householdOnDisplay", selectedHousehold);
-        household.load("householdDetails.html");
-      });
-
-      $(".add-household-button").click(async () => {
-        updateHouseholdOnDisplay({
-          id: null,
-          householdCode: (getHouseholdCount() + 1).toString().padStart(3, "0"),
+          await dataEntry(e.target.value);
         });
-        addToHouseholdList(result);
-        household.load("householdDetails.html");
-      });
+      } else if (roleId === 5) {
+        await dataEntry(unitId);
+      }
     } catch (err) {
-      status.text("Đã có lỗi xảy ra. Vui lòng thử lại.");
+      renderStatusText("Đã có lỗi xảy ra. Vui lòng thử lại.");
     }
   });
+
+  async function dataEntry(villageId) {
+    var household = $(".household");
+    household.data("villageIdSelected", villageId);
+
+    renderStatusText("Đang tải...");
+    const result = await getHouseholdList(villageId);
+    renderHouseholdListFromData(result);
+    updateHouseholdCount();
+
+    $(".household-box").click((e) => {
+      var selectedHousehold = household
+        .data("householdList")
+        .find((hh) => hh.householdCode === e.target.innerText.split(": ")[1]);
+      household.data("householdOnDisplay", selectedHousehold);
+      household.load("householdDetails.html");
+    });
+
+    $(".add-household-button").click(() => {
+      console.log(getHouseholdCount);
+      updateHouseholdOnDisplay({
+        id: null,
+        householdCode: (getHouseholdCount() + 1).toString().padStart(3, "0"),
+      });
+      addToHouseholdList(result);
+      household.load("householdDetails.html");
+    });
+  }
 
   function renderStatusText(statusText) {
     var householdListBody = $(".household-list-body");
@@ -89,21 +108,27 @@
   }
 
   function getHouseholdCount() {
-    return $(".household").data("householdList").length;
+    return $(".household").data("householdsCount");
   }
 
   function updateHouseholdCount() {
-    $(".household").data(
-      "householdsCount",
-      $(".household").data("householdList").length
-    );
+    var household = $(".household");
+    var householdList = household.data("householdList");
+    if (householdList && householdList.length > 0) {
+      household.data("householdsCount", householdList.length);
+    } else {
+      household.data("householdsCount", 0);
+    }
   }
 
-  function addToHouseholdList(result) {
-    $(".household").data("householdList", [
-      ...$(".household").data("householdList"),
-      result,
-    ]);
+  function addToHouseholdList(newHousehold) {
+    var household = $(".household");
+    var householdList = household.data("householdList");
+    if (householdList && householdList.length > 0) {
+      household.data("householdList", [...householdList, newHousehold]);
+    } else {
+      household.data("householdList", [newHousehold]);
+    }
   }
 
   function updateHouseholdOnDisplay(result) {
@@ -123,10 +148,10 @@
       for (const r of result) {
         householdBoxes.push(
           $(`
-              <li class="household-box">
-                <p>Hộ số: ${r.householdCode}</p>
-              </li>
-            `)
+            <li class="household-box">
+              <p>Hộ số: ${r.householdCode}</p>
+            </li>
+          `)
         );
       }
       householdListBody.empty();

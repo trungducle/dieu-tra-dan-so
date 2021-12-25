@@ -1,20 +1,19 @@
-const { START_DATE, END_DATE } = require("../config/keys");
-const { db, pgp } = require("../config/database");
+const { db } = require("../config/database");
 
-const checkIsInPeriod = (req, res, next) => {
+const checkIsInPeriod = async (req, res, next) => {
   const { username } = req.user;
   const now = Date.now();
 
-  const censusTime = db.one(
+  const censusTime = await db.one(
     "SELECT ngay_bat_dau, ngay_ket_thuc\
     FROM dieu_tra_dan_so WHERE tai_khoan = $1",
-    username
+    [username]
   );
 
-  const start_date = censusTime.ngay_bat_dau;
-  const end_date = censusTime.ngay_ket_thuc;
+  const startDate = censusTime.ngay_bat_dau;
+  const endDate = censusTime.ngay_ket_thuc;
 
-  if (now >= Date.parse(start_date) && now <= Date.parse(end_date)) {
+  if (now >= Date.parse(startDate) && now <= Date.parse(endDate)) {
     return next();
   }
 

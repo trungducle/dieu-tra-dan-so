@@ -18,10 +18,11 @@ export function removeToken() {
   localStorage.removeItem("a_token");
 }
 
+const proxy = "http://localhost:8000";
 export const customFetch = {
   get: async (path) => {
     try {
-      const rawResult = await fetch(`http://localhost:8000${path}`, {
+      const rawResult = await fetch(`${proxy}${path}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -35,7 +36,7 @@ export const customFetch = {
   },
   post: async (path, body, includeToken = true) => {
     try {
-      const rawResult = await fetch(`http://localhost:8000${path}`, {
+      const rawResult = await fetch(`${proxy}${path}`, {
         method: "POST",
         headers: includeToken
           ? {
@@ -57,7 +58,7 @@ export const customFetch = {
   },
   delete: async (path) => {
     try {
-      const rawResult = await fetch(`http://localhost:8000${path}`, {
+      const rawResult = await fetch(`${proxy}${path}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${getToken()}`,

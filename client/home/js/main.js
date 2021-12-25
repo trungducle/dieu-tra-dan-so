@@ -1,7 +1,7 @@
 import { checkPrivileges } from "../../apiCalls.js";
 import { getUserInfo } from "../../utils.js";
 
-const {roleId, username, roleName} = getUserInfo();
+const { roleId, username, roleName } = getUserInfo();
 
 $(async () => {
   var sidebar = $("#sidebar");
@@ -27,6 +27,3 @@ $(async () => {
     console.log(err);
   }
 });
-
-
-

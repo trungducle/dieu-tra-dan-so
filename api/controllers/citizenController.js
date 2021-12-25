@@ -14,13 +14,13 @@ module.exports = {
     try {
       if (roleId === 1) {
         const result = await db.any(
-          "SELECT count(*) dan_so FROM ca_nhan"
+          "SELECT COUNT(*) dan_so FROM ca_nhan"
         );
         res.status(200).json({ amount: result[0].dan_so });
       } else {
         const searchPattern = `${username}%`;
         const result = await db.any(
-          "SELECT count(*) dan_so\
+          "SELECT COUNT(*) dan_so\
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
@@ -41,13 +41,13 @@ module.exports = {
       if (!filter) {
         // Không có filter thì sẽ lấy dân số theo cả nước
         const result = await db.any(
-          "SELECT count(*) dan_so FROM ca_nhan"
+          "SELECT COUNT(*) dan_so FROM ca_nhan"
         );
 
         res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'city') {
         const result = await db.any(
-          "SELECT count(*) dan_so\
+          "SELECT COUNT(*) dan_so\
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
@@ -61,7 +61,7 @@ module.exports = {
         res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'district') {
         const result = await db.any(
-          "SELECT count(*) dan_so\
+          "SELECT COUNT(*) dan_so\
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
@@ -74,7 +74,7 @@ module.exports = {
         res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'ward') {
         const result = await db.any(
-          "SELECT count(*) dan_so\
+          "SELECT COUNT(*) dan_so\
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\
@@ -86,7 +86,7 @@ module.exports = {
         res.status(200).json({ amount: result[0].dan_so });
       } else if (filter === 'village') {
         const result = await db.any(
-          "SELECT count(*) dan_so\
+          "SELECT COUNT(*) dan_so\
             FROM ca_nhan cn\
             JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
             JOIN thon_ban_tdp tb ON hd.id_thon_ban_tdp = tb.id\

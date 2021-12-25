@@ -10,6 +10,7 @@ const departmentRouter = require("./routes/departments");
 const censusRouter = require("./routes/census");
 const citizenRouter = require("./routes/citizen");
 const privRouter = require("./routes/priv");
+const analyseRouter = require("./routes/analyse");
 
 const app = express();
 const server = createServer(app);
@@ -26,6 +27,7 @@ app.use("/departments", departmentRouter);
 app.use("/census", censusRouter);
 app.use("/citizen", citizenRouter);
 app.use("/priv", privRouter);
+app.use("/analyse", analyseRouter);
 
 server.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

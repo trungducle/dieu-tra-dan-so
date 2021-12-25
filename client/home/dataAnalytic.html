@@ -1,66 +1,20 @@
 <div class="analytic-main">
+  <div class="table-content">
+    <div class="table-details">
+
+    </div>
+  </div>
   <div class="analytic-content">
-    <div class="analytic-box">
-      <p>Chọn Tỉnh/Thành Phố:</p>
-      <div class="select-box">
-        <select>
-          <option value="" disabled selected>Chọn cấp</option>
-          <option value="">A2</option>
-          <option value="">A3</option>
-          <option value="">B1</option>
-          <option value="">B2</option>
-        </select>
-        <span class="custom-arrow"></span>
-      </div>
-    </div>
-    <div class="analytic-box">
-      <p>Chọn Quận/Huyện:</p>
-      <div class="select-box">
-        <select>
-          <option value="" disabled selected>Chọn cấp</option>
-          <option value="">A2</option>
-          <option value="">A3</option>
-          <option value="">B1</option>
-          <option value="">B2</option>
-        </select>
-        <span class="custom-arrow"></span>
-      </div>
-    </div>
-    <div class="analytic-box">
-      <p>Chọn Phường/Xã:</p>
-      <div class="select-box">
-        <select>
-          <option value="" disabled selected>Chọn cấp</option>
-          <option value="">A2</option>
-          <option value="">A3</option>
-          <option value="">B1</option>
-          <option value="">B2</option>
-        </select>
-        <span class="custom-arrow"></span>
-      </div>
-    </div>
-    <div class="analytic-box">
-      <p>Chọn Thôn/Bản/Tổ:</p>
-      <div class="select-box">
-        <select>
-          <option value="" disabled selected>Chọn cấp</option>
-          <option value="">A2</option>
-          <option value="">A3</option>
-          <option value="">B1</option>
-          <option value="">B2</option>
-        </select>
-        <span class="custom-arrow"></span>
-      </div>
-    </div>
     <div class="analytic-box">
       <p>Chọn loại dữ liệu:</p>
       <div class="select-box">
-        <select>
-          <option value="" disabled selected>Chọn cấp</option>
-          <option value="">A2</option>
-          <option value="">A3</option>
-          <option value="">B1</option>
-          <option value="">B2</option>
+        <select id="category-analyse">
+          <option value="" disabled selected>Danh mục</option>
+          <option value="age">Độ tuổi</option>
+          <option value="sex">Giới tính</option>
+          <option value="education">Trình độ văn hóa</option>
+          <option value="religion">Tôn giáo</option>
+          <option value="population">Dân số</option>
         </select>
         <span class="custom-arrow"></span>
       </div>
@@ -74,11 +28,64 @@
 
 </div>
 
-<script>
-  $(".analytic-button").click(function () {
-    $.get("columnChart.html", function (data) {
-      $(".chart-main").empty();
-      $(".chart-main").append(data);
-    });
+<script type="module">
+  const token = localStorage.getItem("a_token");
+  const user = JSON.parse(window.atob(token.split('.')[1].replace('-', '+').replace('_', '/')));
+
+  $(async () => {
+    $(".table-details").data("departmentOnDisplay", user.username);
+
+    if (user.roleId === 1) {
+      $(".table-details").load("listCity.html");
+    } else if (user.roleId === 2) {
+      $(".table-details").load("listDistrict.html");
+    } else if (user.roleId === 3) {
+      $(".table-details").load("listWard.html");
+    } else if (user.roleId === 4) {
+      $(".table-details").load("listVillage.html");
+    }
   });
+
+  $(".analytic-button").click(async function () {
+    const category = $("#category-analyse").val();
+
+    if (category === 'population') {
+      $.get("populationChart.html", function (data) {
+        $(".chart-main").empty();
+        $(".chart-main").append(data);
+      });
+    } else if (category === 'sex') {
+      $.get("sexChart.html", function (data) {
+        $(".chart-main").empty();
+        $(".chart-main").append(data);
+      });
+    } else if (category === 'religion') {
+      $.get("religionChart.html", function (data) {
+        $(".chart-main").empty();
+        $(".chart-main").append(data);
+      });
+    } else if (category === 'education') {
+      $.get("educationLevelChart.html", function (data) {
+        $(".chart-main").empty();
+        $(".chart-main").append(data);
+      });
+    } else if (category === 'age') {
+      $.get("ageChart.html", function (data) {
+        $(".chart-main").empty();
+        $(".chart-main").append(data);
+      });
+    }
+  });
+
+  async function getInferiorInfo(token, username) {
+    const rawResponse = await fetch(`http://localhost:8000/departments?id=${username}`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    return rawResponse.json();
+  }
 </script>

@@ -1,0 +1,50 @@
+<table id="department-list">
+  <tr id="header">
+    <th>Cấp</th>
+    <th>Tên tài khoản</th>
+    <th>Quận/Huyện</th>
+    <th>Chọn</th>
+  </tr>
+</table>
+
+<script>
+  var token = localStorage.getItem("a_token");
+  var user = JSON.parse(window.atob(token.split('.')[1].replace('-', '+').replace('_', '/')));
+
+  $(async () => {
+    const currentDepartment = $(".table-details").data("departmentOnDisplay");
+
+    const list = await getInferiorInfo(token, currentDepartment);
+
+    for (const item of list.info) {
+      $("#department-list").append(`
+        <tr class="hoverin department-item" data-department=${item.ma}>
+          <td class="choose">3</td>
+          <td class="choose">${item.ma}</td>
+          <td class="choose">${item.ten}</td>
+          <td><input name="check" type="checkbox" value=${item.ten} data-value="district"></td>
+        </tr>`);
+    }
+
+    $(".department-item").click(async (e) => {
+      if (e.target.getAttribute("type") !== "checkbox") {
+        var selectedDepartment = e.target.parentElement.getAttribute("data-department");
+
+        $(".table-details").data("departmentOnDisplay", selectedDepartment);
+        $(".table-details").load("listWard.html");
+      }
+    });
+  });
+
+  async function getInferiorInfo(token, username) {
+    const rawResponse = await fetch(`http://localhost:8000/departments?id=${username}`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    return rawResponse.json();
+  }
+</script>

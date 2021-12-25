@@ -18,13 +18,10 @@
     if (node1) {
       node_selected.removeClass("selected");
       node1.classList.add("selected");
-      $.get("acManage.html", function (data) {
-      // node_selected.removeClass('selected');
-      // node1.classList.add('selected');
-      // $.get("acTableDetails.html", function (data) {
+      $.get("acTableDetails.html", function (data) {
         $(".account-content").empty();
         $(".account-content").append(data);
-      });
+      })
     } else if (node2) {
       node_selected.removeClass("selected");
       node2.classList.add("selected");

@@ -69,7 +69,10 @@ $(() => {
         $(".nav-link.selected").removeClass("selected");
         e.target.closest(".nav-link").classList.add("selected");
         mainContent.load("account.html");
-        $(".account-content").load("acManage.html");
+        $.get("acTableDetails.html", function (data) {
+          $(".account-content").empty();
+          $(".account-content").append(data);
+        })
       });
 
       $("#data-entry-nav").click((e) => {
@@ -119,7 +122,10 @@ $(() => {
         $(".nav-link.selected").removeClass("selected");
         e.target.closest(".nav-link").classList.add("selected");
         mainContent.load("account.html");
-        $(".account-content").load("acManage.html");
+        $.get("acTableDetails.html", function (data) {
+          $(".account-content").empty();
+          $(".account-content").append(data);
+        })
       });
 
       $("#residencies-nav").click((e) => {

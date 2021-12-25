@@ -33,8 +33,8 @@ $(() => {
         </li>
         <li class="nav-link" id="residencies-nav">
           <a href="#">
-            <i class="bx bx-building-house"></i>
-            <span class="link-name">Dữ liệu dân cư</span>
+            <i class="bx bxs-pie-chart-alt-2"></i>
+            <span class="link-name">Phân tích dữ liệu</span>
           </a>
         </li>
       `).insertAfter("#home-nav");
@@ -60,8 +60,7 @@ $(() => {
       $("#residencies-nav").click((e) => {
         $(".nav-link.selected").removeClass("selected");
         e.target.closest(".nav-link").classList.add("selected");
-        mainContent.load("dataDetails.html");
-        $(".data-content").load("cities.html");
+        mainContent.load("dataAnalytic.html");
       });
       break;
     case 3:
@@ -76,14 +75,8 @@ $(() => {
         </li>
         <li class="nav-link" id="residencies-nav">
           <a href="#">
-            <i class="bx bx-building-house"></i>
-            <span class="link-name">Dữ liệu dân cư</span>
-          </a>
-        </li>
-        <li class="nav-link" id="settings-nav">
-          <a href="#">
-            <i class="bx bx-cog"></i>
-            <span class="link-name">Cài đặt</span>
+            <i class="bx bxs-pie-chart-alt-2"></i>
+            <span class="link-name">Phân tích dữ liệu</span>
           </a>
         </li>
       `).insertAfter("#home-nav");
@@ -108,12 +101,7 @@ $(() => {
       $("#residencies-nav").click((e) => {
         $(".nav-link.selected").removeClass("selected");
         e.target.closest(".nav-link").classList.add("selected");
-        mainContent.load("dataDetails.html");
-        // $(".data-content").load("cities.html");
-        $.get("cities.html", (data) => {
-          $(".data-content").empty();
-          $(".data-content").append(data);
-        })
+        mainContent.load("dataAnalytic.html");
       });
 
       $("#settings-nav").click((e) => {

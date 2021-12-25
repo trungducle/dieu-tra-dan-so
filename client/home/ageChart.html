@@ -1,0 +1,54 @@
+<div id="column_top_x_div" class="Chart"></div>
+<script type="module">
+  import { analysePopulationBy } from "../apiCalls.js";
+  
+  google.charts.load("current", { packages: ["bar"] }).then(async function () {
+    const checkboxInputs = $("#department-list input");
+    const filter = checkboxInputs[0].getAttribute("data-value");
+    const values = [];
+
+    for (const cbinput of checkboxInputs) {
+      if ($(cbinput).is(":checked")) {
+        values.push($(cbinput).parent().prev().text());
+      }
+    }
+
+    const res = await analysePopulationBy("age", { filter, values });
+    drawStuff(res.result);
+  });
+
+  function drawStuff(result) {
+    var data = new google.visualization.DataTable();
+    data.addColumn("string", "Độ tuổi");
+    data.addColumn("number", "Số lượng");
+
+    var dataArray = [];
+    $.each(result, function (i, obj) {
+      dataArray.push([
+        obj.tuoi === 0 ? "< 1" : `${obj.tuoi}`,
+        parseInt(obj.so_luong),
+      ]);
+    });
+    data.addRows(dataArray);
+
+    const options = {
+      width: 800,
+      height: 400,
+      legend: { position: "none" },
+      title: "Thống kê theo độ tuổi",
+      axes: {
+        x: {
+          0: { side: "top", label: "Số lượng người theo độ tuổi" }, // Top x-axis.
+        },
+      },
+      bar: { groupWidth: "50%" },
+      colors: ["#5b5bdc"],
+    };
+
+    const chart = new google.charts.Bar(
+      document.getElementById("column_top_x_div")
+    );
+    // Convert the Classic options to Material options.
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+  }
+</script>

@@ -1,84 +1,91 @@
-<div class="analytic-main">
-  <div class="analytic-content">
-    <div class="analytic-box">
-      <p>Chọn Tỉnh/Thành Phố:</p>
-      <div class="select-box">
-        <select>
-          <option value="" disabled selected>Chọn cấp</option>
-          <option value="">A2</option>
-          <option value="">A3</option>
-          <option value="">B1</option>
-          <option value="">B2</option>
-        </select>
-        <span class="custom-arrow"></span>
+<div class="data-content">
+  <div class="analytic-main">
+    <div class="table-content">
+      <div class="table-details"></div>
+    </div>
+    <div class="analytic-content">
+      <div class="analytic-box">
+        <p>Chọn loại dữ liệu:</p>
+        <div class="select-box">
+          <select id="category-analyse">
+            <option value="" disabled selected>Danh mục</option>
+            <option value="age">Độ tuổi</option>
+            <option value="sex">Giới tính</option>
+            <option value="education">Trình độ văn hóa</option>
+            <option value="religion">Tôn giáo</option>
+            <option value="population">Dân số</option>
+          </select>
+          <span class="custom-arrow"></span>
+        </div>
       </div>
     </div>
-    <div class="analytic-box">
-      <p>Chọn Quận/Huyện:</p>
-      <div class="select-box">
-        <select>
-          <option value="" disabled selected>Chọn cấp</option>
-          <option value="">A2</option>
-          <option value="">A3</option>
-          <option value="">B1</option>
-          <option value="">B2</option>
-        </select>
-        <span class="custom-arrow"></span>
-      </div>
-    </div>
-    <div class="analytic-box">
-      <p>Chọn Phường/Xã:</p>
-      <div class="select-box">
-        <select>
-          <option value="" disabled selected>Chọn cấp</option>
-          <option value="">A2</option>
-          <option value="">A3</option>
-          <option value="">B1</option>
-          <option value="">B2</option>
-        </select>
-        <span class="custom-arrow"></span>
-      </div>
-    </div>
-    <div class="analytic-box">
-      <p>Chọn Thôn/Bản/Tổ:</p>
-      <div class="select-box">
-        <select>
-          <option value="" disabled selected>Chọn cấp</option>
-          <option value="">A2</option>
-          <option value="">A3</option>
-          <option value="">B1</option>
-          <option value="">B2</option>
-        </select>
-        <span class="custom-arrow"></span>
-      </div>
-    </div>
-    <div class="analytic-box">
-      <p>Chọn loại dữ liệu:</p>
-      <div class="select-box">
-        <select>
-          <option value="" disabled selected>Chọn cấp</option>
-          <option value="">A2</option>
-          <option value="">A3</option>
-          <option value="">B1</option>
-          <option value="">B2</option>
-        </select>
-        <span class="custom-arrow"></span>
-      </div>
-    </div>
+    <div class="analytic-button">Phân tích</div>
   </div>
-  <div class="analytic-button">
-    Phân tích
-  </div>
-</div>
-<div class="chart-main">
-
+  <div class="chart-main"></div>
 </div>
 
-<script>
-  $(".analytic-button").click(function () {
-    $.get("columnChart.html", function (data) {
-      $(".chart-main").empty();
-      $(".chart-main").append(data);
-    });
+<script type="module">
+  import { getUserInfo } from "../utils.js";
+
+  $(() => {
+    const { username, roleId } = getUserInfo();
+    $(".table-details").data("departmentOnDisplay", username);
+
+    switch (roleId) {
+      case 1:
+        $(".table-details").load("listCity.html");
+        break;
+      case 2:
+        $(".table-details").load("listDistrict.html");
+        break;
+      case 3:
+        $(".table-details").load("listWard.html");
+        break;
+      case 4:
+        $(".table-details").load("listVillage.html");
+        break;
+      default:
+        break;
+    }
+  });
+
+  $(".analytic-button").click(async function () {
+    const category = $("#category-analyse").val();
+    var chartMain = $(".chart-main");
+
+    switch (category) {
+      case "population":
+        $.get("populationChart.html", function (data) {
+          chartMain.empty();
+          chartMain.append(data);
+        });
+        break;
+      case "sex":
+        $.get("sexChart.html", function (data) {
+          chartMain.empty();
+          chartMain.append(data);
+        });
+        break;
+      case "religion":
+        $.get("religionChart.html", function (data) {
+          chartMain.empty();
+          chartMain.append(data);
+        });
+        break;
+      case "education":
+        $.get("educationLevelChart.html", function (data) {
+          chartMain.empty();
+          chartMain.append(data);
+        });
+        break;
+      case "age":
+        $.get("ageChart.html", function (data) {
+          chartMain.empty();
+          chartMain.append(data);
+        });
+        break;
+      default:
+        break;
+    }
   });
 </script>

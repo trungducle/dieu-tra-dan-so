@@ -1,0 +1,42 @@
+<div id="piechart" style="width: 900px; height: 500px"></div>
+<script type="module">
+  import { analysePopulationBy } from "../apiCalls.js";
+
+  google.charts
+    .load("current", { packages: ["corechart"] })
+    .then(async function () {
+      const checkboxInputs = $("#department-list input");
+      const filter = checkboxInputs[0].getAttribute("data-value");
+      const values = [];
+
+      for (const cbinput of checkboxInputs) {
+        if ($(cbinput).is(":checked")) {
+          values.push($(cbinput).parent().prev().text());
+        }
+      }
+
+      const res = analysePopulationBy("education", { filter, values });
+      drawStuff(res.result);
+    });
+
+  function drawStuff(result) {
+    var data = new google.visualization.DataTable();
+    data.addColumn("string", "Trình độ");
+    data.addColumn("number", "Số lượng");
+
+    var dataArray = [];
+    $.each(result, function (i, obj) {
+      dataArray.push([obj.trinh_do_van_hoa, parseInt(obj.so_luong)]);
+    });
+    data.addRows(dataArray);
+
+    const options = {
+      title: "Thống kê theo trình độ văn hóa",
+    };
+
+    const chart = new google.visualization.PieChart(
+      document.getElementById("piechart")
+    );
+    chart.draw(data, options);
+  }
+</script>

@@ -1,0 +1,37 @@
+<table id="department-list">
+  <tr id="header">
+    <th>Cấp</th>
+    <th>Tên tài khoản</th>
+    <th>Tỉnh/Thành phố</th>
+    <th>Chọn</th>
+  </tr>
+</table>
+
+<script type="module">
+  import { getInferiorInfo } from "../apiCalls.js";
+
+  $(async () => {
+    var tableDetails = $(".table-details");
+    const currentDepartment = tableDetails.data("departmentOnDisplay");
+    const list = await getInferiorInfo(currentDepartment);
+
+    for (const item of list.info) {
+      $("#department-list").append(`
+        <tr class="hoverin department-item" data-department=${item.ma}>
+          <td class="choose">3</td>
+          <td class="choose">${item.ma}</td>
+          <td class="choose">${item.ten}</td>
+          <td><input name="check" type="checkbox" value=${item.ten} data-value="city"></td>
+        </tr>`
+      );
+    }
+
+    $(".department-item").click(async (e) => {
+      if (e.target.getAttribute("type") !== "checkbox") {
+        var selectedDepartment = e.target.parentElement.getAttribute("data-department");
+        tableDetails.data("departmentOnDisplay", selectedDepartment);
+        tableDetails.load("listDistrict.html");
+      }
+    });
+  });
+</script>

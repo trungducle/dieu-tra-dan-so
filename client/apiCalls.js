@@ -121,3 +121,11 @@ export async function togglePrivileges(privileges) {
     return err;
   }
 }
+
+export async function analysePopulationBy(criteria, body) {
+  try {
+    return await customFetch.post(`/analyse/${criteria}`,body);
+  } catch (err) {
+    return err;
+  }
+}

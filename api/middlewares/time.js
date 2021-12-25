@@ -13,6 +13,8 @@ const checkIsInPeriod = async (req, res, next) => {
   const startDate = censusTime.ngay_bat_dau;
   const endDate = censusTime.ngay_ket_thuc;
 
+  console.log(startDate + " " + endDate + " " + now);
+
   if (now >= Date.parse(startDate) && now <= Date.parse(endDate)) {
     return next();
   }

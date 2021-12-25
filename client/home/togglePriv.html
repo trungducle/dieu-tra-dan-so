@@ -13,9 +13,8 @@
 </div>
 <div class="result-info"></div>
 
-<script>
-  let token = localStorage.getItem("a_token");
-  let user = JSON.parse(window.atob(token.split('.')[1].replace('-', '+').replace('_', '/')));
+<script type="module">
+  import {togglePrivileges} from "../apiCalls.js";
 
   $("#permission-toggle").click(async (e) => {
     const time = $("#time-field").val();
@@ -56,17 +55,4 @@
     }
   });
 
-  async function togglePrivileges(token, privileges) {
-    const rawResponse = await fetch("http://localhost:8000/departments", {
-      method: "PUT",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify(privileges)
-    });
-
-    return rawResponse.json();
-  }
 </script>

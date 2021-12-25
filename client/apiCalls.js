@@ -105,3 +105,19 @@ export async function confirmComplete() {
     return err;
   }
 }
+
+export async function addNewDepartment(newDepartment) {
+  try {
+    return await customFetch.post("/departments", newDepartment);
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function togglePrivileges(privileges) {
+  try {
+    return await customFetch.put("/departments", privileges);
+  } catch (err) {
+    return err;
+  }
+}

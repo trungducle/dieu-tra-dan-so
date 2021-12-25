@@ -29,7 +29,7 @@ export const customFetch = {
         },
       });
 
-      return rawResult.json();
+      return await rawResult.json();
     } catch (err) {
       return err;
     }
@@ -51,7 +51,25 @@ export const customFetch = {
         body: JSON.stringify(body),
       });
 
-      return rawResult.json();
+      return await rawResult.json();
+    } catch (err) {
+      return err;
+    }
+  },
+  put: async (path, body) => {
+    try {
+      const rawResult = await fetch(`${proxy}${path}`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+
+        body: JSON.stringify(body),
+      });
+
+      return await rawResult.json();
     } catch (err) {
       return err;
     }
@@ -65,7 +83,7 @@ export const customFetch = {
         },
       });
 
-      return rawResult.json();
+      return await rawResult.json();
     } catch (err) {
       return err;
     }

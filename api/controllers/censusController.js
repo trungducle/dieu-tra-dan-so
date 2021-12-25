@@ -1,4 +1,5 @@
 const { db, pgp } = require("../config/database");
+const { ROLES } = require("../config/keys");
 
 module.exports = {
   createNewHousehold: async (req, res) => {
@@ -172,14 +173,14 @@ module.exports = {
 
       const progressDetails = null;
       switch (roleId) {
-        case 1:
+        case ROLES.A1:
           progressDetails = db.any(
             "SELECT tt.ma, tt.ten, dt.hoan_thanh\
               FROM dieu_tra_dan_so dt\
               JOIN tinh_thanh tt ON dt.tai_khoan = tt.ma"
           );
           break;
-        case 2:
+        case ROLES.A2:
           progressDetails = db.any(
             "SELECT qh.ma, qh.ten, dt.hoan_thanh\
               FROM dieu_tra_dan_so dt\
@@ -188,7 +189,7 @@ module.exports = {
             [codeLength, queryString]
           );
           break;
-        case 3:
+        case ROLES.A3:
           progressDetails = db.any(
             "SELECT px.ma, px.ten, dt.hoan_thanh\
               FROM dieu_tra_dan_so dt\
@@ -197,7 +198,7 @@ module.exports = {
             [codeLength, queryString]
           );
           break;
-        case 4:
+        case ROLES.B1:
           progressDetails = db.any(
             "SELECT tb.ma, tb.ten, dt.hoan_thanh\
               FROM dieu_tra_dan_so dt\

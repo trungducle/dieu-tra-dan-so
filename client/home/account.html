@@ -11,6 +11,8 @@
 <div class="account-content"></div>
 
 <script>
+  $(".account-content").load("acTableDetails.html");
+
   $(".manage-box").click((e) => {
     const node1 = e.target.closest(".left");
     const node2 = e.target.closest(".right");
@@ -18,20 +20,11 @@
     if (node1) {
       node_selected.removeClass("selected");
       node1.classList.add("selected");
-      $.get("acManage.html", function (data) {
-      // node_selected.removeClass('selected');
-      // node1.classList.add('selected');
-      // $.get("acTableDetails.html", function (data) {
-        $(".account-content").empty();
-        $(".account-content").append(data);
-      });
+      $(".account-content").load("acTableDetails.html");
     } else if (node2) {
       node_selected.removeClass("selected");
       node2.classList.add("selected");
-      $.get("dataManage.html", function (data) {
-        $(".account-content").empty();
-        $(".account-content").append(data);
-      });
+      $(".account-content").load("dataManage.html");
     }
   });
 </script>

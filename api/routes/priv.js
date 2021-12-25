@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const { checkOwnPrivileges } = require("../controllers/accountController");
-const { authenticateToken } = require("../middlewares/privilege");
 const checkIsInPeriod = require("../middlewares/time");
 const { authenticateToken } = require("../middlewares/privilege");
 

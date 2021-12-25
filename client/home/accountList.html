@@ -1,0 +1,26 @@
+<div class="table-title">Danh sách tài khoản trực thuộc quản lý</div>
+<div class="table-details">
+  <table>
+    <tr id="header">
+      <th>Mã đăng nhập</th>
+      <th>Tên đơn vị</th>
+      <th>Chọn</th>
+    </tr>
+  </table>
+</div>
+<div class="page-rotate-buttons">
+  <i class="bx bx-left-arrow"></i>
+  <i class="bx bx-right-arrow"></i>
+</div>
+<script>
+  var inferiorList = $(".main-content").data("inferiorList");
+  for (const { ten, ma } of inferiorList) {
+    $(".table-details table").append(`
+      <tr class="hoverin">
+        <td class="choose" id="account-username">${ma}</td>
+        <td class="choose" id="account-unit-name">${ten}</td>
+        <td><input name="check" type="checkbox" /></td>
+      </tr>
+    `);
+  }
+</script>

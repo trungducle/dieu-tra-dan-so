@@ -2,28 +2,8 @@ import { getUserInfo, removeToken } from "../../utils.js";
 
 $(() => {
   const { roleId } = getUserInfo();
-  var navLinks = $("#navbar ul");
   var mainContent = $(".main-content");
-  navLinks.append(
-    $(`
-      <li class="nav-link selected" id="home-nav">
-        <a href="#">
-          <i class="bx bx-home-alt"></i>
-          <span class="link-name">Trang chủ</span>
-        </a>
-      </li>
-    `)
-  );
-  navLinks.append(
-    $(`
-      <li class="nav-link" id="logout-nav">
-        <a href="#">
-          <i class="bx bx-home-alt"></i>
-          <span class="link-name">Đăng xuất</span>
-        </a>
-      </li>
-    `)
-  );
+
   $("#logout-nav").click(() => {
     removeToken();
     location.href = "/login";
@@ -69,7 +49,6 @@ $(() => {
         $(".nav-link.selected").removeClass("selected");
         e.target.closest(".nav-link").classList.add("selected");
         mainContent.load("account.html");
-        $(".account-content").load("acManage.html");
       });
 
       $("#data-entry-nav").click((e) => {
@@ -119,78 +98,35 @@ $(() => {
         $(".nav-link.selected").removeClass("selected");
         e.target.closest(".nav-link").classList.add("selected");
         mainContent.load("account.html");
-        $(".account-content").load("acManage.html");
+        // $(".account-content").load("acTableDetails.html");
+        $.get("acTableDetails.html", (data) => {
+          $(".account-content").empty();
+          $(".account-content").append(data);
+        })
       });
 
       $("#residencies-nav").click((e) => {
         $(".nav-link.selected").removeClass("selected");
         e.target.closest(".nav-link").classList.add("selected");
         mainContent.load("dataDetails.html");
-        $(".data-content").load("cities.html");
+        // $(".data-content").load("cities.html");
+        $.get("cities.html", (data) => {
+          $(".data-content").empty();
+          $(".data-content").append(data);
+        })
       });
 
       $("#settings-nav").click((e) => {
         $(".nav-link.selected").removeClass("selected");
         e.target.closest(".nav-link").classList.add("selected");
         mainContent.load("option.html");
-        $(".option-content").load("acDetails.html");
+        // $(".option-content").load("acDetails.html");
+        $.get("acDetails.html", (data) => {
+          $(".option-content").empty();
+          $(".option-content").append(data);
+        })
       });
 
-      // navLinks.click((e) => {
-      //   var homeNode = e.target.closest("#home");
-      //   var accountsNode = e.target.closest("#accounts");
-      //   var citiesNode = e.target.closest("#cities");
-      //   var optionNode = e.target.closest("#option");
-      //   var selectedNode = $(".nav-link.selected");
-
-      //   if (homeNode) {
-      //     selectedNode.removeClass("selected");
-      //     homeNode.classList.add("selected");
-      //     $.get("home.html", function (data) {
-      //       mainContent.empty();
-      //       mainContent.append(data);
-      //     });
-      //     $(".overview-boxes .box:nth-child(3) .number").text(
-      //       localAmount.amount
-      //     );
-      //     $(".overview-boxes .box:nth-child(4) .number").text(
-      //       totalAmount.amount
-      //     );
-      //   } else if (accountsNode) {
-      //     selectedNode.removeClass("selected");
-      //     accountsNode.classList.add("selected");
-      //     $.get("account.html", function (data) {
-      //       mainContent.empty();
-      //       mainContent.append(data);
-      //     });
-      //     $.get("acManage.html", function (data) {
-      //       $(".account-content").empty();
-      //       $(".account-content").append(data);
-      //     });
-      //   } else if (citiesNode) {
-      //     selectedNode.removeClass("selected");
-      //     citiesNode.classList.add("selected");
-      //     $.get("dataDetails.html", function (data) {
-      //       mainContent.empty();
-      //       mainContent.append(data);
-      //     });
-      //     $.get("cities.html", function (data) {
-      //       $(".data-content").empty();
-      //       $(".data-content").append(data);
-      //     });
-      //   } else if (optionNode) {
-      //     selectedNode.removeClass("selected");
-      //     optionNode.classList.add("selected");
-      //     $.get("option.html", function (data) {
-      //       mainContent.empty();
-      //       mainContent.append(data);
-      //     });
-      //     $.get("acDetails.html", function (data) {
-      //       $(".option-content").empty();
-      //       $(".option-content").append(data);
-      //     });
-      //   }
-      // });
       break;
     default:
       break;

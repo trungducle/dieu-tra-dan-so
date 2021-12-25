@@ -31,7 +31,7 @@
 </div>
 <div class="info-boxes">
   <div class="info-list box">
-    <div class="title">Danh sách đơn vị quản lý trực tiếp</div>
+    <div class="title">Dân số tại các đơn vị trực thuộc quản lý</div>
     <div class="info-details">
       <ul class="details">
         <li class="topic">Mã</li>
@@ -82,6 +82,8 @@
         '<div class="noti">Bạn không có đơn vị quản lý trực tiếp nào.</div>'
       );
     } else {
+      $(".main-content").data("inferiorList", inferiorInfo.info);
+      console.log($(".main-content").data("inferiorList"));
       $(".info-list.box .loader").css("display", "none");
       for (var i = 0; i < inferiorInfo.amount; i++) {
         listcolumn1.append(`<li><a>${inferiorInfo.info[i].ma}</a></li>`);

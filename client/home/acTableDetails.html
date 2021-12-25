@@ -5,9 +5,9 @@
       <i class="bx bx-right-arrow-alt"></i>
     </div>
     <div class="right-button">
-      <i class="bx bx-plus"></i>
-      <i class="bx bxs-alarm-add"></i>
-      <i class="bx bx-trash"></i>
+      <i class="bx bx-plus" title="Thêm địa phương mới"></i>
+      <i class="bx bxs-alarm-add" title="Cấp quyền cho tài khoản"></i>
+      <i class="bx bx-trash" title="Xóa tài khoản"></i>
     </div>
   </div>
 </div>
@@ -15,26 +15,13 @@
 <div class="add-main"></div>
 
 <div class="table-content">
-  <div class="table-title">Danh sách tài khoản quản lý</div>
+  <div class="table-title">Danh sách tài khoản trực thuộc quản lý</div>
   <div class="table-details">
     <table>
       <tr id="header">
-        <th>Cấp</th>
-        <th>Tên tài khoản</th>
-        <th>Tỉnh/Thành phố</th>
-        <th>Quận/Huyện</th>
-        <th>Phường/Xã</th>
-        <th>Thôn/Bản/Tổ dân phố</th>
+        <th>Mã đăng nhập</th>
+        <th>Tên đơn vị</th>
         <th>Chọn</th>
-      </tr>
-      <tr class="hoverin">
-        <td class="choose">A1</td>
-        <td class="choose">Admin A2</td>
-        <td class="choose">Lào Cai</td>
-        <td class="choose"></td>
-        <td class="choose"></td>
-        <td class="choose"></td>
-        <td><input name="check" type="checkbox" /></td>
       </tr>
     </table>
   </div>
@@ -46,27 +33,31 @@
 
 <script>
   var mainContent = $(".main-content");
+  var addMain = $(".add-main");
+  var inferiorList = mainContent.data("inferiorList");
+  for (const { ten, ma } of inferiorList) {
+    $(".table-details table").append(`
+      <tr class="hoverin">
+        <td class="account-username">${ma}</td>
+        <td class="account-unit-name"><span>${ten}</span></td>
+        <td><input name="check" type="checkbox" /></td>
+      </tr>
+    `);
+  }
 
-  $(".choose").click(function () {
-    $.get("acDetails.html", function (data) {
-      mainContent.empty();
-      mainContent.append(data);
-    });
+  $(".account-unit-name").click((e) => {
+    console.log(e.target);
   });
 
   $(".bx.bx-plus").click(function () {
-    $(".add-main").toggleClass("onSelect");
-    $.get("addCity.html", function (data) {
-      $(".add-main").empty();
-      $(".add-main").append(data);
-    });
+    addMain.toggleClass("onSelect");
+    addMain.empty();
+    addMain.load("addUnit.html");
   });
-  
+
   $(".bxs-alarm-add").click(function () {
-    $(".add-main").toggleClass("onSelect");
-    $.get("addPermit.html", function (data) {
-      $(".add-main").empty();
-      $(".add-main").append(data);
-    });
+    addMain.toggleClass("onSelect");
+    addMain.empty();
+    addMain.load("togglePriv.html");
   });
 </script>

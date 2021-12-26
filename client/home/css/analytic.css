@@ -10,7 +10,7 @@
 
 .analytic-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .analytic-content .analytic-box {

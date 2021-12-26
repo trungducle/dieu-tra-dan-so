@@ -50,7 +50,7 @@
   margin: 5px 0;
 }
 
-.profile-content .profile-info .info-box input {
+.profile-content .profile-info .info-box input, select {
   background-color: #f5f5f5;
   font-size: 16px;
   width: 80%;
@@ -67,6 +67,7 @@
 
 .profile-content .profile-info .info-box .detail-info input[type="radio"] {
   margin-left: 20px;
+  width: 20%;
 }
 
 .profile-content .profile-button i {

@@ -14,7 +14,7 @@ $(() => {
       $("#home-nav").click(async (e) => {
         $(".nav-link.selected").removeClass("selected");
         e.target.closest(".nav-link").classList.add("selected");
-        mainContent.load("b2home.html");
+        mainContent.load("dataEntry.html");
       });
       break;
     case 4:

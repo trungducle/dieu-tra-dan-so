@@ -100,7 +100,23 @@ export async function getInferiorAmount() {
 
 export async function confirmComplete() {
   try {
-    return await customFetch.post("/census/progress");
+    return await customFetch.put("/census/progress/my-progress");
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function checkCompleteStatus() {
+  try {
+    return await customFetch.get("/census/progress/my-progress");
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function watchProgress() {
+  try {
+    return await customFetch.get("/census/progress/subunits");
   } catch (err) {
     return err;
   }

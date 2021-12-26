@@ -53,6 +53,32 @@
   display: inline-block;
 }
 
+.main-content .confirm-box {
+  height: 40px;
+  width: 130px;
+  background-color: rgb(91, 91, 220);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 15px;
+  line-height: 40px;
+  text-align: center;
+  margin-left: 20px;
+  transition: all 0.15s ease-in;
+}
+
+.main-content .confirm-box:enabled:hover {
+  transform: scale(1.05);
+  background-color: rgb(36, 38, 160);
+  cursor: pointer;
+}
+
+.main-content .confirm-box:disabled {
+  background-color: rgb(158, 158, 158);
+  color: rgb(104, 104, 104);
+  cursor: default;
+}
+
 .main-section .info-boxes {
   display: flex;
   justify-content: space-between;

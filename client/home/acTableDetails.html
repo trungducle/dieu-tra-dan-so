@@ -14,7 +14,7 @@
 
 <div class="add-main"></div>
 
-<div class="table-content">
+<div class="table-content" id="subunit-account-list">
   <div class="table-title">Danh sách tài khoản trực thuộc quản lý</div>
   <div class="table-details">
     <table>
@@ -36,7 +36,7 @@
   var addMain = $(".add-main");
   var inferiorList = mainContent.data("inferiorList");
   for (const { ten, ma } of inferiorList) {
-    $(".table-details table").append(`
+    $("#subunit-account-list table").append(`
       <tr class="hoverin">
         <td class="account-username">${ma}</td>
         <td class="account-unit-name"><span>${ten}</span></td>

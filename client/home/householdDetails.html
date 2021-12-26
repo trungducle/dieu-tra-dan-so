@@ -24,14 +24,13 @@
       if (currentHouseholdId) {
         // lấy dữ liệu đối với hộ dân được chọn
         renderStatusText("Đang tải...");
-        // var currentHouseholdId = household.data("householdOnDisplay").id;
         var result = await getHouseholdDetails(
           villageId,
           currentHouseholdId
         );
         renderMemberListFromData(result);
 
-        $("#update-info-button").click((e) => {
+        $(".update-info-button").click((e) => {
           const individualOnDisplay = result.find(
             (r) =>
               r.id === parseInt(e.target.closest(".member-box").dataset.key)
@@ -41,7 +40,7 @@
           household.load("profileDetails.html");
         });
 
-        $("#delete-info-button").click(async (e) => {
+        $(".delete-info-button").click(async (e) => {
           const confirmDelete = confirm(
             "Bạn có chắc chắn muốn xóa thông tin này không?"
           );
@@ -82,10 +81,10 @@
             <li class="member-box" data-key=${r.id}>
               <p>Họ tên: ${r.ho_ten}</p>
               <div class="member-box-buttons">
-                <button type="button" id="update-info-button">
+                <button type="button" class="update-info-button">
                   <span class='bx bxs-edit-alt'></span>  
                 </button>
-                <button type="button" id="delete-info-button">
+                <button type="button" class="delete-info-button">
                   <span class="bx bx-trash"></span>
                 </button>
               </div>

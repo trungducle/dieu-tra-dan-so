@@ -3,30 +3,60 @@
     <div class="time-box end">
       <p id="end-time">Thời gian kết thúc: 1h ngày 27/12/2021</p>
     </div>
-    <div class="confirm-box">
-      Hoàn Thành
-    </div>
+    <button type="button" class="confirm-box">Hoàn thành</button>
   </div>
 </div>
-<div class="household">
-  <div class="household-list-top">
-    <div class="household-list-header">
-      <h1>DANH SÁCH HỘ DÂN <span id="village-address"></span></h1>
-    </div>
-    <button class="add-household-button" title="Thêm hộ dân">
-      <span class="bx bx-plus"></span>
-    </button>
-  </div>
-  <div class="household-list-body"></div>
-</div>
+<div class="household"></div>
+
 <script type="module">
-  import { getHouseholdList, getVillageList } from "../apiCalls.js";
+  import {
+    getHouseholdList,
+    getVillageList,
+    confirmComplete,
+    checkCompleteStatus
+  } from "../apiCalls.js";
   import { getUserInfo } from "../utils.js";
 
   $(async () => {
     var household = $(".household");
-
+    var confirmBox = $(".confirm-box");
     try {
+      const completeStatus = await checkCompleteStatus();
+      const hasCompleted = completeStatus.hoan_thanh;
+      if (hasCompleted) {
+        confirmBox.text("Đã hoàn thành");
+        confirmBox.prop("disabled", true);
+        household.append(`<p class="status">Bạn đã hoàn thành tiến độ!</p>`);
+        return;
+      }
+
+      household.append(`
+        <div class="household-list-top">
+          <div class="household-list-header">
+            <h1>DANH SÁCH HỘ DÂN <span id="village-address"></span></h1>
+          </div>
+          <button class="add-household-button" title="Thêm hộ dân">
+            <span class="bx bx-plus"></span>
+          </button>
+        </div>
+        <div class="household-list-body"></div>
+      `);
+
+      $(".confirm-box").click(async (e) => {
+        const complete = confirm(
+          "Bạn có chắc chắn xác nhận đã hoàn thành không?"
+        );
+        if (complete) {
+          const message = await confirmComplete();
+          alert(message.message);
+          $(".main-content").data("hasCompleted", true);
+          e.target.textContent = "Đã hoàn thành";
+          e.target.disabled = true;
+          household.empty();
+          household.append(`<p class="status">Bạn đã hoàn thành tiến độ!</p>`);
+        }
+      });
+
       const { unitId, roleId, username } = getUserInfo();
       if (roleId === 4) {
         var villageAddress = $("#village-address");
@@ -43,7 +73,7 @@
           renderStatusText(list.error);
           return;
         }
-    
+
         household.data("villageList", list);
         var villageList = [];
         for (const l of list) {
@@ -86,7 +116,6 @@
     });
 
     $(".add-household-button").click(() => {
-      console.log(getHouseholdCount);
       updateHouseholdOnDisplay({
         id: null,
         householdCode: (getHouseholdCount() + 1).toString().padStart(3, "0"),

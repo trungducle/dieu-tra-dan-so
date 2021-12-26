@@ -147,8 +147,10 @@ module.exports = {
     const { householdId, villageId } = req.params;
     try {
       const result = await db.any(
-        "SELECT * FROM ca_nhan WHERE id_ho_dan = $1;",
-        [householdId]
+        "SELECT cn.* FROM ca_nhan cn\
+        JOIN ho_dan hd ON cn.id_ho_dan = hd.id\
+        WHERE cn.id_ho_dan = $1 AND hd.id_thon_ban_tdp = $2;",
+        [householdId, villageId]
       );
 
       res.status(200).json(result);
@@ -157,53 +159,48 @@ module.exports = {
     }
   },
   superviseProgress: async (req, res) => {
-    const { username, roleId } = user.req;
+    const { username, roleId } = req.user;
     const queryString = roleId === 1 ? "" : username;
     const codeLength = roleId === 1 ? 0 : username.length;
 
     try {
-      const progress = db.one(
-        "SELECT count(*) tien_do\
-        FROM dieu_tra_dan_so\
-        WHERE hoan_thanh = true\
-          AND SUBSTRING(tai_khoan, 1, $1) = $2\
-          AND loai_tai_khoan = $3",
-        [codeLength, queryString, roleId + 1]
-      ).tien_do;
-
-      const progressDetails = null;
+      let progressDetails = null;
       switch (roleId) {
         case ROLES.A1:
-          progressDetails = db.any(
+          progressDetails = await db.any(
             "SELECT tt.ma, tt.ten, dt.hoan_thanh\
               FROM dieu_tra_dan_so dt\
-              JOIN tinh_thanh tt ON dt.tai_khoan = tt.ma"
+              JOIN tinh_thanh tt ON dt.tai_khoan = tt.ma\
+              ORDER BY tt.ma"
           );
           break;
         case ROLES.A2:
-          progressDetails = db.any(
+          progressDetails = await db.any(
             "SELECT qh.ma, qh.ten, dt.hoan_thanh\
               FROM dieu_tra_dan_so dt\
               JOIN quan_huyen qh ON dt.tai_khoan = qh.ma\
-              WHERE SUBSTRING(tai_khoan, 1, $1) = $2",
+              WHERE SUBSTRING(tai_khoan, 1, $1) = $2\
+              ORDER BY qh.ma",
             [codeLength, queryString]
           );
           break;
         case ROLES.A3:
-          progressDetails = db.any(
+          progressDetails = await db.any(
             "SELECT px.ma, px.ten, dt.hoan_thanh\
               FROM dieu_tra_dan_so dt\
               JOIN phuong_xa px ON dt.tai_khoan = px.ma\
-              WHERE SUBSTRING(tai_khoan, 1, $1) = $2",
+              WHERE SUBSTRING(tai_khoan, 1, $1) = $2\
+              ORDER BY px.ma",
             [codeLength, queryString]
           );
           break;
         case ROLES.B1:
-          progressDetails = db.any(
+          progressDetails = await db.any(
             "SELECT tb.ma, tb.ten, dt.hoan_thanh\
               FROM dieu_tra_dan_so dt\
               JOIN thon_ban_tdp tb ON dt.tai_khoan = tb.ma\
-              WHERE SUBSTRING(tai_khoan, 1, $1) = $2",
+              WHERE SUBSTRING(tai_khoan, 1, $1) = $2\
+              ORDER BY tb.ma",
             [codeLength, queryString]
           );
           break;
@@ -212,7 +209,11 @@ module.exports = {
           break;
       }
 
-      res.status(200).json({ progress, progressDetails });
+      res.status(200).json({
+        total: progressDetails.length,
+        completed: progressDetails.filter((unit) => unit.hoan_thanh).length,
+        details: progressDetails
+      });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -229,4 +230,15 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
+  checkCompleteStatus: async (req, res) => {
+    try {
+      const result = await db.one(
+        "SELECT hoan_thanh FROM dieu_tra_dan_so WHERE tai_khoan = $1",
+        [req.user.username]
+      );
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({error: err.message});
+    }
+  }
 };

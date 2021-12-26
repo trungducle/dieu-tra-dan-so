@@ -124,7 +124,15 @@ export async function togglePrivileges(privileges) {
 
 export async function analysePopulationBy(criteria, body) {
   try {
-    return await customFetch.post(`/analyse/${criteria}`,body);
+    return await customFetch.post(`/analyse/${criteria}`, body);
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function getCitizenInfo(body) {
+  try {
+    return await customFetch.post("/citizen/info", body);
   } catch (err) {
     return err;
   }

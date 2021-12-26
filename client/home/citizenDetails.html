@@ -1,0 +1,98 @@
+<form class="profile-content">
+  <h1 id="form-header">THÔNG TIN CÔNG DÂN</h1>
+  <div class="profile-button">
+    <i class='bx bx-collapse' id="close-details"></i>
+  </div>
+  <div class="profile-info">
+    <div class="info-box">
+      <div class="detail-info">
+        <label for="fullname">Họ và tên: </label>
+        <input type="text" name="fullname" id="fullname" disabled />
+      </div>
+
+      <div class="detail-info">
+        <label for="dob">Ngày sinh: </label>
+        <input type="text" name="dob" id="dob" disabled />
+      </div>
+
+      <div class="detail-info">
+        <label for="sex">Giới tính: </label>
+        <input type="text" name="sex" id="sex" disabled />
+      </div>
+
+      <div class="detail-info">
+        <label for="identity">Số ĐDCN/CCCD: </label>
+        <input type="text" name="identity" id="identity" disabled />
+      </div>
+
+      <div class="detail-info">
+        <label for="origin">Quê quán: </label>
+        <input type="text" name="origin" id="origin" disabled />
+      </div>
+
+      <div class="detail-info">
+        <label for="residence">Địa chỉ thường trú: </label>
+        <input type="text" name="residence" id="residence" disabled />
+      </div>
+
+      <div class="detail-info">
+        <label for="current-place">Nơi ở hiện nay: </label>
+        <input type="text" name="current-place" id="current-place" disabled />
+      </div>
+    </div>
+    <div class="info-box">
+      <div class="detail-info">
+        <label for="ethnicity">Dân tộc: </label>
+        <input type="text" name="ethnicity" id="ethnicity" disabled />
+      </div>
+
+      <div class="detail-info">
+        <label for="religion">Tôn giáo:</label>
+        <input type="text" name="religion" id="religion" disabled />
+      </div>
+
+      <div class="detail-info">
+        <label for="academic">Trình độ văn hóa: </label>
+        <input type="text" name="academic" id="academic" disabled />
+      </div>
+
+      <div class="detail-info">
+        <label for="job">Nghề nghiệp: </label>
+        <input type="text" name="job" id="job" disabled />
+      </div>
+
+      <div class="detail-info">
+        <label for="is-head">Là chủ hộ: </label>
+        <input type="text" name="is-head" id="is-head" disabled />
+      </div>
+    </div>
+  </div>
+</form>
+
+<script type="module">
+  import { getCitizenInfo } from "../apiCalls.js";
+  $(async() => {
+    const selectedCitizen = $("#citizen-details").data("citizenSelected");
+
+    const res = await getCitizenInfo({ "citizenId" : selectedCitizen });
+    const info = res.result[0];
+    
+    $("#fullname").val(info.ho_ten);
+    $("#sex").val(info.gioi_tinh);
+    $("#dob").val(new Date(info.ngay_sinh).toLocaleDateString());
+    $("#identity").val(info.ma_dinh_danh);
+    $("#origin").val(info.que_quan);
+    $("#residence").val(info.thuong_tru);
+    $("#current-place").val(info.noi_o_hien_nay);
+    $("#ethnicity").val(info.dan_toc);
+    $("#religion").val(info.ton_giao);
+    $("#job").val(info.nghe_nghiep);
+    $("#academic").val(info.trinh_do_van_hoa);
+    $("#is-head").val(info.chu_ho ? 'Có' : 'Không');
+  });
+
+  $("#close-details").click(() => {
+    $("#citizen-details").empty();
+  });
+
+</script>

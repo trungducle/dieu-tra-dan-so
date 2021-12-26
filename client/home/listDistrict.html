@@ -11,7 +11,7 @@
   import { getInferiorInfo } from "../apiCalls.js";
 
   $(async () => {
-    var tableDetails = $(".table-details");
+    var tableDetails = $(".table-details#departments-list");
     const currentDepartment = tableDetails.data("departmentOnDisplay");
     const list = await getInferiorInfo(currentDepartment);
 

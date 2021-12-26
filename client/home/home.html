@@ -83,7 +83,6 @@
       );
     } else {
       $(".main-content").data("inferiorList", inferiorInfo.info);
-      console.log($(".main-content").data("inferiorList"));
       $(".info-list.box .loader").css("display", "none");
       for (var i = 0; i < inferiorInfo.amount; i++) {
         listcolumn1.append(`<li><a>${inferiorInfo.info[i].ma}</a></li>`);

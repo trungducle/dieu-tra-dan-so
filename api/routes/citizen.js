@@ -1,5 +1,4 @@
 const { Router } = require("express");
-// const { ROLES } = require("../config/keys");
 const { getCitizenAmount, queryCitizenAmount } = require("../controllers/citizenController");
 const { authenticateToken } = require("../middlewares/privilege");
 

@@ -3,7 +3,7 @@
     <div class="time-box end">
       <p id="end-time">Thời gian kết thúc: 1h ngày 27/12/2021</p>
     </div>
-    <button type="button" class="confirm-box">Hoàn thành</button>
+    <!-- <button type="button" class="confirm-btn">Hoàn thành</button> -->
   </div>
 </div>
 <div class="household"></div>
@@ -13,19 +13,17 @@
     getHouseholdList,
     getVillageList,
     confirmComplete,
-    checkCompleteStatus
+    checkCompleteStatus,
   } from "../apiCalls.js";
   import { getUserInfo } from "../utils.js";
 
   $(async () => {
     var household = $(".household");
-    var confirmBox = $(".confirm-box");
     try {
       const completeStatus = await checkCompleteStatus();
       const hasCompleted = completeStatus.hoan_thanh;
       if (hasCompleted) {
-        confirmBox.text("Đã hoàn thành");
-        confirmBox.prop("disabled", true);
+        $(".main-content").data("hasCompleted", true);
         household.append(`<p class="status">Bạn đã hoàn thành tiến độ!</p>`);
         return;
       }
@@ -42,31 +40,14 @@
         <div class="household-list-body"></div>
       `);
 
-      $(".confirm-box").click(async (e) => {
-        const complete = confirm(
-          "Bạn có chắc chắn xác nhận đã hoàn thành không?"
-        );
-        if (complete) {
-          const message = await confirmComplete();
-          alert(message.message);
-          $(".main-content").data("hasCompleted", true);
-          e.target.textContent = "Đã hoàn thành";
-          e.target.disabled = true;
-          household.empty();
-          household.append(`<p class="status">Bạn đã hoàn thành tiến độ!</p>`);
-        }
-      });
-
       const { unitId, roleId, username } = getUserInfo();
       if (roleId === 4) {
         var villageAddress = $("#village-address");
-        villageAddress.append(
-          `<select name="villages" id="villages" class="village-option"></select>`
-        );
-        var villageSelector = $("select[name=villages]");
-        villageSelector.append(
-          `<option value="" disabled selected>Chọn thôn, bản, tổ dân phố</option>`
-        );
+        villageAddress.append(`
+          <select name="villages" id="villages" class="village-option">
+            <option value="" disabled selected>Chọn thôn, bản, tổ dân phố</option>
+          </select>
+        `);
 
         const list = await getVillageList();
         if (list && list.error) {
@@ -75,9 +56,9 @@
         }
 
         household.data("villageList", list);
-        var villageList = [];
+        var villageSelector = $("select[name=villages]");
         for (const l of list) {
-          villageList.push(
+          villageSelector.append(
             $(`
               <option value=${l.id}>
                 ${l.ten} - ${l.ma}
@@ -86,11 +67,37 @@
           );
         }
 
-        villageSelector.append([...villageList]);
         villageSelector.change(async (e) => {
           await dataEntry(e.target.value);
         });
       } else if (roleId === 5) {
+        var confirmBox = $(
+          `<button type="button" class="confirm-btn"></button>`
+        );
+        if (hasCompleted) {
+          confirmBox.text("Đã hoàn thành");
+          confirmBox.prop("disabled", true);
+        } else {
+          confirmBox.text("Hoàn thành");
+        }
+        confirmBox.insertAfter(".time-box.end");
+
+        confirmBox.click(async (e) => {
+          const complete = confirm(
+            "Bạn có chắc chắn xác nhận đã hoàn thành không?"
+          );
+          if (complete) {
+            const message = await confirmComplete();
+            alert(message.message);
+            $(".main-content").data("hasCompleted", true);
+            e.target.textContent = "Đã hoàn thành";
+            e.target.disabled = true;
+            household.empty();
+            household.append(
+              `<p class="status">Bạn đã hoàn thành tiến độ!</p>`
+            );
+          }
+        });
         await dataEntry(unitId);
       }
     } catch (err) {

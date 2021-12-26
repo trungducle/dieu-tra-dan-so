@@ -50,8 +50,13 @@
                 r.id === parseInt(e.target.closest(".member-box").dataset.key)
             );
             const message = await deleteInfo(villageId, individualOnDisplay.id);
-            alert(message.message);
+            if (message.error) {
+              $(".member-list-top").empty();
+              $(".member-list-top").append(`<p class="status">${message.error}</p>`);
+              return;
+            }
 
+            alert(message.message);
             renderStatusText("Đang tải...");
             result = await getHouseholdDetails(villageId, currentHouseholdId);
             renderMemberListFromData(result);
@@ -74,9 +79,9 @@
     if (result.length === 0 || !result) {
       $(".member-list-body .status").text("Chưa có dữ liệu nào");
     } else {
-      var memberList = [];
+      $(".member-list-body").empty();
       for (const r of result) {
-        memberList.push(
+        $(".member-list-body").append(
           $(`
             <li class="member-box" data-key=${r.id}>
               <p>Họ tên: ${r.ho_ten}</p>
@@ -92,9 +97,6 @@
           `)
         );
       }
-
-      $(".member-list-body").empty();
-      $(".member-list-body").append([...memberList]);
     }
   }
 

@@ -8,7 +8,7 @@ const {
 } = require("../controllers/departmentController");
 const checkIsInPeriod = require("../middlewares/time");
 const { checkIsHigherRoleThan } = require("../middlewares/role.middleware");
-const { checkHasPrivileges, authenticateToken } = require("../middlewares/privilege");
+const { checkHasPrivileges, authenticateToken, checkHasCompleted } = require("../middlewares/privilege");
 
 const departmentRouter = Router();
 
@@ -19,6 +19,7 @@ departmentRouter
     authenticateToken,
     checkHasPrivileges,
     checkIsInPeriod,
+    checkHasCompleted,
     checkIsHigherRoleThan(ROLES.B2),
     createDepartment
   ); // Thêm một đơn vị hành chính cấp dưới mới

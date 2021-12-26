@@ -16,6 +16,7 @@ const { validateCensusData } = require("../middlewares/validateInput");
 const {
   checkHasPrivileges,
   authenticateToken,
+  checkHasCompleted,
 } = require("../middlewares/privilege");
 
 const censusRouter = Router();
@@ -32,6 +33,7 @@ censusRouter.post(
   authenticateToken,
   checkHasPrivileges,
   checkIsInPeriod,
+  checkHasCompleted,
   checkIsLowerRoleThan(ROLES.A3),
   validateCensusData,
   uploadData
@@ -49,6 +51,7 @@ censusRouter
     authenticateToken,
     checkHasPrivileges,
     checkIsInPeriod,
+    checkHasCompleted,
     checkIsLowerRoleThan(ROLES.A3),
     createNewHousehold
   );
@@ -66,6 +69,7 @@ censusRouter.delete(
   authenticateToken,
   checkHasPrivileges,
   checkIsInPeriod,
+  checkHasCompleted,
   checkIsLowerRoleThan(ROLES.A3),
   deleteInfo
 );

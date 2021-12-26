@@ -27,4 +27,18 @@ module.exports = {
     req.user = user;
     next();
   },
+  checkHasCompleted: async (req, res, next) => {
+    try {
+      const result = await db.one(
+        "SELECT hoan_thanh FROM dieu_tra_dan_so WHERE tai_khoan = $1",
+        [req.user.username]
+      );
+
+      return result.hoan_thanh
+        ? res.status(401).json({ error: "Bạn đã hoàn thành tiến độ điều tra!" })
+        : next();
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
 };

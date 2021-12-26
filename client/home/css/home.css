@@ -53,7 +53,7 @@
   display: inline-block;
 }
 
-.main-content .confirm-box {
+.main-content .confirm-btn {
   height: 40px;
   width: 130px;
   background-color: rgb(91, 91, 220);
@@ -67,13 +67,13 @@
   transition: all 0.15s ease-in;
 }
 
-.main-content .confirm-box:enabled:hover {
+.main-content .confirm-btn:enabled:hover {
   transform: scale(1.05);
   background-color: rgb(36, 38, 160);
   cursor: pointer;
 }
 
-.main-content .confirm-box:disabled {
+.main-content .confirm-btn:disabled {
   background-color: rgb(158, 158, 158);
   color: rgb(104, 104, 104);
   cursor: default;

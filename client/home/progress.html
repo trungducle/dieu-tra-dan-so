@@ -1,37 +1,66 @@
+<div class="table-content" id="completed-table">
+  <div class="table-header">
+    <h1 class="table-title">
+      Số đơn vị đã hoàn thành: <span id="completed-count">0/0</span>
+    </h1>
+    <button type="button" class="confirm-btn">Hoàn thành</button>
+  </div>
+  <div class="table-details">
+    <table>
+      <tr>
+        <th>Mã đơn vị</th>
+        <th>Tên đơn vị</th>
+        <th>Trạng thái hoàn thành</th>
+      </tr>
+    </table>
+  </div>
+</div>
 <script type="module">
-  import { watchProgress } from "../apiCalls.js";
+  import {
+    watchProgress,
+    checkCompleteStatus,
+    confirmComplete,
+  } from "../apiCalls.js";
 
   $(async () => {
     var accountContent = $(".account-content");
+    var tableContent = $(".table-content");
+    var confirmCompleteBtn = $(".confirm-btn");
     try {
-      const result = await watchProgress();
-      var tableContent = $(`
-        <div class="table-content" id="completed-table">
-          <h1 class="table-title">
-            Số đơn vị đã hoàn thành: ${result.completed}/${result.total}
-          </h1>
-          <div class="table-details">
-            <table>
-              <tr>
-                <th>Mã đơn vị</th>
-                <th>Tên đơn vị</th>
-                <th>Trạng thái hoàn thành</th>
-              </tr>
-            </table>
-          </div>
-        </div>
-      `);
+      const completeStatus = await checkCompleteStatus();
+      const hasCompleted = completeStatus.hoan_thanh;
+      if (hasCompleted) {
+        confirmCompleteBtn.text("Đã hoàn thành");
+        confirmCompleteBtn.prop("disabled", true);
+      }
 
-      accountContent.append(tableContent);
+      confirmCompleteBtn.click(async (e) => {
+        const complete = confirm(
+          "Bạn có chắc chắn xác nhận đã hoàn thành không?"
+        );
+        if (complete) {
+          const message = await confirmComplete();
+          alert(message.message);
+          $(".main-content").data("hasCompleted", true);
+          e.target.textContent = "Đã hoàn thành";
+          e.target.disabled = true;
+        }
+      });
+
+      const result = await watchProgress();
+      $("#completed-count").text(`${result.completed}/${result.total}`);
 
       for (const unit of result.details) {
-        console.log($("completed-table table"));
         $("#completed-table table").append(`
           <tr>
             <td>${unit.ma}</td>
             <td>${unit.ten}</td>
             <td>
-              ${unit.hoan_thanh ? "<strong>Đã hoàn thành</strong>" : "Chưa hoàn thành"}
+              ${
+                unit.hoan_thanh
+                  ? "<strong>Đã hoàn thành</strong>"
+                  : "Chưa hoàn thành"
+              }
             </td> 
           </tr>
         `);

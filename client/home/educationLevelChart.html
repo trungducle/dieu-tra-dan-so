@@ -15,7 +15,7 @@
         }
       }
 
-      const res = analysePopulationBy("education", { filter, values });
+      const res = await analysePopulationBy("education", { filter, values });
       drawStuff(res.result);
     });
 

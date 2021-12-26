@@ -23,27 +23,25 @@ Login.html --> main.html
 
 - Tài khoản:
 	+ Cấp A1: 
-		account.html --> acManage.html(Hiện tất cả các cấp tài khoản) --> tableDetail.html(Hiện bảng các tài khoản có trong từng cấp)
-														  			  --> tableDetail.html(Danh sách A2) --> addAccount.html(Thêm tài khoản A2)
-																										 --> togglePriv.html(Thêm quyền cho tài khoản A2)
+		account.html --> acTableDetails.html(Hiện bảng các tài khoản có trong từng cấp)
+									--> addAccount.html(Thêm tài khoản A2)
+									--> togglePriv.html(Thêm quyền cho tài khoản A2)
 		account.html --> dataManage.html(Hiện tiến độ từ cấp tỉnh)
 	+ Cấp A2:
-		account.html --> acManage.html(Hiện tất cả các cấp tài khoản trừ A1) --> tableDetail.html(Hiện bảng các tài khoản có trong từng cấp)
-																			 --> tableDetail.html(Danh sách A3) --> addAccount.html(Thêm tài khoản A3)
-																									     		--> togglePriv.html(Thêm quyền cho tài khoản A3)
+		account.html --> acTableDetails.html(Hiện bảng các tài khoản có trong từng cấp)
+									--> addAccount.html(Thêm tài khoản A3)
+									--> togglePriv.html(Thêm quyền cho tài khoản A3)
 		account.html --> dataManage.html(Hiện tiến độ từ cấp quận huyện phụ trách)
 	+ Cấp A3:
-		account.html --> acManage.html(Hiện tất cả các cấp tài khoản trừ A1,A2) --> tableDetail.html(Hiện bảng các tài khoản có trong từng cấp)
-																			 	--> tableDetail.html(Danh sách B1) --> addAccount.html(Thêm tài khoản B1)
-																									     		   --> togglePriv.html(Thêm quyền cho tài khoản B1)
+		account.html --> acTableDetails.html(Hiện bảng các tài khoản có trong từng cấp)
+									--> addAccount.html(Thêm tài khoản B1)
+									--> togglePriv.html(Thêm quyền cho tài khoản B1)
 		account.html --> dataManage.html(Hiện tiến độ từ cấp phường xã phụ trách)
 	+ Cấp B1:
-		account.html --> acManage.html(Hiện tất cả các cấp tài khoản trừ A1,A3,A3) --> tableDetail.html(Hiện bảng các tài khoản có trong từng cấp)
-																			       --> tableDetail.html(Danh sách B2) --> addAccount.html(Thêm tài khoản B2)
-																									     			  --> togglePriv.html(Thêm quyền cho tài khoản B2)
+		account.html --> acTableDetails.html(Hiện bảng các tài khoản có trong từng cấp)
+									--> addAccount.html(Thêm tài khoản B2)
+									--> togglePriv.html(Thêm quyền cho tài khoản B2)
 		account.html --> dataManage.html(Hiện tiến độ từ cấp Thôn bản phụ trách) --> confirm.html(Xác nhận đã nhấp liệu xong)
-	+ Cấp B2:
-		account.html --> acManage.html(Hiện tất cả các cấp tài khoản trừ A1,A3,A3,B1) --> tableDetail.html(Hiện bảng các tài khoản có trong từng cấp)
 
 - Dữ liệu dân cư:
 	+ Cấp A1:

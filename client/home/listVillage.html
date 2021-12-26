@@ -12,7 +12,7 @@
 
   $(async () => {
     try {
-      const currentDepartment = $(".table-details").data("departmentOnDisplay");
+      const currentDepartment = $(".table-details#departments-list").data("departmentOnDisplay");
       const list = await getInferiorInfo(currentDepartment);
 
       for (const item of list.info) {

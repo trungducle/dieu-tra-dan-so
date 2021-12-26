@@ -1,0 +1,112 @@
+<div class="table-content">
+  <div class="table-title">Danh sách dân cư</div>
+  <div class="table-details">
+    <table id="ci-list">
+      <tr id="clist-header">
+        <th>CCCD</th>
+        <th>Họ và tên</th>
+        <th>Ngày sinh</th>
+        <th>Giới tính</th>
+        <th>Thôn/Bản/Tổ dân phố</th>
+        <th>Phường/Xã</th>
+        <th>Quận/Huyện</th>
+        <th>Tỉnh</th>
+      </tr>
+    </table>
+  </div>
+  <div class="page-rotate-buttons">
+    <i class="bx bx-left-arrow" id="prev-page"></i>
+    <i class="bx bx-right-arrow" id="next-page"></i>
+  </div>
+</div>
+
+<script type="module">
+  import { analysePopulationBy } from "../apiCalls.js";
+
+  $(async () => {
+    var page = 1;
+    var tableDetails = $(".table-details");
+    const currentDepartment = tableDetails.data("departmentOnDisplay");
+    const checkboxInputs = $("#department-list input");
+    const filter = checkboxInputs[0].getAttribute("data-value");
+    const values = [];
+
+    for (const cbinput of checkboxInputs) {
+      if ($(cbinput).is(":checked")) {
+        values.push($(cbinput).parent().prev().text());
+      }
+    }
+
+    const total = await analysePopulationBy("population", { filter, values });
+    var totalCitizens = 0;
+
+    for (const dep of total.result) {
+      totalCitizens += parseInt(dep.dan_so);
+    }
+
+    const maxpage = Math.ceil(totalCitizens / 10);
+
+    const response = await analysePopulationBy("list", { filter, values, page });
+
+    for (const item of response.result) {
+      $(`
+        <tr class="hoverin">
+          <td>${item.ma_dinh_danh}</td>
+          <td>${item.ho_ten}</td>
+          <td>${new Date(item.ngay_sinh).toLocaleDateString()}</td>
+          <td>${item.gioi_tinh}</td>
+          <td>${item.ten_tb}</td>
+          <td>${item.ten_px}</td>
+          <td>${item.ten_qh}</td>
+          <td>${item.ten_tt}</td>
+        </tr>`
+      ).insertAfter("#clist-header");
+    }
+
+    $("#next-page").click(async () => {
+      if (page < maxpage) {
+        page++;
+        $('#clist-header').nextAll('tr').remove();
+        const response = await analysePopulationBy("list", { filter, values, page });
+
+        for (const item of response.result) {
+          $(`
+          <tr class="hoverin">
+            <td>${item.ma_dinh_danh}</td>
+            <td>${item.ho_ten}</td>
+            <td>${new Date(item.ngay_sinh).toLocaleDateString()}</td>
+            <td>${item.gioi_tinh}</td>
+            <td>${item.ten_tb}</td>
+            <td>${item.ten_px}</td>
+            <td>${item.ten_qh}</td>
+            <td>${item.ten_tt}</td>
+          </tr>`
+          ).insertAfter("#clist-header");
+        }
+      }
+    });
+
+    $("#prev-page").click(async () => {
+      if (page > 1) {
+        page--;
+        $('#clist-header').nextAll('tr').remove();
+        const response = await analysePopulationBy("list", { filter, values, page });
+
+        for (const item of response.result) {
+          $(`
+          <tr class="hoverin">
+            <td>${item.ma_dinh_danh}</td>
+            <td>${item.ho_ten}</td>
+            <td>${new Date(item.ngay_sinh).toLocaleDateString()}</td>
+            <td>${item.gioi_tinh}</td>
+            <td>${item.ten_tb}</td>
+            <td>${item.ten_px}</td>
+            <td>${item.ten_qh}</td>
+            <td>${item.ten_tt}</td>
+          </tr>`
+          ).insertAfter("#clist-header");
+        }
+      }
+    });
+  });
+</script>

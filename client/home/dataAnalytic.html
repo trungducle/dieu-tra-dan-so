@@ -1,7 +1,7 @@
 <div class="data-content">
   <div class="analytic-main">
     <div class="table-content">
-      <div class="table-details"></div>
+      <div class="table-details" id="departments-list"></div>
     </div>
     <div class="analytic-content">
       <div class="analytic-box">
@@ -9,6 +9,7 @@
         <div class="select-box">
           <select id="category-analyse">
             <option value="" disabled selected>Danh mục</option>
+            <option value="list">Danh sách dân số</option>
             <option value="age">Độ tuổi</option>
             <option value="sex">Giới tính</option>
             <option value="education">Trình độ văn hóa</option>
@@ -22,6 +23,7 @@
     <div class="analytic-button">Phân tích</div>
   </div>
   <div class="chart-main"></div>
+  <div class="list-main"></div>
 </div>
 
 <script type="module">
@@ -29,20 +31,20 @@
 
   $(() => {
     const { username, roleId } = getUserInfo();
-    $(".table-details").data("departmentOnDisplay", username);
+    $(".table-details#departments-list").data("departmentOnDisplay", username);
 
     switch (roleId) {
       case 1:
-        $(".table-details").load("listCity.html");
+        $(".table-details#departments-list").load("listCity.html");
         break;
       case 2:
-        $(".table-details").load("listDistrict.html");
+        $(".table-details#departments-list").load("listDistrict.html");
         break;
       case 3:
-        $(".table-details").load("listWard.html");
+        $(".table-details#departments-list").load("listWard.html");
         break;
       case 4:
-        $(".table-details").load("listVillage.html");
+        $(".table-details#departments-list").load("listVillage.html");
         break;
       default:
         break;
@@ -52,35 +54,49 @@
   $(".analytic-button").click(async function () {
     const category = $("#category-analyse").val();
     var chartMain = $(".chart-main");
+    var listMain = $(".list-main");
 
     switch (category) {
+      case "list":
+      $.get("listCitizen.html", function (data) {
+          chartMain.empty();
+          listMain.empty();
+          chartMain.append(data);
+        });
+        break;
+        break;
       case "population":
         $.get("populationChart.html", function (data) {
           chartMain.empty();
+          listMain.empty();
           chartMain.append(data);
         });
         break;
       case "sex":
         $.get("sexChart.html", function (data) {
           chartMain.empty();
+          listMain.empty();
           chartMain.append(data);
         });
         break;
       case "religion":
         $.get("religionChart.html", function (data) {
           chartMain.empty();
+          listMain.empty();
           chartMain.append(data);
         });
         break;
       case "education":
         $.get("educationLevelChart.html", function (data) {
           chartMain.empty();
+          listMain.empty();
           chartMain.append(data);
         });
         break;
       case "age":
         $.get("ageChart.html", function (data) {
           chartMain.empty();
+          listMain.empty();
           chartMain.append(data);
         });
         break;

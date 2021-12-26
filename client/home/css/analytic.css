@@ -21,6 +21,10 @@
   width: 100%;
 }
 
+#category-analyse {
+  margin: 0;
+}
+
 .analytic-main .analytic-button {
   height: 30px;
   width: 100px;

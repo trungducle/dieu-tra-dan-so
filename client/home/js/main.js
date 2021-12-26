@@ -18,7 +18,7 @@ $(async () => {
       if (privStatus.isPrivLocked) {
         mainContent.load("privLocked.html");
       } else {
-        mainContent.load("b2home.html");
+        mainContent.load("dataEntry.html");
       }
     } else {
       mainContent.load("home.html");

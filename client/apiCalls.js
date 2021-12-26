@@ -106,6 +106,14 @@ export async function confirmComplete() {
   }
 }
 
+export async function watchProgress() {
+  try {
+    return await customFetch.get("/census/progress");
+  } catch (err) {
+    return err;
+  }
+}
+
 export async function addNewDepartment(newDepartment) {
   try {
     return await customFetch.post("/departments", newDepartment);

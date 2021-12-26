@@ -7,6 +7,7 @@ const {
   getHouseholdList,
   deleteInfo,
   confirmComplete,
+  superviseProgress,
 } = require("../controllers/censusController");
 const checkIsInPeriod = require("../middlewares/time");
 const { checkIsLowerRoleThan } = require("../middlewares/role.middleware");
@@ -18,13 +19,15 @@ const {
 
 const censusRouter = Router();
 
-censusRouter.post(
-  "/progress",
-  authenticateToken,
-  checkHasPrivileges,
-  checkIsInPeriod,
-  confirmComplete
-);
+censusRouter
+  .route("/progress")
+  .get(authenticateToken, superviseProgress)
+  .post(
+    authenticateToken,
+    checkHasPrivileges,
+    checkIsInPeriod,
+    confirmComplete
+  );
 
 censusRouter.post(
   "/:villageId",

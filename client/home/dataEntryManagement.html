@@ -4,30 +4,20 @@
     Nhập liệu
     <i class="bx bxs-box"></i>
   </div>
-  <div class="manage-box" id="progress-tab">
-    Theo dõi tiến trình
-    <i class='bx bx-trending-up'></i>
-  </div>
   <div class="manage-box" id="printing-tab">
     In phiếu điều tra
-    <i class='bx bx-receipt'></i>
+    <i class="bx bx-receipt"></i>
   </div>
 </div>
 <div id="data-entry-content"></div>
 <script type="module">
   var dataEntryContent = $("#data-entry-content");
-  dataEntryContent.load("b2home.html");
+  dataEntryContent.load("dataEntry.html");
 
   $("#data-entry-tab").click((e) => {
     $(".manage-box.selected").removeClass("selected");
     e.target.closest(".manage-box").classList.add("selected");
-    dataEntryContent.load("b2home.html");
-  });
-
-  $("#progress-tab").click((e) => {
-    $(".manage-box.selected").removeClass("selected");
-    e.target.closest(".manage-box").classList.add("selected");
-    dataEntryContent.load("progress.html");
+    dataEntryContent.load("dataEntry.html");
   });
 
   $("#printing-tab").click((e) => {

@@ -73,6 +73,10 @@
   background-color: rgb(36, 38, 160);
 }
 
+.household #village-address:hover {
+  background-color: white;
+}
+
 .household .member-box {
   display: flex;
   align-items: center;

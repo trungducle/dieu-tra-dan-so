@@ -1,9 +1,8 @@
 <div class="tool-box">
   <div class="toolbar">
     <div class="time-box end">
-      <p id="end-time">Thời gian kết thúc: 1h ngày 27/12/2021</p>
+      <!-- <p id="end-time">Thời gian kết thúc: 1h ngày 27/12/2021</p> -->
     </div>
-    <!-- <button type="button" class="confirm-btn">Hoàn thành</button> -->
   </div>
 </div>
 <div class="household"></div>
@@ -14,13 +13,22 @@
     getVillageList,
     confirmComplete,
     checkCompleteStatus,
+    getEndTime,
   } from "../apiCalls.js";
   import { getUserInfo } from "../utils.js";
 
   $(async () => {
     var household = $(".household");
     try {
-      const completeStatus = await checkCompleteStatus();
+      const [completeStatus, endTime] = await Promise.all([
+        checkCompleteStatus(),
+        getEndTime()
+      ]);
+
+      $(".time-box.end").append(
+        `<p id="end-time">Thời gian kết thúc: ${endTime.end}</p>`
+      );
+  
       const hasCompleted = completeStatus.hoan_thanh;
       if (hasCompleted) {
         $(".main-content").data("hasCompleted", true);

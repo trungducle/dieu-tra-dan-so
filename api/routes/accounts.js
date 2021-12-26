@@ -12,7 +12,6 @@ const accountRouter = Router();
 
 accountRouter
   .route("/")
-  .post(checkIsHigherRoleThan(ROLES.B2), createAccount)
   .put(
     authenticateToken,
     checkHasPrivileges,

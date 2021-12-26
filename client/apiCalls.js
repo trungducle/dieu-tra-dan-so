@@ -40,6 +40,14 @@ export async function getHouseholdDetails(villageId, householdId) {
   }
 }
 
+export async function getEndTime() {
+  try {
+    return await customFetch.get("/time/end");
+  } catch (err) {
+    return err;
+  }
+}
+
 export async function deleteInfo(villageId, infoId) {
   try {
     return await customFetch.delete(

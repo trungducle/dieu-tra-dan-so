@@ -193,7 +193,7 @@
   background-color: rgb(36, 38, 160);
 }
 
-@media only screen and (max-width: 1366px) {
+@media only screen and (max-width: 1367px) {
   .main-section .main-content .overview-boxes .box {
     width: calc(100% / 2 - 15px);
     margin-bottom: 15px;

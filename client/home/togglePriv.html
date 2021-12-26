@@ -28,7 +28,7 @@
       try {
         const datetime = date + " " + time;
         const privileges = {
-          lock: true,
+          lock: false,
           enddate: datetime,
         };
         const response = await togglePrivileges(privileges);

@@ -24,6 +24,7 @@
   </div>
   <div class="chart-main"></div>
   <div class="list-main"></div>
+  <div id="citizen-details"></div>
 </div>
 
 <script type="module">
@@ -58,12 +59,11 @@
 
     switch (category) {
       case "list":
-      $.get("listCitizen.html", function (data) {
+        $.get("listCitizen.html", function (data) {
           chartMain.empty();
           listMain.empty();
           chartMain.append(data);
         });
-        break;
         break;
       case "population":
         $.get("populationChart.html", function (data) {

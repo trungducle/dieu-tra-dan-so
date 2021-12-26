@@ -162,6 +162,10 @@
     });
     try {
       const result = await submitForm(villageId, values);
+      if (result.error) {
+        alert(result.error);
+        return;
+      }
       alert(result.message);
       !householdOnDisplay.id && household.data("householdOnDisplay", {
         ...householdOnDisplay,

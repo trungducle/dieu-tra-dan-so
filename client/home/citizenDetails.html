@@ -75,6 +75,10 @@
     const selectedCitizen = $("#citizen-details").data("citizenSelected");
 
     const res = await getCitizenInfo({ "citizenId" : selectedCitizen });
+    if (res.error) {
+      $(".profile-content").replaceWith(`<p class="status">${res.error}</p>`);
+      return;
+    }
     const info = res.result[0];
     
     $("#fullname").val(info.ho_ten);

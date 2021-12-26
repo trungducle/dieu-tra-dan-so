@@ -88,6 +88,11 @@
           );
           if (complete) {
             const message = await confirmComplete();
+            if (message.error) {
+              alert(message.error);
+              return;
+            }
+
             alert(message.message);
             $(".main-content").data("hasCompleted", true);
             e.target.textContent = "Đã hoàn thành";
@@ -111,6 +116,10 @@
 
     renderStatusText("Đang tải...");
     const result = await getHouseholdList(villageId);
+    if (result.error) {
+      renderStatusText(result.error);
+      return;
+    }
     renderHouseholdListFromData(result);
     updateHouseholdCount();
 

@@ -28,6 +28,10 @@
           villageId,
           currentHouseholdId
         );
+        if (result.error) {
+          renderStatusText(result.error);
+          return;
+        }
         renderMemberListFromData(result);
 
         $(".update-info-button").click((e) => {

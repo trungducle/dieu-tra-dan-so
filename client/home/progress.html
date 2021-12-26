@@ -40,6 +40,10 @@
         );
         if (complete) {
           const message = await confirmComplete();
+          if (message.error) {
+            alert(message.error);
+            return;
+          }
           alert(message.message);
           $(".main-content").data("hasCompleted", true);
           e.target.textContent = "Đã hoàn thành";

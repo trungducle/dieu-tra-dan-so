@@ -9,7 +9,7 @@ module.exports = {
     const ishead = input["is-head"];
     const household = input["household"];
 
-    if (!identity.match("[0-9]+")) {
+    if (identity.match("[a-zA-Z]+") && identity.length > 2) {
       return res
         .status(403)
         .json({ error: "Mã định danh chỉ được chứa ký tự số!" });

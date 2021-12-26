@@ -132,7 +132,7 @@ export async function addNewDepartment(newDepartment) {
 
 export async function togglePrivileges(privileges) {
   try {
-    return await customFetch.put("/departments", privileges);
+    return await customFetch.put("/accounts", privileges);
   } catch (err) {
     return err;
   }
